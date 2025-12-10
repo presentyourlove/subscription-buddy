@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { db } from '../firebase/config'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore'
 
 export const useGroupStore = defineStore('group', {
     state: () => ({
@@ -12,12 +12,42 @@ export const useGroupStore = defineStore('group', {
         async fetchGroups() {
             this.loading = true
             try {
-                // const querySnapshot = await getDocs(collection(db, "groups"));
-                // this.groups = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                console.log("Fetching groups (simulated)...")
+                const querySnapshot = await getDocs(collection(db, "groups"));
+                this.groups = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             } catch (err) {
                 this.error = err.message
                 console.error("Error fetching groups:", err)
+            } finally {
+                this.loading = false
+            }
+        },
+        async addGroup(groupData) {
+            this.loading = true;
+            try {
+                const docRef = await addDoc(collection(db, "groups"), {
+                    ...groupData,
+                    createdAt: new Date(),
+                    status: 'OPEN'
+                });
+                console.log("Document written with ID: ", docRef.id);
+                // Refresh list
+                await this.fetchGroups();
+            } catch (err) {
+                this.error = err.message;
+                throw err;
+            } finally {
+                this.loading = false;
+            }
+        },
+        async deleteGroup(groupId) {
+            this.loading = true
+            try {
+                await deleteDoc(doc(db, "groups", groupId));
+                // Remove from local state
+                this.groups = this.groups.filter(g => g.id !== groupId)
+            } catch (err) {
+                this.error = err.message
+                throw err
             } finally {
                 this.loading = false
             }

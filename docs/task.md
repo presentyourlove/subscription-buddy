@@ -2,16 +2,16 @@
 
 - [x] **專案初始化與環境設定 (Project Initialization)** <!-- id: 0 -->
   - [x] 建立 Vue 專案結構 (Vite + JavaScript) <!-- id: 1 -->
-  - [/] 設定 Firebase 專案 (Console Setup) <!-- id: 2 -->
+    - [x] 設定 Firebase 專案 (Console Setup) <!-- id: 2 -->
   - [x] 整合 Firebase SDK (Auth, Firestore) <!-- id: 3 -->
   - [x] 設定基礎樣式與 Design System (TailwindCSS) <!-- id: 4 -->
 
-- [ ] **第一階段：拼團公佈欄 (The Board)** <!-- id: 5 -->
-  - [ ] 設計 Firestore 資料結構 (Groups Collection) <!-- id: 6 -->
-  - [ ] 實作拼團列表介面 (讀取 Firestore) <!-- id: 7 -->
-  - [ ] 實作搜尋與篩選功能 <!-- id: 8 -->
-  - [ ] 實作發起拼團功能 (寫入 Firestore) <!-- id: 9 -->
-  - [ ] 隱私保護實作 (欄位權限設定) <!-- id: 10 -->
+- [x] **第一階段：拼團公佈欄 (The Board)** <!-- id: 5 -->
+  - [x] 設計 Firestore 資料結構 (Groups Collection) <!-- id: 6 -->
+  - [x] 實作拼團列表介面 (讀取 Firestore) <!-- id: 7 -->
+  - [x] 實作搜尋與篩選功能 <!-- id: 8 -->
+  - [x] 實作發起拼團功能 (寫入 Firestore) <!-- id: 9 -->
+  - [x] 隱私保護實作 (欄位權限設定) <!-- id: 10 -->
 
 - [ ] **第二階段：專案式聊天室 (Secure Chat)** <!-- id: 11 -->
   - [ ] 設計 Firestore 資料結構 (Chats Collection) <!-- id: 12 -->

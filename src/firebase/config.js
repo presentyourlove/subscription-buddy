@@ -5,12 +5,12 @@ import { getAuth } from "firebase/auth";
 // TODO: Replace with your project's config object
 // You can find this in the Firebase Console -> Project Settings
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyDZtJVFdMr-bomkEFjFlHjdohggFH7aS88",
+    authDomain: "subscription-buddy-2353b.firebaseapp.com",
+    projectId: "subscription-buddy-2353b",
+    storageBucket: "subscription-buddy-2353b.firebasestorage.app",
+    messagingSenderId: "699854859216",
+    appId: "1:699854859216:web:82b8b51da0731ac72d27d5"
 };
 
 // Initialize Firebase
