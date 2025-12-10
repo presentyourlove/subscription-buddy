@@ -22,24 +22,24 @@
             
             <template v-if="userStore.user">
               <router-link to="/create" 
-                class="bg-purple-600 hover:bg-purple-700 px-3 py-2 rounded-md text-sm font-medium transition-colors shadow-lg shadow-purple-500/30">
-                發起拼團
+                class="group relative inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/40 hover:-translate-y-0.5">
+                <span class="mr-1 text-lg">+</span> 發起拼團
               </router-link>
               <button @click="handleLogout" 
                 class="hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium text-gray-300">
                 登出
               </button>
-              <div class="flex items-center gap-2 ml-4">
+              <router-link to="/profile" class="flex items-center gap-2 ml-4 hover:bg-white/10 p-2 rounded-lg transition-colors">
                 <img :src="userStore.user.photoURL" class="w-8 h-8 rounded-full border border-white/20" alt="Avatar" v-if="userStore.user.photoURL">
                 <span class="text-xs text-gray-400">{{ userStore.user.displayName }}</span>
-              </div>
+              </router-link>
             </template>
             
             <template v-else>
-              <button @click="handleLogin" 
+              <router-link to="/login" 
                 class="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition-colors border border-white/10">
-                Google 登入
-              </button>
+                登入 / 註冊
+              </router-link>
             </template>
           </div>
         </div>
@@ -71,13 +71,13 @@
         </router-link>
 
         <template v-if="userStore.user">
-          <div class="flex items-center gap-3 px-3 py-2">
+          <router-link to="/profile" @click="isOpen = false" class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded-md transition-colors">
             <img :src="userStore.user.photoURL" class="w-8 h-8 rounded-full border border-white/20" v-if="userStore.user.photoURL">
             <span class="text-sm text-gray-400">{{ userStore.user.displayName }}</span>
-          </div>
+          </router-link>
           <router-link to="/create" @click="isOpen = false"
-            class="text-purple-400 hover:bg-purple-900/20 block px-3 py-2 rounded-md text-base font-medium">
-            + 發起拼團
+            class="mt-3 mb-3 w-full group relative inline-flex items-center justify-center px-6 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30">
+            <span class="mr-2 text-xl">+</span> 發起拼團
           </router-link>
           <button @click="handleLogout" 
             class="text-gray-300 hover:bg-white/10 hover:text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium">
@@ -86,10 +86,10 @@
         </template>
 
         <template v-else>
-          <button @click="handleLogin" 
-            class="w-full text-left text-gray-300 hover:bg-white/10 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-            Google 登入
-          </button>
+          <router-link to="/login" 
+            class="w-full text-center text-gray-300 hover:bg-white/10 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+            登入 / 註冊
+          </router-link>
         </template>
       </div>
     </div>

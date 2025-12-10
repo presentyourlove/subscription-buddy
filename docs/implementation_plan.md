@@ -1,76 +1,71 @@
-# [拼團小幫手 - 實作計畫 (Firebase Serverless 版)]
+# [拼團小幫手 - 實作計畫 (Phase 4: Legal & Compliance)]
 
 ## 目標
 
-建立「拼團小幫手」專案，採用 **Firebase Serverless** 架構，以支援整合至全靜態網站 (如 GitHub Pages)。
+完成應用程式的法律合規與部署準備，包括隱私權政策、服務條款以及最終的靜態託管部署。
 
 ## 使用者審查 (User Review Required)
 >
 > [!IMPORTANT]
-> **Firebase 架構確認**：
+> **法律免責聲明**：
 >
-> - **前端**：Vue 3 + Vite + JavaScript + TailwindCSS (依據使用者需求使用 JavaScript)。
-> - **資料庫**：Cloud Firestore (NoSQL 文件資料庫)。
-> - **認證**：Firebase Authentication (此專案初步建議使用「匿名登入」或「Google 登入」以簡化流程)。
-> - **部署目標**：建置為靜態檔案，放入您現有的 Landing Page 子目錄中。
+> - 本專案提供的條款模板僅供參考，不構成法律建議。正式上線前建議諮詢法務專業人員。
+> - **GDPR/CCPA**：若有歐盟或加州用戶，需特別注意 Cookie Consent (目前版本採最簡化實作)。
 
 ## 擬定變更 (Proposed Changes)
 
-### 1. 專案結構初始化
+### 1. 頁面新增 (Views)
 
-不需前後端分離資料夾，直接建立單一前端專案：
+#### [NEW] `src/views/PrivacyPolicy.vue`
 
-- `src/`: Vue 原始碼
-- `firebase/`: Firebase 設定與初始化檔案
+- 隱私權政策頁面 (說明資料收集用途)。
 
-### 2. Firebase 設定 (需請您協助)
->
-> [!NOTE]
-> 我將提供程式碼，但需要您在 Firebase Console 建立專案並提供 `firebaseConfig` (API Key 等資訊)。
+#### [NEW] `src/views/TermsOfService.vue`
 
-### 3. 資料庫設計 (Firestore Schema)
+- 使用者條款頁面 (免責聲明、使用規範)。
 
-#### `groups` (拼團)
+### 2. 組件更新 (Components)
 
-- `id`: Auto-ID
-- `title`: 服務名稱 (String)
-- `price`: 價格 (Number)
-- `slots`: 缺額 (Number)
-- `description`: 說明 (String)
-- `hostId`: 團長 ID (String, 關聯至 Users)
-- `status`: 狀態 (OPEN, FULL, CLOSED)
-- `createdAt`: Timestamp
+#### [NEW] `src/components/Footer.vue`
 
-#### `users` (使用者) (對應第三階段)
+- 新增全站頁尾，包含版權宣告與上述法律頁面連結。
 
-- `id`: Auth UID
-- `nickname`: 暱稱
-- `reputation`: 信譽分數 (以子集合或欄位紀錄)
+#### [MODIFY] `src/App.vue`
 
-### 4. 前端實作 (Frontend)
+- 引入 `Footer` 組件，確保每頁底部顯示。
 
-#### [NEW] `src/firebase/config.js`
+#### [MODIFY] `src/views/LoginView.vue`
 
-- 初始化 Firebase App，匯出 `db` (Firestore) 與 `auth` (Authentication)。
+- 在登入按鈕下方加入「繼續即代表同意服務條款」的提示字樣。
 
-#### [NEW] `src/stores/`
+### 3. 部署準備 (Deployment)
 
-- `groupStore.js`: 封裝 Firestore 的 CRUD 操作 (getGroups, addGroup)。
+#### [MODIFY] `vite.config.js`
 
-#### [NEW] `vite.config.js`
+- 確認 `base` 路徑設定正確 (針對 GitHub Pages)。
 
-- 設定 `base: './'` 以支援子目錄部署。
+#### [NEW] `deploy.sh` (Optional)
 
-#### [NEW] `src/views/HomeView.vue`
+- 自動化部署腳本。
 
-- 使用 Firebase SDK (`onSnapshot` 或 `getDocs`) 讀取拼團列表。
+### 4. 資料保留策略 (Data Retention)
+
+#### [MODIFY] `src/views/ProfileView.vue`
+
+- 在歷史紀錄列表上方加入「聊天室內容保存一年」的提示文字。
+
+#### [MODIFY] `src/stores/chatStore.js`
+
+- 在 `confirmDeal` 動作中加入邏輯：若所有參與者皆已確認，則在 Chat 文件中寫入 `expireAt` (一年後)。
 
 ## 驗證計畫 (Verification Plan)
 
-1. **本地測試**：
-   - 填入模擬的 Firebase Config 進行連線測試 (或使用 Firebase Emulator，若要簡單點則直接連線雲端開發專案)。
-   - 確認 `npm run dev` 無錯誤。
-2. **功能驗證**：
-   - [ ] 測試寫入資料：發起一個拼團，檢查 Firestore Console 確實有資料。
-   - [ ] 測試讀取資料：首頁能即時顯示剛剛寫入的拼團。
-   - [ ] 測試路由：在子路徑下 (模擬 Landing Page 環境) 路由是否正常。
+1. **連結檢查**：
+   - 點擊頁尾連結，確認能正確跳轉至條款頁面。
+   - 確認條款頁面內容顯示正常，且有「返回首頁」按鈕。
+
+2. **RWD 測試**：
+   - 確認頁尾在手機版不會跑版。
+
+3. **Build 測試**：
+   - 執行 `npm run build`，確認產出 `dist` 資料夾無誤。

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { db } from '../firebase/config'
-import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore'
 
 export const useGroupStore = defineStore('group', {
     state: () => ({
@@ -50,6 +50,18 @@ export const useGroupStore = defineStore('group', {
                 throw err
             } finally {
                 this.loading = false
+            }
+        },
+        async updateGroupStatus(groupId, status) {
+            try {
+                const groupRef = doc(db, 'groups', groupId)
+                await updateDoc(groupRef, { status })
+                // Update local state
+                const g = this.groups.find(g => g.id === groupId)
+                if (g) g.status = status
+            } catch (err) {
+                console.error("Update status error:", err)
+                // Don't throw, just log. It might fail if not host.
             }
         }
     }

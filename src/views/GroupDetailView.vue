@@ -1,5 +1,8 @@
 <template>
-  <div class="max-w-4xl mx-auto px-4 py-8" v-if="group">
+    <div class="max-w-4xl mx-auto px-4 py-8" v-if="group">
+    
+    <!-- DEBUG INFO -->
+
     
     <!-- Back Button -->
     <router-link to="/" class="inline-flex items-center text-gray-400 hover:text-white mb-6 transition-colors">
@@ -15,14 +18,16 @@
             <span class="px-3 py-1 text-sm rounded-full border"
               :class="{
                 'bg-green-500/20 text-green-300 border-green-500/30': group.status === 'OPEN',
-                'bg-red-500/20 text-red-300 border-red-500/30': group.status !== 'OPEN'
+                'bg-gray-500/20 text-gray-300 border-gray-500/30': group.status === 'CLOSED',
+                'bg-red-500/20 text-red-300 border-red-500/30': group.status === 'FULL'
               }">
-              {{ group.status === 'OPEN' ? '募集中' : '已額滿' }}
+              {{ group.status === 'OPEN' ? '募集中' : (group.status === 'CLOSED' ? '已結案' : '已額滿') }}
             </span>
           </h1>
           <div class="flex items-center text-gray-400 text-sm gap-4">
-            <span class="flex items-center gap-1">
+            <span class="flex items-center gap-2">
               👤 團長: {{ group.hostName }}
+              <UserRating :uid="group.hostId" />
             </span>
             <span>🕒 發佈於: {{ formatDate(group.createdAt) }}</span>
           </div>
@@ -30,7 +35,16 @@
 
         <!-- Host Actions -->
         <div v-if="isHost" class="flex gap-3">
-           <button @click="handleDelete" 
+           <button 
+             v-if="group.status !== 'CLOSED'"
+             @click="handleCloseGroup"
+             class="px-4 py-2 bg-gray-500/10 hover:bg-gray-500/20 text-gray-400 border border-gray-500/20 rounded-lg transition-colors text-sm font-medium"
+           >
+             手動結案
+           </button>
+           <button 
+             v-if="group.status !== 'CLOSED'"
+             @click="handleDelete" 
              class="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded-lg transition-colors text-sm font-medium">
              刪除拼團
            </button>
@@ -63,13 +77,30 @@
 
       <!-- Action Area (Join/Chat) -->
       <div class="pt-8 border-t border-white/10">
-        <div v-if="!isHost">
-          <button 
+        <!-- 
+           Temporary Fix: Show "Enter Chat" for everyone if Closed, 
+           so members can still access. Real permission handled by Firestore/ChatStore.
+        -->
+        <div v-if="isHost || group.status === 'CLOSED'" class="flex flex-col gap-4">
+          <router-link 
+            :to="`/chat/${group.id}`"
+            class="block w-full text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-purple-500/30 transition-all transform hover:-translate-y-1"
+          >
+            進入聊天室 ({{ isHost ? '團長' : '已結案' }})
+          </router-link>
+          <div v-if="isHost" class="text-center text-gray-400 text-sm">
+            您是團長，可隨時進入聊天室查看申請。
+          </div>
+        </div>
+
+        <div v-else>
+          <router-link 
             v-if="group.status === 'OPEN'"
-            class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-purple-500/30 transition-all transform hover:-translate-y-1"
+            :to="`/chat/${group.id}`"
+            class="block w-full text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-purple-500/30 transition-all transform hover:-translate-y-1"
           >
             申請加入 (開啟聊天室)
-          </button>
+          </router-link>
           <button 
             v-else
             disabled
@@ -77,9 +108,6 @@
           >
             本團已額滿
           </button>
-        </div>
-        <div v-else class="text-center text-gray-400 text-sm">
-          您是團長，等待團員申請中...
         </div>
       </div>
 
@@ -91,10 +119,13 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue' // Add onUnmounted
 import { useRoute, useRouter } from 'vue-router'
 import { useGroupStore } from '../stores/groupStore'
 import { useUserStore } from '../stores/userStore'
+import { doc, onSnapshot } from 'firebase/firestore' // Import onSnapshot
+import { db } from '../firebase/config'
+import UserRating from '../components/UserRating.vue' // Import
 
 const route = useRoute()
 const router = useRouter()
@@ -102,16 +133,23 @@ const groupStore = useGroupStore()
 const userStore = useUserStore()
 
 const group = ref(null)
+const showDebug = ref(false)
+let unsubscribe = null
 
 onMounted(async () => {
   const id = route.params.id
-  // Try to find in store first
-  let found = groupStore.groups.find(g => g.id === id)
-  if (!found) {
-    await groupStore.fetchGroups()
-    found = groupStore.groups.find(g => g.id === id)
-  }
-  group.value = found
+  // Real-time listener
+  unsubscribe = onSnapshot(doc(db, "groups", id), (doc) => {
+      if (doc.exists()) {
+          group.value = { id: doc.id, ...doc.data() }
+      } else {
+          group.value = null
+      }
+  })
+})
+
+onUnmounted(() => {
+    if (unsubscribe) unsubscribe()
 })
 
 const isHost = computed(() => {
@@ -131,5 +169,14 @@ const handleDelete = async () => {
   } catch (err) {
     alert("刪除失敗: " + err.message)
   }
+}
+
+const handleCloseGroup = async () => {
+    if (!confirm('確定要手動結案嗎？這將標記拼團為已完成。')) return
+    try {
+        await groupStore.updateGroupStatus(group.value.id, 'CLOSED')
+    } catch (err) {
+        alert("結案失敗: " + err.message)
+    }
 }
 </script>

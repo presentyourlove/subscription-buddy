@@ -11,6 +11,15 @@
       </p>
     </div>
 
+    <!-- Actions -->
+    <div class="flex justify-center mb-8">
+      <router-link to="/create" 
+        class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/40 hover:-translate-y-1"
+      >
+        <span class="mr-2 text-xl">+</span> 發起新拼團
+      </router-link>
+    </div>
+
     <!-- Search & Filter -->
     <div class="mb-8 relative max-w-xl mx-auto">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -43,9 +52,10 @@
         <span class="absolute top-4 right-4 px-2 py-1 text-xs rounded-full border"
           :class="{
             'bg-green-500/20 text-green-300 border-green-500/30': group.status === 'OPEN',
-            'bg-red-500/20 text-red-300 border-red-500/30': group.status !== 'OPEN'
+            'bg-gray-500/20 text-gray-300 border-gray-500/30': group.status === 'CLOSED',
+            'bg-red-500/20 text-red-300 border-red-500/30': group.status === 'FULL'
           }">
-          {{ group.status === 'OPEN' ? '募集中' : '已額滿' }}
+          {{ group.status === 'OPEN' ? '募集中' : (group.status === 'CLOSED' ? '已結案' : '已額滿') }}
         </span>
 
         <!-- Service Icon / Logo -->
@@ -83,7 +93,10 @@
                <img v-if="group.hostAvatar" :src="group.hostAvatar" class="w-full h-full object-cover" />
                <span v-else>👤</span>
             </div>
-            <span class="text-xs text-gray-400">{{ group.hostName || '匿名團長' }}</span>
+            <span class="text-xs text-gray-400 flex items-center gap-1">
+              {{ group.hostName || '匿名團長' }}
+              <UserRating :uid="group.hostId" />
+            </span>
           </div>
           <router-link :to="'/groups/' + group.id" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors">
             查看詳情
@@ -107,6 +120,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useGroupStore } from '../stores/groupStore'
+import UserRating from '../components/UserRating.vue' // Import
 
 const groupStore = useGroupStore()
 const searchQuery = ref('')
@@ -117,12 +131,25 @@ onMounted(() => {
 })
 
 const filteredGroups = computed(() => {
-  if (!searchQuery.value) return groupStore.groups
-  const lowerQ = searchQuery.value.toLowerCase()
-  return groupStore.groups.filter(g => 
-    g.title.toLowerCase().includes(lowerQ) || 
-    g.description.toLowerCase().includes(lowerQ)
-  )
+  let result = groupStore.groups
+
+  // 1. Search Filter
+  if (searchQuery.value) {
+    const lowerQ = searchQuery.value.toLowerCase()
+    result = result.filter(g => 
+      g.title.toLowerCase().includes(lowerQ) || 
+      g.description.toLowerCase().includes(lowerQ)
+    )
+  }
+
+  // 2. Sort by Status (OPEN -> FULL -> CLOSED)
+  const statusWeight = { 'OPEN': 1, 'FULL': 2, 'CLOSED': 3 }
+  
+  return result.sort((a, b) => {
+    const wA = statusWeight[a.status] || 99 // Default to end if unknown
+    const wB = statusWeight[b.status] || 99
+    return wA - wB
+  })
 })
 
 // Simple mapping for common services

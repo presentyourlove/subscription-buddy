@@ -87,9 +87,12 @@ import { useRouter } from 'vue-router'
 import { useGroupStore } from '../stores/groupStore'
 import { useUserStore } from '../stores/userStore'
 
+import { useChatStore } from '../stores/chatStore' // Import chatStore
+
 const router = useRouter()
 const groupStore = useGroupStore()
 const userStore = useUserStore()
+const chatStore = useChatStore() // Init chatStore
 
 const form = reactive({
   title: '',
@@ -105,6 +108,15 @@ const handleSubmit = async () => {
   }
 
   try {
+     // Check for pending reviews
+    const pendingGroupId = await chatStore.checkPendingReviews(userStore.user)
+    if (pendingGroupId) {
+        if(confirm(`您有尚未完成的評價 (GroupID: ${pendingGroupId})。請先完成評價才能建立新拼團！\n是否前往評價？`)) {
+            router.push(`/chat/${pendingGroupId}`)
+        }
+        return
+    }
+
     await groupStore.addGroup({
       ...form, // Flatten reactive object
       hostId: userStore.user.uid,

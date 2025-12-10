@@ -7,14 +7,24 @@ service cloud.firestore {
       allow read: if true;
       // 僅允許登入使用者建立拼團
       allow create: if request.auth != null;
-      // 僅允許團長修改與刪除自己的拼團
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.hostId;
+      // 僅允許團長修改與刪除自己的拼團 (且已結案的拼團不可刪除)
+      allow update: if request.auth != null && request.auth.uid == resource.data.hostId;
+      allow delete: if request.auth != null && request.auth.uid == resource.data.hostId && resource.data.status != 'CLOSED';
     }
     
     // 使用者資料
     match /users/{userId} {
       allow read: if true;
       allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 聊天室功能
+    match /chats/{groupId} {
+      allow read, write: if request.auth != null;
+      
+      match /messages/{messageId} {
+         allow read, write: if request.auth != null;
+      }
     }
   }
 }
