@@ -4,8 +4,10 @@
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         
         <!-- Copyright -->
-        <div class="text-gray-400 text-sm order-2 md:order-1">
-          &copy; {{ new Date().getFullYear() }} Subscription Buddy. All rights reserved.
+        <div class="text-gray-400 text-sm order-2 md:order-1 flex flex-col md:flex-row gap-2">
+          <span>&copy; {{ new Date().getFullYear() }} Sub-Buddy. All rights reserved.</span>
+          <span class="hidden md:inline">|</span>
+          <span>Designed by presentyourlove</span>
         </div>
 
         <!-- Links -->

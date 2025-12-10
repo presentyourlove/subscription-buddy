@@ -1,4 +1,4 @@
-# 拼團小幫手 (Subscription Buddy)
+# Sub-Buddy (原 Subscription Buddy)
 
 一個協助使用者輕鬆尋找合購串流服務 (Netflix, Spotify, YouTube Premium 等) 夥伴的媒合平台。提供開團、搜尋拼團、即時聊天室與信譽評價系統。
 
