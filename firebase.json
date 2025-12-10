@@ -4,6 +4,7 @@
         "indexes": "firestore.indexes.json"
     },
     "hosting": {
+        "site": "sub-buddy-2025",
         "public": "dist",
         "ignore": [
             "firebase.json",
