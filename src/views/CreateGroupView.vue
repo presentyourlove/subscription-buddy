@@ -81,6 +81,8 @@ import { useUserStore } from '../stores/userStore'
 import { useI18n } from 'vue-i18n'
 
 import { useChatStore } from '../stores/chatStore' // Import chatStore
+import BaseInput from '../components/BaseInput.vue'
+import BaseButton from '../components/BaseButton.vue'
 
 const router = useRouter()
 const groupStore = useGroupStore()

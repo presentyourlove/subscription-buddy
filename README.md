@@ -82,7 +82,32 @@ npm run build
 
 建置後的檔案將位於 `dist/` 目錄。
 
-## 📝 開發規範
+## � 部署 (Deployment)
+
+本專案預設使用 **Firebase Hosting** 進行部署。
+
+### 1. 安裝 Firebase Tools
+
+若尚未安裝全局 Firebase CLI，請先執行：
+`npm install -g firebase-tools`
+
+### 2. 登入 Firebase
+
+`firebase login`
+
+### 3. 建置專案
+
+`npm run build`
+
+### 4. 部署至 Firebase
+
+`firebase deploy`
+
+若只要部署 Hosting，可執行：
+`firebase deploy --only hosting`
+
+部署完成後，CLI 會顯示 Hosting URL。
+目前線上展示網址：[https://sub-buddy-2025.web.app](https://sub-buddy-2025.web.app)
 
 本專案遵循以下重構原則 (基於 Clean Architecture 精神)：
 
