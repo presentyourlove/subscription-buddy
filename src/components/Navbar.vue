@@ -5,9 +5,9 @@
         <!-- Logo / Brand -->
         <div class="flex-shrink-0">
           <router-link to="/" class="flex items-center gap-2">
-            <span class="text-2xl">📱</span>
+            <img src="/icon.png" class="w-8 h-8 object-contain" alt="Logo" />
             <span class="font-bold text-xl tracking-tight bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-              Subscription Buddy
+              {{ $t('app.title') }}
             </span>
           </router-link>
         </div>
@@ -17,17 +17,17 @@
           <div class="ml-10 flex items-baseline space-x-4">
             <router-link to="/" 
               class="hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-              公佈欄
+              {{ $t('nav.bulletin') }}
             </router-link>
             
             <template v-if="userStore.user">
               <router-link to="/create" 
                 class="group relative inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/40 hover:-translate-y-0.5">
-                <span class="mr-1 text-lg">+</span> 發起拼團
+                <span class="mr-1 text-lg">+</span> {{ $t('nav.createGroup') }}
               </router-link>
               <button @click="handleLogout" 
                 class="hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium text-gray-300">
-                登出
+                {{ $t('nav.logout') }}
               </button>
               <router-link to="/profile" class="flex items-center gap-2 ml-4 hover:bg-white/10 p-2 rounded-lg transition-colors">
                 <img :src="userStore.user.photoURL" class="w-8 h-8 rounded-full border border-white/20" alt="Avatar" v-if="userStore.user.photoURL">
@@ -38,7 +38,7 @@
             <template v-else>
               <router-link to="/login" 
                 class="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition-colors border border-white/10">
-                登入 / 註冊
+                {{ $t('nav.login') }}
               </router-link>
             </template>
           </div>
@@ -49,11 +49,9 @@
           <button @click="isOpen = !isOpen" 
             class="bg-white/5 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10 focus:outline-none">
             <span class="sr-only">Opening menu</span>
-            <!-- Burger Icon -->
             <svg v-if="!isOpen" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            <!-- Close Icon -->
             <svg v-else class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -67,7 +65,7 @@
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         <router-link to="/" @click="isOpen = false"
           class="text-gray-300 hover:bg-white/10 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-          公佈欄
+          {{ $t('nav.bulletin') }}
         </router-link>
 
         <template v-if="userStore.user">
@@ -77,18 +75,18 @@
           </router-link>
           <router-link to="/create" @click="isOpen = false"
             class="mt-3 mb-3 w-full group relative inline-flex items-center justify-center px-6 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30">
-            <span class="mr-2 text-xl">+</span> 發起拼團
+            <span class="mr-2 text-xl">+</span> {{ $t('nav.createGroup') }}
           </router-link>
           <button @click="handleLogout" 
             class="text-gray-300 hover:bg-white/10 hover:text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium">
-            登出
+            {{ $t('nav.logout') }}
           </button>
         </template>
 
         <template v-else>
           <router-link to="/login" 
             class="w-full text-center text-gray-300 hover:bg-white/10 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-            登入 / 註冊
+            {{ $t('nav.login') }}
           </router-link>
         </template>
       </div>

@@ -1,0 +1,59 @@
+{
+    "app": {
+        "title": "Subscription Buddy"
+    },
+    "nav": {
+        "bulletin": "公佈欄",
+        "createGroup": "發起拼團",
+        "profile": "個人檔案",
+        "login": "登入 / 註冊",
+        "logout": "登出"
+    },
+    "home": {
+        "heroTitle": "找個好夥伴，分擔訂閱費",
+        "heroSubtitle": "Netflix, Spotify, YouTube Premium... 各種家庭方案都能在這裡找到合購夥伴。\n安全、透明、省錢。",
+        "searchPlaceholder": "搜尋服務名稱 (e.g. Netflix)...",
+        "emptyState": "目前沒有相關的拼團，來發起一個吧！",
+        "createLink": "發起新拼團",
+        "card": {
+            "pricePerMonth": "每人價格",
+            "month": "/月",
+            "slots": "缺額",
+            "people": "人",
+            "anonymous": "匿名團長",
+            "details": "查看詳情",
+            "status": {
+                "OPEN": "募集中",
+                "CLOSED": "已結案",
+                "FULL": "已額滿"
+            }
+        }
+    },
+    "create": {
+        "title": "發起新拼團",
+        "form": {
+            "serviceName": "服務名稱",
+            "servicePlaceholder": "e.g. Netflix Premium (4人團)",
+            "description": "說明",
+            "descPlaceholder": "簡述方案內容、付款方式...",
+            "price": "每人價格 (月)",
+            "slots": "徵求人數",
+            "submit": "發佈拼團",
+            "processing": "處理中...",
+            "success": "發佈成功！",
+            "loginRequired": "請先登入！",
+            "pendingReview": "您有尚未完成的評價 (GroupID: {groupId})。請先完成評價才能建立新拼團！\n是否前往評價？"
+        }
+    },
+    "auth": {
+        "error": {
+            "emailInUse": "此 Email 已被註冊",
+            "invalidEmail": "Email 格式不正確",
+            "weakPassword": "密碼強度不足 (至少 6 字元)",
+            "userNotFound": "找不到此使用者",
+            "wrongPassword": "密碼錯誤",
+            "popupClosed": "登入視窗已關閉",
+            "unknown": "發生未預期的錯誤"
+        }
+    }
+}

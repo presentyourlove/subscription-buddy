@@ -26,36 +26,32 @@
       <form @submit.prevent="handleSubmit" class="space-y-6">
         
         <div v-if="!isLogin">
-          <label class="block text-sm font-medium text-gray-400 mb-2">暱稱</label>
-          <input 
-            v-model="displayName" 
-            type="text" 
-            required
-            class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+          <BaseInput 
+            v-model="displayName"
+            label="暱稱"
             placeholder="e.g. 小明"
-          />
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-          <input 
-            v-model="email" 
-            type="email" 
             required
-            class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
-            placeholder="example@mail.com"
           />
         </div>
 
         <div>
-           <label class="block text-sm font-medium text-gray-400 mb-2">密碼</label>
-           <input 
-             v-model="password" 
-             type="password" 
-             required
-             minlength="6"
-             class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+          <BaseInput 
+            v-model="email"
+            label="Email"
+            type="email"
+            placeholder="example@mail.com"
+            required
+          />
+        </div>
+
+        <div>
+           <BaseInput 
+             v-model="password"
+             label="密碼"
+             type="password"
              placeholder="至少 6 個字元"
+             minlength="6"
+             required
            />
         </div>
 
@@ -63,14 +59,9 @@
           {{ error }}
         </div>
 
-        <button 
-          type="submit" 
-          :disabled="loading"
-          class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-500/30 transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span v-if="loading">處理中...</span>
-          <span v-else>{{ isLogin ? '登入' : '註冊' }}</span>
-        </button>
+        <BaseButton type="submit" :loading="loading" :disabled="loading">
+          {{ isLogin ? '登入' : '註冊' }}
+        </BaseButton>
 
         <!-- Terms Disclaimer -->
         <p class="text-xs text-gray-500 text-center mt-4">
@@ -104,6 +95,8 @@
 import { ref } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
+import BaseInput from '../components/BaseInput.vue'
+import BaseButton from '../components/BaseButton.vue'
 
 const userStore = useUserStore()
 const router = useRouter()

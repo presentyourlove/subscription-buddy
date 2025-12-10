@@ -3,11 +3,10 @@
     <!-- Header Strategy -->
     <div class="text-center mb-12">
       <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">
-        找個好夥伴，分擔訂閱費
+        {{ $t('home.heroTitle') }}
       </h1>
-      <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-        Netflix, Spotify, YouTube Premium... 各種家庭方案都能在這裡找到合購夥伴。
-        安全、透明、省錢。
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto whitespace-pre-line">
+        {{ $t('home.heroSubtitle') }}
       </p>
     </div>
 
@@ -16,7 +15,7 @@
       <router-link to="/create" 
         class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/40 hover:-translate-y-1"
       >
-        <span class="mr-2 text-xl">+</span> 發起新拼團
+        <span class="mr-2 text-xl">+</span> {{ $t('home.createLink') }}
       </router-link>
     </div>
 
@@ -29,7 +28,7 @@
         v-model="searchQuery" 
         type="text" 
         class="block w-full pl-10 pr-3 py-3 border border-white/10 rounded-xl leading-5 bg-white/5 text-gray-300 placeholder-gray-500 focus:outline-none focus:bg-white/10 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm backdrop-blur-sm transition-all"
-        placeholder="搜尋服務名稱 (e.g. Netflix)..."
+        :placeholder="$t('home.searchPlaceholder')"
       />
     </div>
 
@@ -55,7 +54,7 @@
             'bg-gray-500/20 text-gray-300 border-gray-500/30': group.status === 'CLOSED',
             'bg-red-500/20 text-red-300 border-red-500/30': group.status === 'FULL'
           }">
-          {{ group.status === 'OPEN' ? '募集中' : (group.status === 'CLOSED' ? '已結案' : '已額滿') }}
+          {{ $t(`home.card.status.${group.status}`) }}
         </span>
 
         <!-- Service Icon / Logo -->
@@ -77,12 +76,12 @@
         
         <div class="flex items-center justify-between text-sm py-3 border-t border-white/10">
           <div class="flex flex-col">
-            <span class="text-gray-500">每人價格</span>
-            <span class="font-bold text-purple-300 text-lg">${{ group.price }} <span class="text-xs text-gray-500">/月</span></span>
+            <span class="text-gray-500">{{ $t('home.card.pricePerMonth') }}</span>
+            <span class="font-bold text-purple-300 text-lg">${{ group.price }} <span class="text-xs text-gray-500">{{ $t('home.card.month') }}</span></span>
           </div>
           <div class="flex flex-col items-end">
-            <span class="text-gray-500">缺額</span>
-            <span class="font-bold text-white">{{ group.slots }} 人</span>
+            <span class="text-gray-500">{{ $t('home.card.slots') }}</span>
+            <span class="font-bold text-white">{{ group.slots }} {{ $t('home.card.people') }}</span>
           </div>
         </div>
 
@@ -94,12 +93,12 @@
                <span v-else>👤</span>
             </div>
             <span class="text-xs text-gray-400 flex items-center gap-1">
-              {{ group.hostName || '匿名團長' }}
+              {{ group.hostName || $t('home.card.anonymous') }}
               <UserRating :uid="group.hostId" />
             </span>
           </div>
           <router-link :to="'/groups/' + group.id" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors">
-            查看詳情
+            {{ $t('home.card.details') }}
           </router-link>
         </div>
 
@@ -108,9 +107,9 @@
     
     <!-- Empty State -->
     <div v-if="!groupStore.loading && filteredGroups.length === 0" class="text-center py-20">
-      <p class="text-gray-500 text-lg">目前沒有相關的拼團，來發起一個吧！</p>
+      <p class="text-gray-500 text-lg">{{ $t('home.emptyState') }}</p>
       <router-link to="/create" class="inline-block mt-4 text-purple-400 hover:text-purple-300 font-medium">
-        + 發起新拼團
+        + {{ $t('home.createLink') }}
       </router-link>
     </div>
 
@@ -120,7 +119,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useGroupStore } from '../stores/groupStore'
-import UserRating from '../components/UserRating.vue' // Import
+import UserRating from '../components/UserRating.vue'
+import { getServiceLogo } from '../utils/serviceUtils'
 
 const groupStore = useGroupStore()
 const searchQuery = ref('')
@@ -151,19 +151,6 @@ const filteredGroups = computed(() => {
     return wA - wB
   })
 })
-
-// Simple mapping for common services
-const getServiceLogo = (title) => {
-  const t = title.toLowerCase()
-  if (t.includes('netflix')) return 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg'
-  if (t.includes('spotify')) return 'https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg'
-  if (t.includes('youtube')) return 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg'
-  if (t.includes('disney')) return 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg'
-  if (t.includes('apple') || t.includes('icloud')) return 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg'
-  if (t.includes('nintendo') || t.includes('switch')) return 'https://upload.wikimedia.org/wikipedia/commons/0/0d/Nintendo.svg'
-  if (t.includes('chatgpt') || t.includes('openai')) return 'https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg'
-  return null
-}
 
 const handleImageError = (id) => {
   imageErrorMap.value[id] = true

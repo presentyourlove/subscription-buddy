@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-import { db } from '../firebase/config'
-import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { groupService } from '../services/groupService'
 
 export const useGroupStore = defineStore('group', {
     state: () => ({
@@ -9,11 +8,14 @@ export const useGroupStore = defineStore('group', {
         error: null
     }),
     actions: {
+        /**
+         * Fetch all groups
+         */
         async fetchGroups() {
             this.loading = true
+            this.error = null
             try {
-                const querySnapshot = await getDocs(collection(db, "groups"));
-                this.groups = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                this.groups = await groupService.getAllGroups()
             } catch (err) {
                 this.error = err.message
                 console.error("Error fetching groups:", err)
@@ -21,28 +23,33 @@ export const useGroupStore = defineStore('group', {
                 this.loading = false
             }
         },
+
+        /**
+         * Add a new group
+         */
         async addGroup(groupData) {
-            this.loading = true;
+            this.loading = true
+            this.error = null
             try {
-                const docRef = await addDoc(collection(db, "groups"), {
-                    ...groupData,
-                    createdAt: new Date(),
-                    status: 'OPEN'
-                });
-                console.log("Document written with ID: ", docRef.id);
+                const id = await groupService.createGroup(groupData)
+                console.log("Group created with ID: ", id)
                 // Refresh list
-                await this.fetchGroups();
+                await this.fetchGroups()
             } catch (err) {
-                this.error = err.message;
-                throw err;
+                this.error = err.message
+                throw err
             } finally {
-                this.loading = false;
+                this.loading = false
             }
         },
+
+        /**
+         * Delete a group
+         */
         async deleteGroup(groupId) {
             this.loading = true
             try {
-                await deleteDoc(doc(db, "groups", groupId));
+                await groupService.deleteGroup(groupId)
                 // Remove from local state
                 this.groups = this.groups.filter(g => g.id !== groupId)
             } catch (err) {
@@ -52,16 +59,18 @@ export const useGroupStore = defineStore('group', {
                 this.loading = false
             }
         },
+
+        /**
+         * Update group status
+         */
         async updateGroupStatus(groupId, status) {
             try {
-                const groupRef = doc(db, 'groups', groupId)
-                await updateDoc(groupRef, { status })
+                await groupService.updateStatus(groupId, status)
                 // Update local state
                 const g = this.groups.find(g => g.id === groupId)
                 if (g) g.status = status
             } catch (err) {
                 console.error("Update status error:", err)
-                // Don't throw, just log. It might fail if not host.
             }
         }
     }

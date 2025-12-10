@@ -1,15 +1,6 @@
 import { defineStore } from 'pinia'
-import { auth, db } from '../firebase/config'
-import {
-    signInWithPopup,
-    GoogleAuthProvider,
-    signOut,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile
-} from 'firebase/auth'
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { authService } from '../services/authService'
+import { userService } from '../services/userService'
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -17,109 +8,103 @@ export const useUserStore = defineStore('user', {
         authReady: false
     }),
     actions: {
+        /**
+         * Initialize authentication listener
+         */
         initAuth() {
-            onAuthStateChanged(auth, (user) => {
-                this.user = user
+            authService.onAuthStateChanged(async (user) => {
+                if (user) {
+                    // Sync user data to Firestore on load/login
+                    await userService.syncUser(user)
+                    // You might want to get specific firestore data merging here
+                    // For now, we keep the Auth User object primarily
+                    this.user = user
+                } else {
+                    this.user = null
+                }
                 this.authReady = true
             })
         },
 
-        async syncUserToFirestore(user) {
-            if (!user) return
-            const userRef = doc(db, 'users', user.uid)
-            try {
-                const userSnap = await getDoc(userRef)
-                if (!userSnap.exists()) {
-                    await setDoc(userRef, {
-                        displayName: user.displayName,
-                        photoURL: user.photoURL,
-                        email: user.email,
-                        ratingSum: 0,
-                        ratingCount: 0,
-                        createdAt: new Date()
-                    })
-                } else {
-                    // Update basic info if changed (optional)
-                    // await updateDoc(userRef, { displayName: user.displayName, photoURL: user.photoURL })
-                }
-            } catch (err) {
-                console.error("Sync user error:", err)
-            }
-        },
+        /**
+         * Register a new user
+         */
         async register(email, password, displayName) {
             try {
-                const res = await createUserWithEmailAndPassword(auth, email, password)
-                if (res) {
-                    this.user = res.user
-                    await updateProfile(res.user, { displayName })
-                    // Retrieve updated user object or manually construct
-                    const updatedUser = { ...res.user, displayName }
-                    this.user = updatedUser
-                    await this.syncUserToFirestore(updatedUser)
+                const credential = await authService.register(email, password, displayName)
+                if (credential.user) {
+                    this.user = credential.user
+                    // Sync handled by onAuthStateChanged usually, but we can double check
+                    await userService.syncUser(credential.user)
                 }
             } catch (err) {
                 console.error("Registration failed:", err.message)
-                throw new Error(this.mapAuthError(err.code))
+                throw new Error(authService.mapAuthError(err.code))
             }
         },
+
+        /**
+         * Login with Email/Password
+         */
         async login(email, password) {
             try {
-                const res = await signInWithEmailAndPassword(auth, email, password)
-                if (res) {
-                    this.user = res.user
-                    await this.syncUserToFirestore(res.user)
-                }
+                const credential = await authService.login(email, password)
+                // this.user will be updated by initAuth listener
             } catch (err) {
                 console.error("Login failed:", err.message)
-                throw new Error(this.mapAuthError(err.code))
+                throw new Error(authService.mapAuthError(err.code))
             }
         },
+
+        /**
+         * Login with Google
+         */
         async loginWithGoogle() {
-            const provider = new GoogleAuthProvider()
             try {
-                const res = await signInWithPopup(auth, provider)
-                if (res) {
-                    this.user = res.user
-                    await this.syncUserToFirestore(res.user)
-                }
+                const credential = await authService.loginWithGoogle()
+                // this.user will be updated by initAuth listener
             } catch (err) {
-                console.error("Login failed:", err.message)
+                if (err.code !== 'auth/popup-closed-by-user') {
+                    console.error("Login failed:", err.message)
+                }
                 throw err
             }
         },
+
+        /**
+         * Update User Profile
+         */
         async updateUserProfile(displayName, photoURL) {
             if (!this.user) return
             try {
-                // 1. Update Firebase Auth
-                await updateProfile(this.user, { displayName, photoURL })
+                // 1. Update Auth
+                await authService.updateProfile(this.user, displayName, photoURL)
 
-                // 2. Force state update
-                this.user = { ...auth.currentUser }
+                // 2. Update Firestore
+                await userService.updateProfile(this.user.uid, displayName, photoURL)
 
-                // 3. Update Firestore 'users' doc
-                const userRef = doc(db, 'users', this.user.uid)
-                await updateDoc(userRef, {
-                    displayName,
-                    photoURL
-                })
+                // 3. Force state refresh (Auth object is immutable-ish)
+                // We rely on the object reference update or reload
+                // A trick is to reload client or re-fetch. 
+                // Creating a shallow copy to trigger reactivity:
+                // Note: auth.currentUser is needed here if we rely on the underlying SDK to confirm update
+                // But since we use service, we might assume success.
+                // Ideally, onAuthStateChanged fires on token refresh, but not strictly on profile update.
+                // We manually update local state:
+                this.user = { ...this.user, displayName, photoURL }
+
             } catch (err) {
                 console.error("Update profile error:", err)
                 throw err
             }
         },
+
+        /**
+         * Logout
+         */
         async logout() {
-            await signOut(auth)
+            await authService.logout()
             this.user = null
-        },
-        mapAuthError(code) {
-            switch (code) {
-                case 'auth/email-already-in-use': return '此 Email 已被註冊'
-                case 'auth/invalid-email': return 'Email 格式不正確'
-                case 'auth/weak-password': return '密碼強度不足 (至少 6 字元)'
-                case 'auth/user-not-found': return '找不到此使用者'
-                case 'auth/wrong-password': return '密碼錯誤'
-                default: return '發生錯誤: ' + code
-            }
         }
     }
 })
