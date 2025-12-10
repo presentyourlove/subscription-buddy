@@ -1,10 +1,10 @@
 # 拼團小幫手 (Subscription Buddy) - 待辦事項 (Firebase Edition)
 
-- [ ] **專案初始化與環境設定 (Project Initialization)** <!-- id: 0 -->
-  - [ ] 建立 Vue 專案結構 (Vite + JavaScript) <!-- id: 1 -->
-  - [ ] 設定 Firebase 專案 (Console Setup) <!-- id: 2 -->
-  - [ ] 整合 Firebase SDK (Auth, Firestore) <!-- id: 3 -->
-  - [ ] 設定基礎樣式與 Design System (TailwindCSS) <!-- id: 4 -->
+- [x] **專案初始化與環境設定 (Project Initialization)** <!-- id: 0 -->
+  - [x] 建立 Vue 專案結構 (Vite + JavaScript) <!-- id: 1 -->
+  - [/] 設定 Firebase 專案 (Console Setup) <!-- id: 2 -->
+  - [x] 整合 Firebase SDK (Auth, Firestore) <!-- id: 3 -->
+  - [x] 設定基礎樣式與 Design System (TailwindCSS) <!-- id: 4 -->
 
 - [ ] **第一階段：拼團公佈欄 (The Board)** <!-- id: 5 -->
   - [ ] 設計 Firestore 資料結構 (Groups Collection) <!-- id: 6 -->
