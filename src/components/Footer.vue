@@ -2,7 +2,6 @@
   <footer class="bg-black/20 border-t border-white/5 py-8 mt-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        
         <!-- Copyright -->
         <div class="text-gray-400 text-sm order-2 md:order-1 flex flex-col md:flex-row gap-2">
           <span>&copy; {{ new Date().getFullYear() }} Sub-Buddy. All rights reserved.</span>
@@ -18,14 +17,16 @@
           <router-link to="/privacy" class="text-gray-400 hover:text-white transition-colors">
             隱私權政策
           </router-link>
-          <a href="https://presentyourlove.github.io/apps_download_web/links.html" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+          <a
+            href="https://presentyourlove.github.io/apps_download_web/links.html"
+            target="_blank"
+            class="text-gray-400 hover:text-white transition-colors"
+          >
             關於我們
           </a>
-
         </div>
-
       </div>
-      
+
       <!-- Disclaimer (Small) -->
       <div class="mt-8 text-center md:text-left">
         <p class="text-xs text-gray-400">

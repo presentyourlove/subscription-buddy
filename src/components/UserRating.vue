@@ -5,9 +5,7 @@
     {{ score }}
     <span class="text-gray-500 text-[10px]">({{ ratingCount }})</span>
   </span>
-  <span v-else class="text-xs text-gray-500">
-    (無評價)
-  </span>
+  <span v-else class="text-xs text-gray-500"> (無評價) </span>
 </template>
 
 <script setup>
@@ -27,24 +25,24 @@ const ratingSum = ref(0)
 const ratingCount = ref(0)
 
 const score = computed(() => {
-    if (ratingCount.value === 0) return 0
-    return (ratingSum.value / ratingCount.value).toFixed(1)
+  if (ratingCount.value === 0) return 0
+  return (ratingSum.value / ratingCount.value).toFixed(1)
 })
 
 onMounted(async () => {
-    if (!props.uid) return
-    try {
-        const docRef = doc(db, 'users', props.uid)
-        const snap = await getDoc(docRef)
-        if (snap.exists()) {
-            const data = snap.data()
-            ratingSum.value = data.ratingSum || 0
-            ratingCount.value = data.ratingCount || 0
-        }
-    } catch (e) {
-        console.error("Fetch rating error", e)
-    } finally {
-        loading.value = false
+  if (!props.uid) return
+  try {
+    const docRef = doc(db, 'users', props.uid)
+    const snap = await getDoc(docRef)
+    if (snap.exists()) {
+      const data = snap.data()
+      ratingSum.value = data.ratingSum || 0
+      ratingCount.value = data.ratingCount || 0
     }
+  } catch (e) {
+    console.error('Fetch rating error', e)
+  } finally {
+    loading.value = false
+  }
 })
 </script>

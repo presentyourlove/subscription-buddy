@@ -5,12 +5,12 @@
       <span v-if="$slots.prefix" class="absolute left-4 top-3 text-gray-500">
         <slot name="prefix"></slot>
       </span>
-      <input 
+      <input
         v-bind="$attrs"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
         class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
         :class="{ 'pl-8': $slots.prefix }"
+        @input="$emit('update:modelValue', $event.target.value)"
       />
     </div>
   </div>

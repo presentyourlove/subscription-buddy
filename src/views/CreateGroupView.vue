@@ -1,15 +1,17 @@
 <template>
   <div class="max-w-2xl mx-auto px-4 py-8">
     <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 shadow-xl">
-      <h1 class="text-3xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+      <h1
+        class="text-3xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent"
+      >
         {{ $t('create.title') }}
       </h1>
 
-      <form @submit.prevent="handleSubmit" class="space-y-6">
+      <form class="space-y-6" @submit.prevent="handleSubmit">
         <!-- Service Name -->
         <!-- Service Name -->
         <div>
-          <BaseInput 
+          <BaseInput
             v-model="form.title"
             :label="$t('create.form.serviceName')"
             :placeholder="$t('create.form.servicePlaceholder')"
@@ -19,20 +21,19 @@
 
         <!-- Description -->
         <div>
-          <label class="block text-sm font-medium text-gray-400 mb-2">{{ $t('create.form.description') }}</label>
-          <textarea 
-            v-model="form.description" 
+          <BaseTextarea
+            v-model="form.description"
+            :label="$t('create.form.description')"
             required
             rows="3"
             :placeholder="$t('create.form.descPlaceholder')"
-            class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
-          ></textarea>
+          />
         </div>
 
         <div class="grid grid-cols-2 gap-6">
           <!-- Price -->
           <div>
-            <BaseInput 
+            <BaseInput
               v-model.number="form.price"
               :label="$t('create.form.price')"
               type="number"
@@ -45,13 +46,13 @@
 
           <!-- Slots -->
           <div>
-            <BaseInput 
+            <BaseInput
               v-model.number="form.slots"
               :label="$t('create.form.slots')"
               type="number"
               required
               min="1"
-              max="10"
+              :max="DEFAULTS.MAX_SLOTS"
             />
           </div>
         </div>
@@ -67,7 +68,6 @@
         <p v-if="groupStore.error" class="text-red-400 text-center text-sm">
           {{ groupStore.error }}
         </p>
-
       </form>
     </div>
   </div>
@@ -80,15 +80,17 @@ import { useGroupStore } from '../stores/groupStore'
 import { useUserStore } from '../stores/userStore'
 import { useI18n } from 'vue-i18n'
 
-import { useChatStore } from '../stores/chatStore' // Import chatStore
+import { useChatStore } from '../stores/chatStore'
 import BaseInput from '../components/BaseInput.vue'
 import BaseButton from '../components/BaseButton.vue'
+import BaseTextarea from '../components/BaseTextarea.vue'
 
 const router = useRouter()
 const groupStore = useGroupStore()
 const userStore = useUserStore()
 const chatStore = useChatStore() // Init chatStore
 const { t } = useI18n()
+import { DEFAULTS } from '../utils/constants'
 
 const form = reactive({
   title: '',
@@ -104,13 +106,13 @@ const handleSubmit = async () => {
   }
 
   try {
-     // Check for pending reviews
+    // Check for pending reviews
     const pendingGroupId = await chatStore.checkPendingReviews(userStore.user)
     if (pendingGroupId) {
-        if(confirm(t('create.form.pendingReview', { groupId: pendingGroupId }))) {
-            router.push(`/chat/${pendingGroupId}`)
-        }
-        return
+      if (confirm(t('create.form.pendingReview', { groupId: pendingGroupId }))) {
+        router.push(`/chat/${pendingGroupId}`)
+      }
+      return
     }
 
     await groupStore.addGroup({

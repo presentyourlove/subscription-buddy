@@ -1,42 +1,53 @@
 <template>
-  <LegalLayout title="隱私權政策 (Privacy Policy)">
+  <LegalLayout :title="$t('privacy.title')">
     <section>
-      <h2 class="text-xl font-semibold text-white mb-2">1. 我們收集的資料</h2>
-      <p>當您使用「拼團小幫手」(以下簡稱本服務) 時，我們會透過 Firebase Authentication 收集以下基本資訊：</p>
+      <h2 class="text-xl font-semibold text-white mb-2">{{ $t('privacy.collectTitle') }}</h2>
+      <p>{{ $t('privacy.collectIntro') }}</p>
       <ul class="list-disc list-inside ml-4 mt-2">
-        <li>您的 Email 地址</li>
-        <li>您的顯示名稱 (Display Name)</li>
-        <li>您的頭像網址 (Photo URL)</li>
-        <li>Firebase 賦予的唯一識別碼 (UID)</li>
+        <li>{{ $t('privacy.collectEmail') }}</li>
+        <li>{{ $t('privacy.collectName') }}</li>
+        <li>{{ $t('privacy.collectPhoto') }}</li>
+        <li>{{ $t('privacy.collectUid') }}</li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-white mb-2">2. 資料使用用途</h2>
-      <p>我們收集的資料僅用於以下目的：</p>
+      <h2 class="text-xl font-semibold text-white mb-2">{{ $t('privacy.usageTitle') }}</h2>
+      <p>{{ $t('privacy.usageIntro') }}</p>
       <ul class="list-disc list-inside ml-4 mt-2">
-        <li>識別您的使用者身份，以進行拼團管理與聊天功能。</li>
-        <li>在拼團列表與聊天室中顯示您的頭像與暱稱，以便其他成員識別。</li>
-        <li>紀錄您的信譽評分與過往拼團紀錄。</li>
+        <li>{{ $t('privacy.usageIdentity') }}</li>
+        <li>{{ $t('privacy.usageDisplay') }}</li>
+        <li>{{ $t('privacy.usageReputation') }}</li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-white mb-2">3. 資料分享與揭露</h2>
-      <p>除以下情況外，我們不會將您的個人資料分享給第三方：</p>
+      <h2 class="text-xl font-semibold text-white mb-2">{{ $t('privacy.shareTitle') }}</h2>
+      <p>{{ $t('privacy.shareIntro') }}</p>
       <ul class="list-disc list-inside ml-4 mt-2">
-        <li><strong>拼團成員</strong>：當您加入拼團後，同團成員可以看到您的暱稱與頭像，作為溝通用途。</li>
+        <li>
+          <strong>{{ $t('privacy.shareMember') }}</strong
+          >{{ $t('privacy.shareMemberContent') }}
+        </li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-white mb-2">4. 資料安全</h2>
-      <p>本服務使用 Google Firebase 提供的雲端基礎設施，您的資料皆儲存於 Google 的加密伺服器中。我們無法直接存取您的 Google 登入密碼。</p>
+      <h2 class="text-xl font-semibold text-white mb-2">{{ $t('privacy.securityTitle') }}</h2>
+      <p>{{ $t('privacy.securityContent') }}</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-white mb-2">5. 聯絡我們</h2>
-      <p>若您對本隱私權政策有任何疑問，或希望刪除您的帳號資料，請透過 <a href="mailto:presentyourlove@yahoo.com" class="text-purple-400 hover:text-purple-300 underline">Email</a> 聯繫開發者。</p>
+      <h2 class="text-xl font-semibold text-white mb-2">{{ $t('privacy.contactTitle') }}</h2>
+      <i18n-t keypath="privacy.contactContent" tag="p">
+        <template #link>
+          <a
+            href="mailto:presentyourlove@yahoo.com"
+            class="text-purple-400 hover:text-purple-300 underline"
+            >Email</a
+          >
+        </template>
+      </i18n-t>
     </section>
   </LegalLayout>
 </template>

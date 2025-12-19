@@ -1,4 +1,3 @@
-# Logs
 logs
 *.log
 npm-debug.log*
@@ -6,6 +5,16 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+# Security
+# .env (Allowed for private repo per user request)
+.env.local
+.env.*.local
+! .env.example
+
+# Test Reports
+playwright-report/
+test-results/
 
 node_modules
 dist

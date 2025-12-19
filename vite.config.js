@@ -5,4 +5,9 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   base: './', // Support deployment to sub-paths
+  test: {
+    environment: 'jsdom',
+    exclude: ['**/node_modules/**', 'tests/e2e/**'],
+    globals: true
+  }
 })

@@ -1,21 +1,19 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 
-// TODO: Replace with your project's config object
-// You can find this in the Firebase Console -> Project Settings
 const firebaseConfig = {
-    apiKey: "AIzaSyDZtJVFdMr-bomkEFjFlHjdohggFH7aS88",
-    authDomain: "subscription-buddy-2353b.firebaseapp.com",
-    projectId: "subscription-buddy-2353b",
-    storageBucket: "subscription-buddy-2353b.firebasestorage.app",
-    messagingSenderId: "699854859216",
-    appId: "1:699854859216:web:82b8b51da0731ac72d27d5"
-};
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+}
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
+const auth = getAuth(app)
 
-export { db, auth };
+export { db, auth }
