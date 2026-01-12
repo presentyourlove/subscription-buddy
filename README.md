@@ -169,6 +169,37 @@ docker run -p 8080:80 subscription-buddy
 
 ---
 
+## 🔮 後繼優化建議 (Future Roadmap)
+
+為了進一步提升平台價值與使用者體驗，建議未來可朝以下方向進行優化：
+
+### 1. 支付與金流整合 (Payment Integration)
+
+* **現況**: 目前僅為資訊媒合，金流需私下轉帳。
+* **建議**: 整合 **Stripe** 或 **PayPal**，允許團主設定收款連結，系統自動對帳，保障雙方權益。
+
+### 2. 進階通知系統 (Advanced Notifications)
+
+* **現況**: 僅有 App 內紅點通知。
+* **建議**: 引入 **FCM (Firebase Cloud Messaging)** 實作網頁推播通知，或整合 **Line Notify / Telegram Bot**，不錯過任何拼團訊息。
+
+### 3. PWA 離線體驗優化 (PWA Offline Support)
+
+* **現況**: 已有基礎 PWA 配置。
+* **建議**: 優化 Service Worker 策略，支援離線瀏覽已載入的拼團資訊與歷史訊息。
+
+### 4. 智能化推薦 (Smart Recommendation)
+
+* **現況**: 依時間排序。
+* **建議**: 基於使用者的瀏覽紀錄與興趣標籤，自動推薦可能感興趣的合購服務。
+
+### 5. 管理員後台 (Admin Dashboard)
+
+* **現況**: 仰賴 Firebase Console 管理。
+* **建議**: 開發專屬管理後台，處理使用者檢舉、違規拼團下架與全站公告發布。
+
+---
+
 ## 👤 作者 (Author)
 
 **Presentyourlove**
