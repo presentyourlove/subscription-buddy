@@ -178,13 +178,15 @@ docker run -p 8080:80 subscription-buddy
 > **注意**: 本平台僅提供**資訊媒合**服務，**不處理任何金流** (No Payment/Fiat Handling)。所有合購費用請由使用者自行協調轉帳方式。
 
 1. **管理員後台 (Admin Dashboard)** `[P1 - High]`
-   * **現況**: 仰賴 Firebase Console 管理。
+   * **狀態**: 🚧 **開發中 (Phase 1)**
+   * **進度**: 已完成基礎路由與 UI 架構，目前正進行權限串接。
    * **建議**: 開發專屬管理後台，處理使用者檢舉、違規拼團下架與全站公告發布。
 
 ### 🚀 使用者體驗與互動 (UX & Engagement)
 
 1. **進階通知系統 (Advanced Notifications)** `[P1 - Medium]`
-   * **現況**: 僅有 App 內紅點通知。
+   * **狀態**: 🚧 **開發中 (Phase 1)**
+   * **進度**: 已完成 Web Push Service Worker 建置。
    * **建議**: 引入 **FCM (Firebase Cloud Messaging)** 實作網頁推播通知，或整合 **Line Notify / Telegram Bot**，不錯過任何拼團訊息。
 
 2. **PWA 離線體驗優化 (PWA Offline Support)** `[P2 - Low]`
