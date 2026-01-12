@@ -171,33 +171,31 @@ docker run -p 8080:80 subscription-buddy
 
 ## 🔮 後繼優化建議 (Future Roadmap)
 
-為了進一步提升平台價值與使用者體驗，我們制定了以下分階段優化藍圖，並依據 **[Px] 優先級** 進行規劃：
+基於目前的代碼架構分析，我們建議以下技術與功能優化方向，以提升專案的長期維護性與效能：
 
-### 🔥 核心交易與運營 (Core Transaction & Operations)
+### �️ 架構與品質 (Architecture & Quality)
 
-> **注意**: 本平台僅提供**資訊媒合**服務，**不處理任何金流** (No Payment/Fiat Handling)。所有合購費用請由使用者自行協調轉帳方式。
+1. **TypeScript 遷移 (TypeScript Migration)** `[P1 - High]`
+    * **現況**: 目前使用 Vanilla JavaScript，缺乏靜態型別檢查。
+    * **建議**: 引入 TypeScript，為 `stores` 與 `services` 定義介面 (Interfaces)，減少 Runtime Errors 並提升開發體驗。
 
-1. **管理員後台 (Admin Dashboard)** `[P1 - High]`
-   * **狀態**: 🚧 **開發中 (Phase 1)**
-   * **進度**: 已完成基礎路由與 UI 架構，目前正進行權限串接。
-   * **建議**: 開發專屬管理後台，處理使用者檢舉、違規拼團下架與全站公告發布。
+2. **即時監聽邏輯封裝 (Composable Refactoring)** `[P2 - Medium]`
+    * **現況**: `onSnapshot` 直接寫在 Vue Components (`GroupDetailView`) 中。
+    * **建議**: 將 Firestore 監聽邏輯抽離為 Vue Composables (如 `useGroupListener`)，落實關注點分離 (Separation of Concerns)。
 
-### 🚀 使用者體驗與互動 (UX & Engagement)
+### ⚡ 效能與體驗 (Performance & UX)
 
-1. **進階通知系統 (Advanced Notifications)** `[P1 - Medium]`
-   * **狀態**: 🚧 **開發中 (Phase 1)**
-   * **進度**: 已完成 Web Push Service Worker 建置。
-   * **建議**: 引入 **FCM (Firebase Cloud Messaging)** 實作網頁推播通知，或整合 **Line Notify / Telegram Bot**，不錯過任何拼團訊息。
+1. **PWA 離線支援 (PWA Integration)** `[P2 - Medium]`
+    * **現況**: 尚未配置 Service Worker 快取策略。
+    * **建議**: 使用 `vite-plugin-pwa` 實作自動更新與離線快取，讓應用程式在弱網環境下仍能瀏覽基礎資訊。
 
-2. **PWA 離線體驗優化 (PWA Offline Support)** `[P2 - Low]`
-   * **現況**: 已有基礎 PWA 配置。
-   * **建議**: 優化 Service Worker 策略，支援離線瀏覽已載入的拼團資訊與歷史訊息。
+2. **統一錯誤處理與通知 (Centralized Error Handling)** `[P2 - Low]`
+    * **現況**: 目前多使用 `alert()` 或 `console.error` 處理錯誤。
+    * **建議**: 引入 Toast/Snackbar 通知系統 (如 SweetAlert2 或 Vue Toastification)，統一捕捉 API 錯誤並友善提示使用者。
 
-### 🧠 數據驅動與智能 (Data & Intelligence)
-
-1. **智能化推薦 (Smart Recommendation)** `[P3 - Low]`
-   * **現況**: 依時間排序。
-   * **建議**: 基於使用者的瀏覽紀錄與興趣標籤，自動推薦可能感興趣的合購服務。
+3. **影像優化與懶載入 (Image Optimization)** `[P3 - Low]`
+    * **現況**: 用戶頭像與圖示直接載入。
+    * **建議**: 實作圖片 Lazy Loading 與 CDN 整合，並使用 WebP 格式減少傳輸量，提升 Core Web Vitals 分數。
 
 ---
 
