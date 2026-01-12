@@ -175,11 +175,9 @@ docker run -p 8080:80 subscription-buddy
 
 ### 🔥 核心交易與運營 (Core Transaction & Operations)
 
-1. **支付與金流整合 (Payment Integration)** `[P0 - High]`
-   * **現況**: 目前僅為資訊媒合，金流需私下轉帳。
-   * **建議**: 整合 **Stripe** 或 **PayPal**，允許團主設定收款連結，系統自動對帳，保障雙方權益。
+> **注意**: 本平台僅提供**資訊媒合**服務，**不處理任何金流** (No Payment/Fiat Handling)。所有合購費用請由使用者自行協調轉帳方式。
 
-2. **管理員後台 (Admin Dashboard)** `[P1 - High]`
+1. **管理員後台 (Admin Dashboard)** `[P1 - High]`
    * **現況**: 仰賴 Firebase Console 管理。
    * **建議**: 開發專屬管理後台，處理使用者檢舉、違規拼團下架與全站公告發布。
 
