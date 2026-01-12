@@ -1,61 +1,52 @@
-# Sub-Buddy (原 Subscription Buddy)
+# Subscription Buddy (合購夥伴)
 
-一個協助使用者輕鬆尋找合購串流服務 (Netflix, Spotify, YouTube Premium 等) 夥伴的媒合平台。提供開團、搜尋拼團、即時聊天室與信譽評價系統。
+![Vue.js](https://img.shields.io/badge/Vue.js-3.0+-green.svg)
+![Vite](https://img.shields.io/badge/Vite-Ready-blue.svg)
+![Firebase](https://img.shields.io/badge/Firebase-Enabled-orange.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## ✨ 主要功能
+**Subscription Buddy** 是一個專為尋找串流媒體合購夥伴打造的媒合平台。解決了「找不到人分擔 Netflix / Spotify 家庭方案」的痛點，提供一個安全、透明且即時的媒合環境。
 
-- **帳號整合**: 支援 Email 註冊/登入與 Google 快速登入。
-- **拼團媒合**:
-  - **發起拼團**: 設定服務名稱、價格、名額與說明。
-  - **搜尋拼團**: 可透過關鍵字搜尋感興趣的服務。
-  - **狀態管理**: 自動管理開團/滿團/結團狀態。
-- **即時溝通**:
-  - **專屬聊天室**: 每個拼團皆有獨立聊天室，僅限成員進入。
-  - **即時訊息**: 整合 Firebase Firestore 實現訊息即時推播。
-- **信譽評價**:
-  - **雙向確認**: 團主與成員需互相確認交易完成。
-  - **互評機制**: 交易結束後可互相評價，累積信譽分數，過濾雷隊友。
-- **多語系支援**: 完整繁體中文介面 (i18n)。
+---
 
-## 🛠️ 技術棧 (Tech Stack)
+## 🌟 專案亮點 (Project Highlights)
 
-### 前端 (Frontend)
+* **⚡ 極致效能**: 基於 **Vite + Vue 3** 構建，秒級載入，流暢的 SPA 體驗。
+* **💬 即時互動**: 整合 **Firebase Firestore** 實作即時聊天室，無須重新整理頁面。
+* **🌍 全面國際化**: 內建完整 **i18n** 支援 (繁體中文/English)，無 Hardcoded 字串。
+* **🛡️ 安全可靠**: 嚴謹的 **Firebase Authentication** 流程與完整的 Firestore 安全規則。
+* **📱 響應式設計**: Mobile-First 設計原則，在手機、平板與桌機上皆完美呈現。
 
-- **Vue 3**: 採用 Composition API 進行開發。
-- **Vite**: 極速的前端建置工具。
-- **Vue Router**: 處理單頁應用 (SPA) 路由。
-- **Pinia**: 狀態管理 (User, Group, Chat Stores)。
-- **Vue I18n**: 國際化多語系支援。
-- **TailwindCSS**: Utility-first CSS 框架，打造現代化響應式介面。
+---
 
-### 後端與基礎設施 (Backend & Infra)
+## ✨ 功能特色 (Features)
 
-- **Firebase Authentication**: 處理使用者身份驗證。
-- **Firebase Firestore**: NoSQL 雲端資料庫，儲存使用者、拼團與聊天訊息。
-- **Firebase Hosting**: (選擇性) 靜態網站託管。
+* **身分驗證**: 支援 Email/Password 註冊登入與 Google 快速登入。
+* **拼團廣場**:
+  * **開團**: 快速發起 Netflix, Disney+, Spotify 等服務的合購團。
+  * **搜尋**: 關鍵字即時搜尋感興趣的拼團。
+  * **狀態**: 自動判斷「招募中」、「已滿團」或「已結團」。
+* **專屬聊天室**: 每個拼團擁有獨立討論空間，保障成員隱私。
+* **信譽評價系統**: 交易完成後互評機制，建立社群信任度。
+* **帳務管理**: 清晰記錄每個拼團的價格、分攤金額與付款狀態。
 
-## 📂 專案結構
+---
 
-```text
-src/
-├── components/     # 共用 UI 元件 (BaseInput, BaseButton, Navbar 等)
-├── firebase/       # Firebase 初始化設定
-├── locales/        # 語系檔 (zh-TW.json)
-├── services/       # 商業邏輯層 (API 呼叫與資料處理)
-│   ├── authService.js
-│   ├── userService.js
-│   ├── groupService.js
-│   └── chatService.js
-├── stores/         # Pinia 狀態管理 (串接 Service)
-├── utils/          # 工具函式 (如 constants.js, serviceUtils.js)
-└── views/          # 頁面組件 (Home, Login, CreateGroup, ChatRoom 等)
-```
+## 💎 程式碼品質 (Code Quality)
 
-## 🚀 快速開始 (Getting Started)
+本專案嚴格遵循現代前端開發規範：
+
+* **架構分離**: 嚴格遵守 **View - Store - Service** 分層架構，邏輯清晰。
+* **Linting**: 通過 **ESLint** 與 **Prettier** 嚴格檢查，Zero Errors/Warnings。
+* **Dry Principle**: 抽離共用元件 (Components) 與工具函式 (Utils)，高重用性。
+* **Environment Config**: 敏感資訊透過 `.env` 管理，確保安全性。
+* **Clean Code**: 無冗餘代碼，移除所有 `console.log` 與未使用的檔案。
+
+---
+
+## � 快速開始 (Quick Start)
 
 ### 1. 安裝依賴
-
-確保您的環境已安裝 Node.js (推薦 v18+)。
 
 ```bash
 npm install
@@ -63,8 +54,7 @@ npm install
 
 ### 2. 環境設定
 
-本專案使用環境變數管理 Firebase Config。
-請將 `.env.example` 複製為 `.env`，並填入您的 Firebase 專案設定值。
+複製範例設定檔並填入您的 Firebase Config：
 
 ```bash
 cp .env.example .env
@@ -76,102 +66,116 @@ cp .env.example .env
 npm run dev
 ```
 
-啟動後，請瀏覽 `http://localhost:5173`。
+瀏覽器打開 `http://localhost:5173` 即可看見畫面。
 
-### 4. 建置生產版本
+---
 
-```bash
-npm run build
+## 📱 支援平台 (Supported Platforms)
+
+* **Web**: Chrome, Firefox, Safari, Edge (最新版本)
+* **Mobile Web**: iOS Safari, Android Chrome (PWA Ready)
+* **Docker**: 支援容器化部署
+
+---
+
+## 🛠️ 技術堆疊 (Technology Stack)
+
+| Category | Technology | Description |
+| :--- | :--- | :--- |
+| **Frontend** | Vue 3 | Composition API |
+| | Vite | Next Generation Frontend Tooling |
+| | TailwindCSS | Utility-first CSS Framework |
+| | Pinia | Intuitive State Management |
+| | Vue I18n | Internationalization plugin |
+| **Backend / DB** | Firebase | Auth, Firestore, Hosting |
+| **Testing** | Vitest | Blazing Fast Unit Test Framework |
+| | Playwright | Reliable End-to-End Testing |
+| **DevOps** | Docker | Containerization |
+
+---
+
+## � 專案結構 (Project Structure)
+
+```text
+src/
+├── components/     # 共用 UI 元件 (Buttons, Inputs, Modals)
+├── firebase/       # Firebase 初始化與設定
+├── locales/        # 多語系翻譯檔 (zh-TW, en-US)
+├── services/       # API 服務層 (封裝 Firestore 操作)
+├── stores/         # Pinia 狀態管理 (User, Group, Chat)
+├── utils/          # 工具函式 (Formatters, Constants)
+└── views/          # 頁面路由組件 (Home, Login, Dashboard)
 ```
 
-建置後的檔案將位於 `dist/` 目錄。
+---
 
-## � 部署 (Deployment)
+## � 開發指南 (Development Guide)
 
-本專案預設使用 **Firebase Hosting** 進行部署。
+1. **新增頁面**: 在 `src/views` 建立 `.vue` 檔，並於 `src/router/index.js` 註冊路由。
+2. **新增狀態**: 在 `src/stores` 建立 Store，處理全域資料流。
+3. **資料存取**: 所有資料庫操作請寫在 `src/services`，禁止在 Component 直接呼叫 Firebase SDK。
+4. **樣式開發**: 優先使用 Tailwind Utility Classes，特殊需求才寫在 `<style>`.
 
-### 1. 安裝 Firebase Tools
-
-若尚未安裝全局 Firebase CLI，請先執行：
-`npm install -g firebase-tools`
-
-### 2. 登入 Firebase
-
-`firebase login`
-
-### 3. 建置專案
-
-`npm run build`
-
-### 4. 部署至 Firebase
-
-`firebase deploy`
-
-若只要部署 Hosting，可執行：
-`firebase deploy --only hosting`
-
-部署完成後，CLI 會顯示 Hosting URL。
-目前線上展示網址：[https://sub-buddy-2025.web.app](https://sub-buddy-2025.web.app)
+---
 
 ## 🧪 測試 (Testing)
 
-本專案包含單元測試與 E2E 測試，確保程式碼品質。
+### 單元測試 (Unit Test)
 
-### 單元測試 (Unit Tests)
-
-使用 Vitest 測試核心邏輯：
+測試核心邏輯與元件渲染：
 
 ```bash
 npm test
 ```
 
-### E2E 測試 (End-to-End Tests)
+### 端對端測試 (E2E Test)
 
-使用 Playwright 測試使用者流程：
+模擬真實使用者操作流程：
 
 ```bash
 npx playwright test
 ```
 
-## 🐳 Docker 部署
+---
 
-支援容器化部署，包含多階段建置 (Multi-stage Build)。
+## � 打包發布 (Build & Publish)
 
-### 1. 建置 Image
-
-```bash
-docker build -t sub-buddy-app .
-```
-
-### 2. 執行容器
+### 建置生產版本
 
 ```bash
-docker run -d -p 8080:80 sub-buddy-app
+npm run build
 ```
 
-瀏覽 `http://localhost:8080` 即可訪問。
+### Docker 部署
 
-本專案遵循以下重構原則 (基於 Clean Architecture 精神)：
+```bash
+docker build -t subscription-buddy .
+docker run -p 8080:80 subscription-buddy
+```
 
-1. **View Layer**: 僅負責 UI 呈現與使用者互動，不直接呼叫 API。
-2. **Store Layer (Pinia)**: 管理應用程式狀態，處理 UI 邏輯與錯誤狀態。
-3. **Service Layer**: 封裝所有 Firebase/API 操作，保持存取層獨立。
+---
 
-## �️ 合規性與品質 (Compliance & Quality)
+## 📚 API 文件與測試 (API Documentation)
 
-本專案嚴格遵循 `GEMINI.md` 開發規範，達到以下標準：
+本專案採用 **Serverless** 架構 (Firebase)，前端直接透過 SDK 與後端通訊。
+為確保可維護性，所有後端交互皆封裝於 `src/services/` 目錄下：
 
-- **零容忍 (Zero Tolerance)**:
-  - **i18n**: 全面國際化 (Zero Hardcoded Strings)。
-  - **Linting**: 通過 ESLint/Prettier 檢查 (Zero Errors, Zero Warnings)。
-  - **Constants**: 所有 Magic Numbers/Strings 皆已提取為常數。
-- **安全性 (Security)**:
-  - 敏感資料與 API Key 透過 `.env` 管理。
-  - *注意*: 針對私有存儲庫 (Private Repo)，已將 `.env` 加入版控白名單 (User Authorization)。
-- **程式碼衛生 (Code Hygiene)**:
-  - 無殘留的 `console.log` 或 `TODO` 註解。
-  - 移除所有未使用的檔案與目錄。
+* **AuthService**: 處理登入、註冊、登出。
+* **GroupService**: 拼團的 CRUD 與搜尋。
+* **ChatService**: 聊天室訊息發送與監聽。
+* **UserService**: 使用者資料管理。
 
-## �📄 授權 (License)
+每個 Service 方法皆包含 JSDoc 註解說明參數與回傳值。
 
-MIT License
+---
+
+## 👤 作者 (Author)
+
+**Presentyourlove**
+
+---
+
+## ❤️ 致謝 (Acknowledgment)
+
+* 感謝 **Vue.js** 與 **Vite** 團隊提供優秀的開發體驗。
+* 感謝 **Firebase** 提供強大的後端基礎設施。
