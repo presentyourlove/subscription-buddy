@@ -198,5 +198,37 @@
     "successRate": "已成功給予 {name} {score} 星評價！",
     "confirmDealPrompt": "確認結案？這表示您已完成交易 (已付款/已收款)。",
     "loginRequired": "請先登入以檢視聊天室。"
+  },
+  "common": {
+    "errorTitle": "發生錯誤：",
+    "refreshHint": "請嘗試重新整理頁面。",
+    "loadingData": "載入資料中...",
+    "anonymous": "匿名"
+  },
+  "admin": {
+    "portal": "管理員後台",
+    "dashboard": "儀表板",
+    "groups": "拼團管理",
+    "backToSite": "回到前台",
+    "exit": "離開",
+    "overview": "概覽",
+    "totalUsers": "總使用者數",
+    "activeGroups": "活躍拼團",
+    "pendingReports": "待處理檢舉",
+    "systemAlerts": "系統通知",
+    "systemNormal": "系統運作正常，無重大錯誤。",
+    "stats": {
+      "fromLastMonth": "較上月",
+      "newToday": "今日新增",
+      "needsAttention": "需處理"
+    },
+    "table": {
+      "name": "拼團名稱",
+      "service": "服務",
+      "plan": "費用",
+      "status": "狀態",
+      "actions": "操作",
+      "terminate": "強制結案"
+    }
   }
 }

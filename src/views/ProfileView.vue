@@ -5,14 +5,14 @@
       v-if="globalError"
       class="bg-red-500/10 border border-red-500 text-red-200 p-4 rounded-xl mb-6"
     >
-      <strong>發生錯誤：</strong> {{ globalError }}
-      <p class="text-sm mt-1">請嘗試重新整理頁面。</p>
+      <strong>{{ $t('common.errorTitle') }}</strong> {{ globalError }}
+      <p class="text-sm mt-1">{{ $t('common.refreshHint') }}</p>
     </div>
 
     <!-- Loading / Auth State -->
     <div v-if="!userStore.user" class="text-center py-20 text-gray-400">
       <div class="animate-spin text-4xl mb-4">⌛</div>
-      <p>載入使用者資料中...</p>
+      <p>{{ $t('common.loadingData') }}</p>
     </div>
 
     <div v-else>
