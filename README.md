@@ -1,6 +1,7 @@
 # Subscription Buddy (合購夥伴)
 
 ![Vue.js](https://img.shields.io/badge/Vue.js-3.0+-green.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)
 ![Vite](https://img.shields.io/badge/Vite-Ready-blue.svg)
 ![Firebase](https://img.shields.io/badge/Firebase-Enabled-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
@@ -12,9 +13,10 @@
 ## 🌟 專案亮點 (Project Highlights)
 
 * **⚡ 極致效能**: 基於 **Vite + Vue 3** 構建，秒級載入，流暢的 SPA 體驗。
-* **💬 即時互動**: 整合 **Firebase Firestore** 實作即時聊天室，無須重新整理頁面。
+* **�️ 型別安全**: 全面導入 **TypeScript**，提供嚴格的型別檢查與更佳的開發體驗。
+* **�💬 即時互動**: 整合 **Firebase Firestore** 實作即時聊天室，無須重新整理頁面。
 * **🌍 全面國際化**: 內建完整 **i18n** 支援 (繁體中文/English)，無 Hardcoded 字串。
-* **🛡️ 安全可靠**: 嚴謹的 **Firebase Authentication** 流程與完整的 Firestore 安全規則。
+* **� 安全可靠**: 嚴謹的 **Firebase Authentication** 流程與完整的 Firestore 安全規則。
 * **📱 響應式設計**: Mobile-First 設計原則，在手機、平板與桌機上皆完美呈現。
 
 ---
@@ -82,6 +84,7 @@ npm run dev
 
 | Category | Technology | Description |
 | :--- | :--- | :--- |
+| **Language** | TypeScript | Strong Typing & Modern ES Features |
 | **Frontend** | Vue 3 | Composition API |
 | | Vite | Next Generation Frontend Tooling |
 | | TailwindCSS | Utility-first CSS Framework |
@@ -175,11 +178,7 @@ docker run -p 8080:80 subscription-buddy
 
 ### �️ 架構與品質 (Architecture & Quality)
 
-1. **TypeScript 遷移 (TypeScript Migration)** `[P1 - High]`
-    * **現況**: 目前使用 Vanilla JavaScript，缺乏靜態型別檢查。
-    * **建議**: 引入 TypeScript，為 `stores` 與 `services` 定義介面 (Interfaces)，減少 Runtime Errors 並提升開發體驗。
-
-2. **即時監聽邏輯封裝 (Composable Refactoring)** `[P2 - Medium]`
+1. **即時監聽邏輯封裝 (Composable Refactoring)** `[P2 - Medium]`
     * **現況**: `onSnapshot` 直接寫在 Vue Components (`GroupDetailView`) 中。
     * **建議**: 將 Firestore 監聽邏輯抽離為 Vue Composables (如 `useGroupListener`)，落實關注點分離 (Separation of Concerns)。
 
