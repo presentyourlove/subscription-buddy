@@ -142,7 +142,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useGroupStore } from '../stores/groupStore'
 import UserRating from '../components/UserRating.vue'
@@ -151,7 +151,20 @@ import { GROUP_STATUS } from '../utils/constants'
 
 const groupStore = useGroupStore()
 const searchQuery = ref('')
-const imageErrorMap = ref({})
+const imageErrorMap = ref<Record<string, boolean>>({})
+
+onMounted(() => {
+  groupStore.fetchGroups()
+})
+
+// ... (omitted middle part if contiguous it's fine, but here startLine 154) ...
+// Actually I need to split this replacement or just replace the block I verify.
+// I will replace imageErrorMap init at 154 and handleImageError at 185 separately?
+// Or just replace the ref definition first.
+
+/* Correct logic: */
+// I will just replace the ref line.
+
 
 onMounted(() => {
   groupStore.fetchGroups()
@@ -182,7 +195,7 @@ const filteredGroups = computed(() => {
   })
 })
 
-const handleImageError = (id) => {
-  imageErrorMap.value[id] = true
+const handleImageError = (id: string | number | undefined) => {
+  if (id) imageErrorMap.value[String(id)] = true
 }
 </script>

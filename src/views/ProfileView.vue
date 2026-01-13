@@ -147,7 +147,7 @@
               class="h-12 w-12 flex items-center justify-center rounded-lg overflow-hidden bg-white/5"
             >
               <img
-                v-if="getServiceLogo(group.title) && !imageErrorMap[group.id]"
+                v-if="group.id && getServiceLogo(group.title) && !imageErrorMap[group.id]"
                 :src="getServiceLogo(group.title)"
                 class="h-full w-full object-contain"
                 alt="Service Logo"
@@ -189,7 +189,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/userStore'
@@ -199,6 +199,7 @@ import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firesto
 import BaseInput from '../components/BaseInput.vue'
 import BaseButton from '../components/BaseButton.vue'
 import { useI18n } from 'vue-i18n'
+import { Group } from '../types'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -207,11 +208,11 @@ const { t } = useI18n()
 const isEditing = ref(false)
 const loading = ref(false)
 const loadingHistory = ref(false)
-const globalError = ref(null)
+const globalError = ref<string | null>(null)
 
 const activeTab = ref('hosted')
-const hostedGroups = ref([])
-const joinedGroups = ref([])
+const hostedGroups = ref<Group[]>([])
+const joinedGroups = ref<Group[]>([])
 
 const editForm = ref({
   displayName: '',
@@ -232,7 +233,7 @@ const handleUpdate = async () => {
     await userStore.updateUserProfile(editForm.value.displayName, editForm.value.photoURL)
     isEditing.value = false
   } catch (e) {
-    alert(t('profile.error.updateFailed') + ': ' + e.message)
+    alert(t('profile.error.updateFailed') + ': ' + (e as Error).message)
   } finally {
     loading.value = false
   }
@@ -247,7 +248,7 @@ const fetchHistory = async () => {
     // 1. Hosted Groups
     const qHosted = query(collection(db, 'groups'), where('hostId', '==', userStore.user.uid))
     const snapHosted = await getDocs(qHosted)
-    hostedGroups.value = snapHosted.docs.map((d) => ({ id: d.id, ...d.data() }))
+    hostedGroups.value = snapHosted.docs.map((d) => ({ id: d.id, ...d.data() } as Group))
 
     // 2. Joined Chats -> Groups
     const qChats = query(
@@ -256,7 +257,7 @@ const fetchHistory = async () => {
     )
     const snapChats = await getDocs(qChats)
 
-    const joined = []
+    const joined: Group[] = []
     for (const cDoc of snapChats.docs) {
       const groupId = cDoc.id
       // Skip if I am the host
@@ -266,7 +267,7 @@ const fetchHistory = async () => {
         const gRef = doc(db, 'groups', groupId)
         const gSnap = await getDoc(gRef)
         if (gSnap.exists()) {
-          joined.push({ id: gSnap.id, ...gSnap.data() })
+          joined.push({ id: gSnap.id, ...gSnap.data() } as Group)
         }
       } catch (innerErr) {
         console.warn('Skipping invalid group ref:', groupId, innerErr)
@@ -275,13 +276,13 @@ const fetchHistory = async () => {
     joinedGroups.value = joined
   } catch (e) {
     console.error('Fetch history failed:', e)
-    globalError.value = t('profile.error.fetchFailed') + ': ' + e.message
+    globalError.value = t('profile.error.fetchFailed') + ': ' + (e as Error).message
   } finally {
     loadingHistory.value = false
   }
 }
 
-const formatDate = (ts) => {
+const formatDate = (ts: any) => {
   if (!ts) return ''
   try {
     const date = ts.seconds ? new Date(ts.seconds * 1000) : new Date(ts)
@@ -291,7 +292,7 @@ const formatDate = (ts) => {
   }
 }
 
-const navigateTo = (group) => {
+const navigateTo = (group: Group) => {
   if (activeTab.value === 'joined') {
     router.push(`/chat/${group.id}`)
   } else {
@@ -314,13 +315,14 @@ watch(
   { immediate: true }
 )
 
-const imageErrorMap = ref({})
+const imageErrorMap = ref<Record<string, boolean>>({})
 
-const handleImageError = (id) => {
-  imageErrorMap.value[id] = true
+const handleImageError = (id: string | undefined) => {
+  if (id) imageErrorMap.value[id] = true
 }
 
-const getServiceLogo = (title) => {
+const getServiceLogo = (title: string | undefined) => {
+  if (!title) return undefined
   const t = title.toLowerCase()
   if (t.includes('netflix'))
     return 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg'
@@ -336,6 +338,6 @@ const getServiceLogo = (title) => {
     return 'https://upload.wikimedia.org/wikipedia/commons/0/0d/Nintendo.svg'
   if (t.includes('chatgpt') || t.includes('openai'))
     return 'https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg'
-  return null
+  return undefined
 }
 </script>

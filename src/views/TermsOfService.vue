@@ -40,6 +40,6 @@
   </LegalLayout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import LegalLayout from '../components/LegalLayout.vue'
 </script>

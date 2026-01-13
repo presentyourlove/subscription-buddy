@@ -8,7 +8,7 @@
   <span v-else class="text-xs text-gray-500"> (無評價) </span>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase/config'

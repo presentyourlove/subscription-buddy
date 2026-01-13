@@ -191,13 +191,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n' // Import useI18n
 import { useChatStore } from '../stores/chatStore'
 import { useUserStore } from '../stores/userStore'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore'
 import { db } from '../firebase/config'
 
 import { useGroupStore } from '../stores/groupStore'
@@ -213,10 +213,10 @@ const chatStore = useChatStore()
 const userStore = useUserStore()
 const groupStore = useGroupStore()
 
-const groupId = route.params.id
+const groupId = route.params.id as string
 // Extra state for chat document (to watch confirmedUsers)
-const chatMeta = ref(null)
-let metaUnsubscribe = null
+const chatMeta = ref<any>(null)
+let metaUnsubscribe: Unsubscribe | null = null
 
 const hasConfirmed = computed(() => {
   if (!chatMeta.value || !chatMeta.value.confirmedUsers || !userStore.user) return false
@@ -328,7 +328,7 @@ const formatTime = (timestamp) => {
 
 // --- Rating System ---
 const showRatingModal = ref(false)
-const ratingTarget = ref(null) // { uid, name, avatar }
+const ratingTarget = ref<{ uid: string; name: string; avatar: string } | null>(null) // { uid, name, avatar }
 const ratingScore = ref(DEFAULTS.MAX_RATING) // Use constant
 const ratingComment = ref('')
 
@@ -338,9 +338,9 @@ const participantsInfo = computed(() => {
   // Strategy: Extract unique senders from message history as a MVP solution for participant info.
 
   if (!chatStore.messages) return []
-  const senders = {}
+  const senders: Record<string, { uid: string; name: string; avatar: string }> = {}
   chatStore.messages.forEach((m) => {
-    if (m.senderId !== userStore.user.uid) {
+    if (m.senderId !== userStore.user?.uid) {
       senders[m.senderId] = {
         uid: m.senderId,
         name: m.senderName,
@@ -351,13 +351,13 @@ const participantsInfo = computed(() => {
   return Object.values(senders)
 })
 
-const setRating = (score, target) => {
+const setRating = (score: number, target: any) => {
   ratingScore.value = score
   ratingTarget.value = target
 }
 
 const handleRate = async () => {
-  if (!ratingTarget.value) return
+  if (!ratingTarget.value || !userStore.user) return
   try {
     await chatStore.rateUser(
       groupId,
@@ -375,8 +375,8 @@ const handleRate = async () => {
   }
 }
 
-const checkRated = (targetUid) => {
-  if (!chatMeta.value || !chatMeta.value.ratings) return false
+const checkRated = (targetUid: string) => {
+  if (!chatMeta.value || !chatMeta.value.ratings || !userStore.user) return false
   const myRatings = chatMeta.value.ratings[userStore.user.uid]
   return myRatings && myRatings[targetUid] !== undefined
 }

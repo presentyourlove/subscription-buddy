@@ -73,7 +73,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGroupStore } from '../stores/groupStore'
@@ -125,6 +125,7 @@ const handleSubmit = async () => {
     router.push('/')
   } catch (err) {
     // Error is handled in store, simply stay on page to show it
+    console.error(err)
   }
 }
 </script>

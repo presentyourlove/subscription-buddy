@@ -102,7 +102,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
@@ -116,7 +116,7 @@ const isLogin = ref(true)
 const email = ref('')
 const password = ref('')
 const displayName = ref('')
-const error = ref(null)
+const error = ref<string | null>(null)
 const loading = ref(false)
 
 const handleSubmit = async () => {
@@ -130,7 +130,7 @@ const handleSubmit = async () => {
     }
     router.push('/')
   } catch (err) {
-    error.value = err.message
+    error.value = (err as Error).message
   } finally {
     loading.value = false
   }
@@ -141,7 +141,7 @@ const handleGoogleLogin = async () => {
     await userStore.loginWithGoogle()
     router.push('/')
   } catch (err) {
-    error.value = err.message
+    error.value = (err as Error).message
   }
 }
 </script>

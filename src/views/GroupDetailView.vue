@@ -134,16 +134,17 @@
   <div v-else class="text-center py-20 text-gray-500">{{ $t('group.detail.loading') }}</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue' // Add onUnmounted
 import { useRoute, useRouter } from 'vue-router'
 import { useGroupStore } from '../stores/groupStore'
 import { useUserStore } from '../stores/userStore'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore'
 import { db } from '../firebase/config'
 import UserRating from '../components/UserRating.vue'
 import { GROUP_STATUS } from '../utils/constants'
 import { useI18n } from 'vue-i18n'
+import { Group } from '../types'
 
 const route = useRoute()
 const router = useRouter()
@@ -151,16 +152,16 @@ const groupStore = useGroupStore()
 const userStore = useUserStore()
 const { t } = useI18n()
 
-const group = ref(null)
+const group = ref<Group | null>(null)
 // showDebug removed
-let unsubscribe = null
+let unsubscribe: Unsubscribe | null = null
 
 onMounted(async () => {
-  const id = route.params.id
+  const id = route.params.id as string
   // Real-time listener
   unsubscribe = onSnapshot(doc(db, 'groups', id), (doc) => {
     if (doc.exists()) {
-      group.value = { id: doc.id, ...doc.data() }
+      group.value = { id: doc.id, ...doc.data() } as Group
     } else {
       group.value = null
     }
@@ -175,27 +176,29 @@ const isHost = computed(() => {
   return group.value && userStore.user && group.value.hostId === userStore.user.uid
 })
 
-const formatDate = (timestamp) => {
+const formatDate = (timestamp: any) => {
   if (!timestamp) return ''
   return new Date(timestamp.seconds * 1000).toLocaleDateString()
 }
 
 const handleDelete = async () => {
   if (!confirm(t('group.detail.confirmDelete'))) return
+  if (!group.value) return
   try {
     await groupStore.deleteGroup(group.value.id)
     router.push('/')
   } catch (err) {
-    alert(t('group.error.deleteFailed') + ': ' + err.message)
+    alert(t('group.error.deleteFailed') + ': ' + (err as Error).message)
   }
 }
 
 const handleCloseGroup = async () => {
   if (!confirm(t('group.detail.confirmClose'))) return
+  if (!group.value) return
   try {
     await groupStore.updateGroupStatus(group.value.id, GROUP_STATUS.CLOSED)
   } catch (err) {
-    alert(t('group.error.closeFailed') + ': ' + err.message)
+    alert(t('group.error.closeFailed') + ': ' + (err as Error).message)
   }
 }
 </script>
