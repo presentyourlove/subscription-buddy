@@ -105,12 +105,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useUserStore } from '../stores/userStore'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import BaseInput from '../components/BaseInput.vue'
 import BaseButton from '../components/BaseButton.vue'
 
 const userStore = useUserStore()
+const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute()
 
 const isLogin = ref(true)
 const email = ref('')
@@ -128,7 +130,8 @@ const handleSubmit = async () => {
     } else {
       await userStore.register(email.value, password.value, displayName.value)
     }
-    router.push('/')
+    const redirect = (route.query.redirect as string) || '/'
+    router.push(redirect)
   } catch (err) {
     error.value = (err as Error).message
   } finally {
@@ -139,7 +142,8 @@ const handleSubmit = async () => {
 const handleGoogleLogin = async () => {
   try {
     await userStore.loginWithGoogle()
-    router.push('/')
+    const redirect = (route.query.redirect as string) || '/'
+    router.push(redirect)
   } catch (err) {
     error.value = (err as Error).message
   }

@@ -185,8 +185,25 @@ docker run -p 8080:80 subscription-buddy
 2. **PWA 離線支援 (PWA Integration)** - ✓ 已配置 `vite-plugin-pwa`
 3. **統一錯誤處理與通知 (Centralized Error Handling)** - ✓ 已整合 Vue Toastification
 4. **影像優化與懶載入 (Image Optimization)** - ✓ 已建立 `LazyImage` 元件，支援 `loading="lazy"` 原生屬性
+5. **路由守衛實作 (Navigation Guard)** - ✓ 已實作 `beforeEach` guard 與登入重導向
 
----
+### 🔜 待優化項目 (Pending)
+
+1. **英文翻譯檔補齊 (i18n Completion)** `[P2 - Medium]`
+    * **現況**: 目前僅有 `zh-TW.json`，尚無英文翻譯檔。
+    * **建議**: 建立 `en-US.json` 完成國際化支援。
+
+2. **單元測試覆蓋率提升 (Test Coverage)** `[P2 - Medium]`
+    * **現況**: 目前僅有 1 個測試檔 (`serviceUtils.spec.ts`)。
+    * **建議**: 為 services、stores、composables 撰寫單元測試，目標覆蓋率 > 80%。
+
+3. **清理殘留 console.log** `[P3 - Low]`
+    * **現況**: `notificationService.ts` 仍有 2 處 `console.log`。
+    * **建議**: 移除或替換為適當的日誌機制。
+
+4. **虛擬滾動優化 (Virtual Scrolling)** `[P3 - Low]`
+    * **現況**: 聊天訊息列表直接渲染所有訊息。
+    * **建議**: 當訊息量大時，使用虛擬滾動提升效能。
 
 ## 👤 作者 (Author)
 

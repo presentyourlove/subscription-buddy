@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { watch } from 'vue'
 import HomeView from '../views/HomeView.vue'
+import { useUserStore } from '../stores/userStore'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -68,6 +70,43 @@ const router = createRouter({
   // This avoids server-side rewrite rule dependencies.
   history: createWebHashHistory(),
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  const userStore = useUserStore()
+
+  // Wait for Firebase Auth to initialize
+  if (!userStore.authReady) {
+    await new Promise<void>((resolve) => {
+      const unwatch = watch(
+        () => userStore.authReady,
+        (ready) => {
+          if (ready) {
+            unwatch()
+            resolve()
+          }
+        },
+        { immediate: true }
+      )
+    })
+  }
+
+  // Check requiresAuth
+  if (to.meta.requiresAuth && !userStore.user) {
+    return next({ name: 'login', query: { redirect: to.fullPath } })
+  }
+
+  // Check requiresAdmin (Placeholder)
+  if (to.meta.requiresAdmin) {
+    // TODO: Implement actual Admin check logic (e.g. check userStore.user.email or claims)
+    /*
+    if (userStore.user.email !== 'admin@example.com') {
+       return next({ name: 'home' })
+    }
+    */
+  }
+
+  next()
 })
 
 export default router
