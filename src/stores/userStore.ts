@@ -86,20 +86,21 @@ export const useUserStore = defineStore('user', {
 
         // 2. Update Firestore
         await userService.updateProfile(this.user.uid, displayName, photoURL)
-
-        // 3. Force state refresh
-        // Note: Creating a shallow copy to trigger reactivity is tricky if properties are readonly.
-        // But for Pinia state, we can assign.
-        // However, UserImpl properties are standard.
-        // Simplest strategy for now (as User object doesn't auto-update immediately):
-        // reload or fetch again.
-        // We will mock the change locally if possible:
-        // this.user = { ...this.user, displayName, photoURL } // This might fail if User type doesn't match plain object.
-        // Safe bet: just wait for reload or assume it updates.
-        // But User object in Firebase SDK is special.
-        // Let's just do nothing and rely on subsequent calls or assume it's fine for this migration phase.
       } catch (err) {
         console.error('Update profile error:', err)
+        throw err
+      }
+    },
+
+    /**
+     * Logout the current user
+     */
+    async logout() {
+      try {
+        await authService.logout()
+        this.user = null
+      } catch (err) {
+        console.error('Logout failed:', err)
         throw err
       }
     }

@@ -70,7 +70,7 @@
         <!-- Service Icon / Logo -->
         <div class="h-16 mb-4 flex items-center">
           <img
-            v-if="getServiceLogo(group.title) && !imageErrorMap[group.id]"
+            v-if="group.id && getServiceLogo(group.title) && !imageErrorMap[group.id]"
             :src="getServiceLogo(group.title)"
             class="h-full max-w-[50%] object-contain"
             alt="Service Logo"

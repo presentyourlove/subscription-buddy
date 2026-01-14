@@ -116,7 +116,11 @@ const handleSubmit = async () => {
     }
 
     await groupStore.addGroup({
-      ...form, // Flatten reactive object
+      title: form.title,
+      description: form.description,
+      price: Number(form.price),
+      slots: Number(form.slots),
+      serviceName: form.title, // Use title as serviceName
       hostId: userStore.user.uid,
       hostName: userStore.user.displayName || t('common.anonymous'),
       hostAvatar: userStore.user.photoURL || ''

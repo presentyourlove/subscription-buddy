@@ -169,7 +169,7 @@ const formatDate = (timestamp: any) => {
 
 const handleDelete = async () => {
   if (!confirm(t('group.detail.confirmDelete'))) return
-  if (!group.value) return
+  if (!group.value || !group.value.id) return
   try {
     await groupStore.deleteGroup(group.value.id)
     router.push('/')
@@ -180,7 +180,7 @@ const handleDelete = async () => {
 
 const handleCloseGroup = async () => {
   if (!confirm(t('group.detail.confirmClose'))) return
-  if (!group.value) return
+  if (!group.value || !group.value.id) return
   try {
     await groupStore.updateGroupStatus(group.value.id, GROUP_STATUS.CLOSED)
   } catch (err) {

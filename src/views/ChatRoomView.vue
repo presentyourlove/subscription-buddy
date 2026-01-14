@@ -242,7 +242,7 @@ watch(isDealClosed, async (val) => {
 })
 
 const newMessage = ref('')
-const messagesContainer = ref(null)
+const messagesContainer = ref<HTMLElement | null>(null)
 
 const initChat = async () => {
   if (!userStore.user) return
@@ -297,6 +297,7 @@ watch(
 
 const handleSend = async () => {
   if (!newMessage.value.trim()) return
+  if (!userStore.user) return
   try {
     await chatStore.sendMessage(newMessage.value, userStore.user)
     newMessage.value = ''
@@ -307,6 +308,7 @@ const handleSend = async () => {
 
 const handleConfirm = async () => {
   if (!confirm(t('chat.confirmDealPrompt'))) return
+  if (!userStore.user) return
   try {
     await chatStore.confirmDeal(groupId, userStore.user)
   } catch (err: any) {
@@ -314,7 +316,7 @@ const handleConfirm = async () => {
   }
 }
 
-const formatTime = (timestamp) => {
+const formatTime = (timestamp: { seconds: number } | null | undefined) => {
   if (!timestamp) return '...'
   return new Date(timestamp.seconds * 1000).toLocaleTimeString([], {
     hour: '2-digit',
@@ -325,7 +327,7 @@ const formatTime = (timestamp) => {
 // --- Rating System ---
 const showRatingModal = ref(false)
 const ratingTarget = ref<{ uid: string; name: string; avatar: string } | null>(null) // { uid, name, avatar }
-const ratingScore = ref(DEFAULTS.MAX_RATING) // Use constant
+const ratingScore = ref<number>(DEFAULTS.MAX_RATING) // Use constant
 const ratingComment = ref('')
 
 const participantsInfo = computed(() => {
@@ -340,14 +342,14 @@ const participantsInfo = computed(() => {
       senders[m.senderId] = {
         uid: m.senderId,
         name: m.senderName,
-        avatar: m.senderAvatar
+        avatar: m.senderAvatar || ''
       }
     }
   })
   return Object.values(senders)
 })
 
-const setRating = (score: number, target: any) => {
+const setRating = (score: number, target: { uid: string; name: string; avatar: string }) => {
   ratingScore.value = score
   ratingTarget.value = target
 }
@@ -355,13 +357,7 @@ const setRating = (score: number, target: any) => {
 const handleRate = async () => {
   if (!ratingTarget.value || !userStore.user) return
   try {
-    await chatStore.rateUser(
-      groupId,
-      ratingTarget.value.uid,
-      ratingScore.value,
-      ratingComment.value,
-      userStore.user.uid
-    )
+    await chatStore.rateUser(groupId, ratingTarget.value.uid, ratingScore.value, userStore.user.uid)
     notification.success(
       t('chat.successRate', { name: ratingTarget.value.name, score: ratingScore.value })
     )
