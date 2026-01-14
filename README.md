@@ -190,10 +190,23 @@ docker run -p 8080:80 subscription-buddy
 7. **單元測試覆蓋率提升 (Test Coverage)** - ✓ 已新增 Service/Store/Composable 單元測試 (8 個測試檔)
 8. **清理殘留 console.log** - ✓ 已移除 notificationService 除錯日誌
 9. **虛擬滾動優化 (Virtual Scrolling)** - ✓ 已於 ChatRoomView 實作 useVirtualList
+10. **首頁搜尋防抖 (Search Debounce)** - ✓ 已使用 watchDebounced 優化
+11. **管理員權限實作 (Admin Auth)** - ✓ 已實作 Email 白名單驗證
+12. **[Critical] 聊天室權限修復 (Security)** - ✓ 已更新 firestore.rules (需部署)
 
 ### 🔜 待優化項目 (Pending)
 
-*(暫無)*
+1. **UX 優化：移除原生 Alert (Refactor Alerts)** `[P2 - Medium]`
+    * **現況**: `CreateGroupView` 使用原生 `alert()`，體驗較生硬。
+    * **建議**: 改用 `useNotification` (Toast) 統一提示風格。
+
+2. **型別安全：修正 Store 型別 (Type Safety)** `[P2 - Medium]`
+    * **現況**: `groupStore` 存在 `any` 轉型，降低型別保護。
+    * **建議**: 定義完整 Interface 並移除 `any` 使用。
+
+3. **擴充性：列表分頁 (Pagination)** `[P3 - Low]`
+    * **現況**: `groupService` 一次撈取所有資料。
+    * **建議**: 實作 Firestore 分頁機制 (`limit`, `startAfter`)。
 
 ## 👤 作者 (Author)
 

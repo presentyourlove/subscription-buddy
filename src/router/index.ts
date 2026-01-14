@@ -96,14 +96,15 @@ router.beforeEach(async (to, from, next) => {
     return next({ name: 'login', query: { redirect: to.fullPath } })
   }
 
-  // Check requiresAdmin (Placeholder)
+  // Check requiresAdmin
   if (to.meta.requiresAdmin) {
-    // TODO: Implement actual Admin check logic (e.g. check userStore.user.email or claims)
-    /*
-    if (userStore.user.email !== 'admin@example.com') {
-       return next({ name: 'home' })
+    const { ADMIN_EMAILS } = await import('../utils/constants')
+    const email = userStore.user?.email
+
+    if (!email || !ADMIN_EMAILS.includes(email)) {
+      // Not an admin, redirect to home
+      return next({ name: 'home' })
     }
-    */
   }
 
   next()

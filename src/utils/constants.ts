@@ -42,3 +42,7 @@ export const FIREBASE_AUTH_CODES = {
   WRONG_PASSWORD: 'auth/wrong-password',
   POPUP_CLOSED: 'auth/popup-closed-by-user'
 } as const
+
+export const ADMIN_EMAILS = [
+  'jasonwth0928@gmail.com'
+]

@@ -146,6 +146,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { watchDebounced } from '@vueuse/core'
 import { useGroupStore } from '../stores/groupStore'
 import UserRating from '../components/UserRating.vue'
 import LazyImage from '../components/LazyImage.vue'
@@ -154,7 +155,16 @@ import { GROUP_STATUS } from '../utils/constants'
 
 const groupStore = useGroupStore()
 const searchQuery = ref('')
+const debouncedQuery = ref('')
 const imageErrorMap = ref<Record<string, boolean>>({})
+
+watchDebounced(
+  searchQuery,
+  (value) => {
+    debouncedQuery.value = value
+  },
+  { debounce: 300 }
+)
 
 onMounted(() => {
   groupStore.fetchGroups()
@@ -176,8 +186,8 @@ const filteredGroups = computed(() => {
   let result = groupStore.groups
 
   // 1. Search Filter
-  if (searchQuery.value) {
-    const lowerQ = searchQuery.value.toLowerCase()
+  if (debouncedQuery.value) {
+    const lowerQ = debouncedQuery.value.toLowerCase()
     result = result.filter(
       (g) => g.title.toLowerCase().includes(lowerQ) || g.description.toLowerCase().includes(lowerQ)
     )
