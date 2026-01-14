@@ -25,10 +25,11 @@
           <div
             class="w-32 h-32 rounded-full overflow-hidden border-4 border-white/10 shadow-lg bg-gray-700 flex items-center justify-center text-4xl"
           >
-            <img
+            <LazyImage
               v-if="userStore.user.photoURL"
               :src="userStore.user.photoURL"
-              class="w-full h-full object-cover"
+              image-class="w-full h-full object-cover"
+              container-class="w-full h-full"
             />
             <span v-else>👤</span>
           </div>
@@ -198,6 +199,7 @@ import { db } from '../firebase/config'
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'
 import BaseInput from '../components/BaseInput.vue'
 import BaseButton from '../components/BaseButton.vue'
+import LazyImage from '../components/LazyImage.vue'
 import { useI18n } from 'vue-i18n'
 import { Group } from '../types'
 

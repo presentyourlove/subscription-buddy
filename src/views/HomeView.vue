@@ -107,10 +107,12 @@
             <div
               class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs overflow-hidden"
             >
-              <img
+              <LazyImage
                 v-if="group.hostAvatar"
                 :src="group.hostAvatar"
-                class="w-full h-full object-cover"
+                image-class="w-full h-full object-cover"
+                container-class="w-full h-full"
+                :show-placeholder="false"
               />
               <span v-else>👤</span>
             </div>
@@ -146,6 +148,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useGroupStore } from '../stores/groupStore'
 import UserRating from '../components/UserRating.vue'
+import LazyImage from '../components/LazyImage.vue'
 import { getServiceLogo } from '../utils/serviceUtils'
 import { GROUP_STATUS } from '../utils/constants'
 

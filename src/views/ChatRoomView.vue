@@ -64,9 +64,10 @@
       >
         <!-- Other's Avatar -->
         <div v-if="msg.senderId !== userStore.user.uid" class="mr-2 flex-shrink-0">
-          <img
+          <LazyImage
             :src="msg.senderAvatar || 'https://via.placeholder.com/40'"
-            class="w-8 h-8 rounded-full border border-white/20"
+            image-class="w-8 h-8 rounded-full border border-white/20"
+            container-class="w-8 h-8"
           />
         </div>
 
@@ -138,9 +139,10 @@
         <div class="space-y-4 max-h-[60vh] overflow-y-auto">
           <div v-for="p in participantsInfo" :key="p.uid" class="bg-white/5 p-4 rounded-xl">
             <div class="flex items-center gap-3 mb-3">
-              <img
+              <LazyImage
                 :src="p.avatar || 'https://via.placeholder.com/40'"
-                class="w-10 h-10 rounded-full"
+                image-class="w-10 h-10 rounded-full"
+                container-class="w-10 h-10"
               />
               <span class="text-white font-medium">{{ p.name }}</span>
             </div>
@@ -203,6 +205,7 @@ import { useNotification } from '../composables/useNotification'
 import { useGroupStore } from '../stores/groupStore'
 import BaseButton from '../components/BaseButton.vue'
 import BaseTextarea from '../components/BaseTextarea.vue'
+import LazyImage from '../components/LazyImage.vue'
 import { GROUP_STATUS, DEFAULTS } from '../utils/constants'
 import { Chat } from '../types'
 

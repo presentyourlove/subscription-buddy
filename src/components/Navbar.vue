@@ -43,11 +43,12 @@
                 to="/profile"
                 class="flex items-center gap-2 ml-4 hover:bg-white/10 p-2 rounded-lg transition-colors"
               >
-                <img
+                <LazyImage
                   v-if="userStore.user.photoURL"
                   :src="userStore.user.photoURL"
-                  class="w-8 h-8 rounded-full border border-white/20"
                   alt="Avatar"
+                  image-class="w-8 h-8 rounded-full border border-white/20"
+                  container-class="w-8 h-8"
                 />
                 <span class="text-xs text-gray-400">{{ userStore.user.displayName }}</span>
               </router-link>
@@ -115,10 +116,11 @@
             class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded-md transition-colors"
             @click="isOpen = false"
           >
-            <img
+            <LazyImage
               v-if="userStore.user.photoURL"
               :src="userStore.user.photoURL"
-              class="w-8 h-8 rounded-full border border-white/20"
+              image-class="w-8 h-8 rounded-full border border-white/20"
+              container-class="w-8 h-8"
             />
             <span class="text-sm text-gray-400">{{ userStore.user.displayName }}</span>
           </router-link>
@@ -154,6 +156,7 @@
 import { ref } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
+import LazyImage from './LazyImage.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
