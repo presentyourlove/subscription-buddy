@@ -45,47 +45,52 @@
       </div>
     </div>
 
-    <!-- Messages Area -->
-    <div ref="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
-      <!-- System Message: Deal Closed -->
-      <div v-if="isDealClosed" class="flex justify-center my-4">
-        <div
-          class="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-2 rounded-full text-xs"
-        >
-          {{ $t('chat.systemClosed') }}
-        </div>
-      </div>
-
+    <!-- System Message: Deal Closed (Sticky Top) -->
+    <div
+      v-if="isDealClosed"
+      class="bg-green-900/20 p-2 flex justify-center border-b border-green-500/20"
+    >
       <div
-        v-for="msg in chatStore.messages"
-        :key="msg.id"
-        class="flex"
-        :class="msg.senderId === userStore.user.uid ? 'justify-end' : 'justify-start'"
+        class="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-1 rounded-full text-xs"
       >
-        <!-- Other's Avatar -->
-        <div v-if="msg.senderId !== userStore.user.uid" class="mr-2 flex-shrink-0">
-          <LazyImage
-            :src="msg.senderAvatar || 'https://via.placeholder.com/40'"
-            image-class="w-8 h-8 rounded-full border border-white/20"
-            container-class="w-8 h-8"
-          />
-        </div>
+        {{ $t('chat.systemClosed') }}
+      </div>
+    </div>
 
-        <!-- Bubble -->
+    <!-- Messages Area (Virtual Scroll) -->
+    <div v-bind="containerProps" class="flex-1 p-4 scroll-smooth">
+      <div v-bind="wrapperProps">
         <div
-          class="max-w-[70%] rounded-2xl px-4 py-2 text-sm"
-          :class="
-            msg.senderId === userStore.user.uid
-              ? 'bg-purple-600 text-white rounded-br-none'
-              : 'bg-white/10 text-gray-200 rounded-bl-none border border-white/5'
-          "
+          v-for="{ data: msg } in list"
+          :key="msg.id"
+          class="flex mb-4"
+          :class="msg.senderId === userStore.user.uid ? 'justify-end' : 'justify-start'"
         >
-          <div v-if="msg.senderId !== userStore.user.uid" class="text-xs text-gray-500 mb-1">
-            {{ msg.senderName }}
+          <!-- Other's Avatar -->
+          <div v-if="msg.senderId !== userStore.user.uid" class="mr-2 flex-shrink-0">
+            <LazyImage
+              :src="msg.senderAvatar || 'https://via.placeholder.com/40'"
+              image-class="w-8 h-8 rounded-full border border-white/20"
+              container-class="w-8 h-8"
+            />
           </div>
-          {{ msg.text }}
-          <div class="text-[10px] opacity-50 text-right mt-1">
-            {{ formatTime(msg.createdAt) }}
+
+          <!-- Bubble -->
+          <div
+            class="max-w-[70%] rounded-2xl px-4 py-2 text-sm"
+            :class="
+              msg.senderId === userStore.user.uid
+                ? 'bg-purple-600 text-white rounded-br-none'
+                : 'bg-white/10 text-gray-200 rounded-bl-none border border-white/5'
+            "
+          >
+            <div v-if="msg.senderId !== userStore.user.uid" class="text-xs text-gray-500 mb-1">
+              {{ msg.senderName }}
+            </div>
+            {{ msg.text }}
+            <div class="text-[10px] opacity-50 text-right mt-1">
+              {{ formatTime(msg.createdAt) }}
+            </div>
           </div>
         </div>
       </div>
@@ -93,119 +98,104 @@
 
     <!-- Input Area -->
     <div class="p-4 bg-white/5 backdrop-blur-md border-t border-white/10">
-      <!-- ... input form ... -->
-      <form class="flex gap-2" @submit.prevent="handleSend">
+      <div v-if="isDealClosed" class="text-center text-gray-500 text-sm py-2">
+        {{ $t('chat.inputClosed') }}
+      </div>
+      <form v-else class="flex gap-2" @submit.prevent="handleSend">
         <input
           v-model="newMessage"
           type="text"
-          :disabled="isDealClosed"
-          class="flex-1 bg-black/20 border border-white/10 rounded-full px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          :placeholder="isDealClosed ? $t('chat.inputClosed') : $t('chat.inputPlaceholder')"
+          :placeholder="$t('chat.inputPlaceholder')"
+          class="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white focus:outline-none focus:border-purple-500 transition-colors"
+          :disabled="chatStore.loading"
         />
         <button
           type="submit"
-          :disabled="!newMessage.trim() || isDealClosed"
-          class="bg-purple-600 hover:bg-purple-500 text-white rounded-full p-3 w-12 h-12 flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="Send message"
+          :disabled="chatStore.loading || !newMessage.trim()"
+          class="bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 px-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          ➤
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
+            />
+          </svg>
         </button>
       </form>
-
-      <!-- Rating Trigger (Only when closed) -->
-      <div v-if="isDealClosed" class="mt-4 flex justify-center">
-        <button
-          class="text-sm text-purple-400 hover:text-purple-300 underline"
-          @click="showRatingModal = true"
-        >
-          {{ $t('chat.ratePartner') }}
-        </button>
-      </div>
     </div>
 
     <!-- Rating Modal -->
     <div
       v-if="showRatingModal"
-      class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+      class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
     >
-      <div class="bg-gray-900 border border-white/10 rounded-2xl p-6 w-full max-w-sm relative">
-        <button class="absolute top-4 right-4 text-gray-400" @click="showRatingModal = false">
-          ✕
-        </button>
-        <h3 class="text-xl font-bold text-white mb-4 text-center">
-          {{ $t('chat.ratingTitle') }}
+      <div class="bg-[#1e293b] rounded-2xl p-6 w-full max-w-sm border border-white/10">
+        <h3 class="text-lg font-bold text-white mb-4 text-center">
+          {{ $t('chat.ratePartner') }}
         </h3>
+        <div class="flex flex-col items-center gap-4">
+          <LazyImage
+            :src="ratingTarget?.avatar || 'https://via.placeholder.com/60'"
+            image-class="w-16 h-16 rounded-full border-2 border-purple-500"
+            container-class="w-16 h-16"
+          />
+          <div class="text-gray-300 font-medium">{{ ratingTarget?.name }}</div>
 
-        <div class="space-y-4 max-h-[60vh] overflow-y-auto">
-          <div v-for="p in participantsInfo" :key="p.uid" class="bg-white/5 p-4 rounded-xl">
-            <div class="flex items-center gap-3 mb-3">
-              <LazyImage
-                :src="p.avatar || 'https://via.placeholder.com/40'"
-                image-class="w-10 h-10 rounded-full"
-                container-class="w-10 h-10"
-              />
-              <span class="text-white font-medium">{{ p.name }}</span>
-            </div>
-
-            <div v-if="checkRated(p.uid)" class="text-xs text-green-400 text-center py-2">
-              {{ $t('chat.rated') }}
-            </div>
-            <div v-else>
-              <div class="flex justify-center gap-2 mb-3">
-                <button
-                  v-for="n in maxRating"
-                  :key="n"
-                  class="text-2xl transition-transform hover:scale-110"
-                  :class="
-                    (ratingTarget?.uid === p.uid ? ratingScore : 0) >= n
-                      ? 'text-yellow-400'
-                      : 'text-gray-600'
-                  "
-                  @click="setRating(n, p)"
-                >
-                  ★
-                </button>
-              </div>
-              <BaseTextarea
-                v-if="ratingTarget?.uid === p.uid"
-                v-model="ratingComment"
-                :placeholder="$t('chat.ratingPlaceholder')"
-                class="mb-2"
-              />
-              <BaseButton
-                v-if="ratingTarget?.uid === p.uid"
-                :disabled="!ratingComment.trim()"
-                @click="handleRate"
-              >
-                {{ $t('chat.submitRating', { score: ratingScore }) }}
-              </BaseButton>
-            </div>
+          <div class="flex gap-2">
+            <button
+              v-for="star in 5"
+              :key="star"
+              type="button"
+              class="text-2xl transition-transform hover:scale-110"
+              :class="star <= ratingScore ? 'text-yellow-400' : 'text-gray-600'"
+              @click="ratingScore = star"
+            >
+              ★
+            </button>
           </div>
-          <div v-if="participantsInfo.length === 0" class="text-center text-gray-500 py-4">
-            {{ $t('chat.noTarget') }}
+
+          <textarea
+            v-model="ratingComment"
+            :placeholder="$t('chat.ratingPlaceholder')"
+            rows="3"
+            class="w-full bg-black/20 rounded-lg p-3 text-sm text-white border border-white/10 focus:border-purple-500 outline-none resize-none"
+          ></textarea>
+
+          <div class="flex gap-2 w-full mt-2">
+            <button
+              class="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-colors"
+              @click="showRatingModal = false"
+            >
+              {{ $t('profile.edit.cancel') }}
+            </button>
+            <button
+              class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors font-medium"
+              @click="handleRate"
+            >
+              {{ $t('chat.submitRating', { score: ratingScore }) }}
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div v-else class="h-screen flex items-center justify-center text-gray-400">
-    {{ $t('chat.loginRequired') }}
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useChatStore } from '../stores/chatStore'
 import { useUserStore } from '../stores/userStore'
+import { useChatStore } from '../stores/chatStore'
+import { useGroupStore } from '../stores/groupStore'
 import { useFirestoreDoc } from '../composables/useFirestoreDoc'
 import { useNotification } from '../composables/useNotification'
-
-import { useGroupStore } from '../stores/groupStore'
-import BaseButton from '../components/BaseButton.vue'
-import BaseTextarea from '../components/BaseTextarea.vue'
 import LazyImage from '../components/LazyImage.vue'
+import { useVirtualList } from '@vueuse/core'
 import { GROUP_STATUS, DEFAULTS } from '../utils/constants'
 import { Chat } from '../types'
 
@@ -245,7 +235,6 @@ watch(isDealClosed, async (val) => {
 })
 
 const newMessage = ref('')
-const messagesContainer = ref<HTMLElement | null>(null)
 
 const initChat = async () => {
   if (!userStore.user) return
@@ -281,9 +270,22 @@ onUnmounted(() => {
   // Note: chatMeta unsubscription is handled by useFirestoreDoc composable
 })
 
+// Virtual Scroll Logic
+
+
+// Virtual Scroll Logic
+const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(
+  computed(() => chatStore.messages),
+  {
+    itemHeight: 80, // Estimated height as requested
+    overscan: 10
+  }
+)
+
+// Auto-scroll logic
 const scrollToBottom = () => {
-  if (messagesContainer.value) {
-    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+  if (chatStore.messages.length > 0) {
+    scrollTo(chatStore.messages.length - 1)
   }
 }
 

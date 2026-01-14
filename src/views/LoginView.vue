@@ -110,7 +110,6 @@ import BaseInput from '../components/BaseInput.vue'
 import BaseButton from '../components/BaseButton.vue'
 
 const userStore = useUserStore()
-const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 

@@ -188,16 +188,12 @@ docker run -p 8080:80 subscription-buddy
 5. **路由守衛實作 (Navigation Guard)** - ✓ 已實作 `beforeEach` guard 與登入重導向
 6. **英文翻譯檔補齊 (i18n Completion)** - ✓ 已建立 `en-US.json` 並完成註冊
 7. **單元測試覆蓋率提升 (Test Coverage)** - ✓ 已新增 Service/Store/Composable 單元測試 (8 個測試檔)
+8. **清理殘留 console.log** - ✓ 已移除 notificationService 除錯日誌
+9. **虛擬滾動優化 (Virtual Scrolling)** - ✓ 已於 ChatRoomView 實作 useVirtualList
 
 ### 🔜 待優化項目 (Pending)
 
-1. **清理殘留 console.log** `[P3 - Low]`
-    * **現況**: `notificationService.ts` 仍有 2 處 `console.log`。
-    * **建議**: 移除或替換為適當的日誌機制。
-
-2. **虛擬滾動優化 (Virtual Scrolling)** `[P3 - Low]`
-    * **現況**: 聊天訊息列表直接渲染所有訊息。
-    * **建議**: 當訊息量大時，使用虛擬滾動提升效能。
+*(暫無)*
 
 ## 👤 作者 (Author)
 
