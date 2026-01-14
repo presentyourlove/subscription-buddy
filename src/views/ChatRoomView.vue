@@ -362,7 +362,9 @@ const handleRate = async () => {
       ratingComment.value,
       userStore.user.uid
     )
-    notification.success(t('chat.successRate', { name: ratingTarget.value.name, score: ratingScore.value }))
+    notification.success(
+      t('chat.successRate', { name: ratingTarget.value.name, score: ratingScore.value })
+    )
     showRatingModal.value = false
     ratingComment.value = '' // Reset
     // Refresh meta logic? useFirestoreDoc handles it.

@@ -13,18 +13,17 @@ app.use(createPinia())
 app.use(router)
 app.use(i18n)
 app.use(Toast, {
-    position: 'top-right',
-    timeout: 5000,
-    closeOnClick: true,
-    pauseOnFocusLoss: true,
-    pauseOnHover: true,
-    draggable: true,
-    showCloseButtonOnHover: false,
-    hideProgressBar: false,
-    closeButton: 'button',
-    icon: true,
-    rtl: false
+  position: 'top-right',
+  timeout: 5000,
+  closeOnClick: true,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  draggable: true,
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  closeButton: 'button',
+  icon: true,
+  rtl: false
 })
 
 app.mount('#app')
-
