@@ -194,29 +194,31 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n' // Import useI18n
+import { useI18n } from 'vue-i18n'
 import { useChatStore } from '../stores/chatStore'
 import { useUserStore } from '../stores/userStore'
-import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore'
-import { db } from '../firebase/config'
+import { useFirestoreDoc } from '../composables/useFirestoreDoc'
+import { useNotification } from '../composables/useNotification'
 
 import { useGroupStore } from '../stores/groupStore'
 import BaseButton from '../components/BaseButton.vue'
 import BaseTextarea from '../components/BaseTextarea.vue'
-import { GROUP_STATUS, DEFAULTS } from '../utils/constants' // Import DEFAULTS
+import { GROUP_STATUS, DEFAULTS } from '../utils/constants'
+import { Chat } from '../types'
 
 const maxRating = DEFAULTS.MAX_RATING
 
-const { t } = useI18n() // Use i18n
+const { t } = useI18n()
 const route = useRoute()
 const chatStore = useChatStore()
 const userStore = useUserStore()
 const groupStore = useGroupStore()
+const notification = useNotification()
 
 const groupId = route.params.id as string
-// Extra state for chat document (to watch confirmedUsers)
-const chatMeta = ref<any>(null)
-let metaUnsubscribe: Unsubscribe | null = null
+
+// Use composable for chat meta (confirmation status)
+const { data: chatMeta } = useFirestoreDoc<Chat>('chats', groupId)
 
 const hasConfirmed = computed(() => {
   if (!chatMeta.value || !chatMeta.value.confirmedUsers || !userStore.user) return false
@@ -253,15 +255,9 @@ const initChat = async () => {
     await chatStore.joinChat(groupId, userStore.user)
     // 2. Subscribe messages
     chatStore.subscribeToMessages(groupId)
-
-    // 3. Subscribe to Chat Meta (for confirmation status)
-    if (!metaUnsubscribe) {
-      metaUnsubscribe = onSnapshot(doc(db, 'chats', groupId), (doc) => {
-        chatMeta.value = doc.data()
-      })
-    }
-  } catch (err) {
-    alert(t('chat.errorJoin', { error: err.message }))
+    // Note: Chat meta is now handled by useFirestoreDoc composable
+  } catch (err: any) {
+    notification.error(t('chat.errorJoin', { error: err.message }))
   }
 }
 
@@ -279,7 +275,7 @@ watch(
 
 onUnmounted(() => {
   chatStore.unsubscribeFromMessages()
-  if (metaUnsubscribe) metaUnsubscribe()
+  // Note: chatMeta unsubscription is handled by useFirestoreDoc composable
 })
 
 const scrollToBottom = () => {
@@ -304,8 +300,8 @@ const handleSend = async () => {
   try {
     await chatStore.sendMessage(newMessage.value, userStore.user)
     newMessage.value = ''
-  } catch (err) {
-    alert(t('chat.errorSend', { error: err.message }))
+  } catch (err: any) {
+    notification.error(t('chat.errorSend', { error: err.message }))
   }
 }
 
@@ -313,8 +309,8 @@ const handleConfirm = async () => {
   if (!confirm(t('chat.confirmDealPrompt'))) return
   try {
     await chatStore.confirmDeal(groupId, userStore.user)
-  } catch (err) {
-    alert(t('chat.errorConfirm', { error: err.message }))
+  } catch (err: any) {
+    notification.error(t('chat.errorConfirm', { error: err.message }))
   }
 }
 
@@ -366,12 +362,12 @@ const handleRate = async () => {
       ratingComment.value,
       userStore.user.uid
     )
-    alert(t('chat.successRate', { name: ratingTarget.value.name, score: ratingScore.value }))
+    notification.success(t('chat.successRate', { name: ratingTarget.value.name, score: ratingScore.value }))
     showRatingModal.value = false
     ratingComment.value = '' // Reset
-    // Refresh meta logic? onSnapshot handles it.
+    // Refresh meta logic? useFirestoreDoc handles it.
   } catch (err) {
-    alert(t('chat.errorRate', { error: err }))
+    notification.error(t('chat.errorRate', { error: err }))
   }
 }
 

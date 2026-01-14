@@ -135,12 +135,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue' // Add onUnmounted
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGroupStore } from '../stores/groupStore'
 import { useUserStore } from '../stores/userStore'
-import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore'
-import { db } from '../firebase/config'
+import { useFirestoreDoc } from '../composables/useFirestoreDoc'
+import { useNotification } from '../composables/useNotification'
 import UserRating from '../components/UserRating.vue'
 import { GROUP_STATUS } from '../utils/constants'
 import { useI18n } from 'vue-i18n'
@@ -151,26 +151,12 @@ const router = useRouter()
 const groupStore = useGroupStore()
 const userStore = useUserStore()
 const { t } = useI18n()
+const notification = useNotification()
 
-const group = ref<Group | null>(null)
-// showDebug removed
-let unsubscribe: Unsubscribe | null = null
+const groupId = route.params.id as string
 
-onMounted(async () => {
-  const id = route.params.id as string
-  // Real-time listener
-  unsubscribe = onSnapshot(doc(db, 'groups', id), (doc) => {
-    if (doc.exists()) {
-      group.value = { id: doc.id, ...doc.data() } as Group
-    } else {
-      group.value = null
-    }
-  })
-})
-
-onUnmounted(() => {
-  if (unsubscribe) unsubscribe()
-})
+// Use composable for real-time group data
+const { data: group } = useFirestoreDoc<Group>('groups', groupId)
 
 const isHost = computed(() => {
   return group.value && userStore.user && group.value.hostId === userStore.user.uid
@@ -188,7 +174,7 @@ const handleDelete = async () => {
     await groupStore.deleteGroup(group.value.id)
     router.push('/')
   } catch (err) {
-    alert(t('group.error.deleteFailed') + ': ' + (err as Error).message)
+    notification.error(t('group.error.deleteFailed') + ': ' + (err as Error).message)
   }
 }
 
@@ -198,7 +184,7 @@ const handleCloseGroup = async () => {
   try {
     await groupStore.updateGroupStatus(group.value.id, GROUP_STATUS.CLOSED)
   } catch (err) {
-    alert(t('group.error.closeFailed') + ': ' + (err as Error).message)
+    notification.error(t('group.error.closeFailed') + ': ' + (err as Error).message)
   }
 }
 </script>
