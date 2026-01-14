@@ -90,7 +90,9 @@ npm run dev
 | | TailwindCSS | Utility-first CSS Framework |
 | | Pinia | Intuitive State Management |
 | | Vue I18n | Internationalization plugin |
+| | Vue Toastification | Toast Notification System |
 | **Backend / DB** | Firebase | Auth, Firestore, Hosting |
+| **PWA** | vite-plugin-pwa | Offline Support & Installable |
 | **Testing** | Vitest | Blazing Fast Unit Test Framework |
 | | Playwright | Reliable End-to-End Testing |
 | **DevOps** | Docker | Containerization |
@@ -102,6 +104,7 @@ npm run dev
 ```text
 src/
 ├── components/     # 共用 UI 元件 (Buttons, Inputs, Modals)
+├── composables/    # Vue Composables (useFirestoreDoc, useNotification)
 ├── firebase/       # Firebase 初始化與設定
 ├── locales/        # 多語系翻譯檔 (zh-TW, en-US)
 ├── services/       # API 服務層 (封裝 Firestore 操作)
@@ -176,23 +179,15 @@ docker run -p 8080:80 subscription-buddy
 
 基於目前的代碼架構分析，我們建議以下技術與功能優化方向，以提升專案的長期維護性與效能：
 
-### �️ 架構與品質 (Architecture & Quality)
+### ✅ 已完成優化 (Completed)
 
-1. **即時監聽邏輯封裝 (Composable Refactoring)** `[P2 - Medium]`
-    * **現況**: `onSnapshot` 直接寫在 Vue Components (`GroupDetailView`) 中。
-    * **建議**: 將 Firestore 監聽邏輯抽離為 Vue Composables (如 `useGroupListener`)，落實關注點分離 (Separation of Concerns)。
+1. **即時監聽邏輯封裝 (Composable Refactoring)** - ✓ 已實作 `useFirestoreDoc` composable
+2. **PWA 離線支援 (PWA Integration)** - ✓ 已配置 `vite-plugin-pwa`
+3. **統一錯誤處理與通知 (Centralized Error Handling)** - ✓ 已整合 Vue Toastification
 
-### ⚡ 效能與體驗 (Performance & UX)
+### 🔜 待優化項目 (Pending)
 
-1. **PWA 離線支援 (PWA Integration)** `[P2 - Medium]`
-    * **現況**: 尚未配置 Service Worker 快取策略。
-    * **建議**: 使用 `vite-plugin-pwa` 實作自動更新與離線快取，讓應用程式在弱網環境下仍能瀏覽基礎資訊。
-
-2. **統一錯誤處理與通知 (Centralized Error Handling)** `[P2 - Low]`
-    * **現況**: 目前多使用 `alert()` 或 `console.error` 處理錯誤。
-    * **建議**: 引入 Toast/Snackbar 通知系統 (如 SweetAlert2 或 Vue Toastification)，統一捕捉 API 錯誤並友善提示使用者。
-
-3. **影像優化與懶載入 (Image Optimization)** `[P3 - Low]`
+1. **影像優化與懶載入 (Image Optimization)** `[P3 - Low]`
     * **現況**: 用戶頭像與圖示直接載入。
     * **建議**: 實作圖片 Lazy Loading 與 CDN 整合，並使用 WebP 格式減少傳輸量，提升 Core Web Vitals 分數。
 
