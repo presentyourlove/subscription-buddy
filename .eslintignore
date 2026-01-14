@@ -1,0 +1,13 @@
+# Vue Language Server generated files
+*.vue.js
+*.vue.js.map
+
+# Build outputs
+dist
+dist-ssr
+
+# Dependencies
+node_modules
+
+# TypeScript cache
+*.tsbuildinfo
