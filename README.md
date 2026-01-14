@@ -200,7 +200,7 @@ docker run -p 8080:80 subscription-buddy
 
 ## 👤 作者 (Author)
 
-**Presentyourlove**
+Presentyourlove
 
 ---
 
