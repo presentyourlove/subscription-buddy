@@ -1,0 +1,234 @@
+{
+    "app": {
+        "title": "Sub-Buddy"
+    },
+    "nav": {
+        "bulletin": "Bulletin",
+        "createGroup": "Create Group",
+        "profile": "Profile",
+        "login": "Login / Register",
+        "logout": "Logout"
+    },
+    "home": {
+        "heroTitle": "Find a partner, share the subscription",
+        "heroSubtitle": "Netflix, Spotify, YouTube Premium... Find partners for any family plan here.\nSafe, Transparent, Money-saving.",
+        "searchPlaceholder": "Search service name (e.g. Netflix)...",
+        "emptyState": "No groups found. Why not start one?",
+        "createLink": "Start New Group",
+        "card": {
+            "pricePerMonth": "Price/Person",
+            "month": "/mo",
+            "slots": "Slots",
+            "people": "",
+            "anonymous": "Anonymous Host",
+            "details": "Details",
+            "status": {
+                "OPEN": "Recruiting",
+                "CLOSED": "Closed",
+                "FULL": "Full"
+            }
+        }
+    },
+    "create": {
+        "title": "Create New Group",
+        "form": {
+            "serviceName": "Service Name",
+            "servicePlaceholder": "e.g. Netflix Premium (4 people)",
+            "description": "Description",
+            "descPlaceholder": "Describe the plan, payment method...",
+            "price": "Price per person (Monthly)",
+            "slots": "People Needed",
+            "submit": "Publish Group",
+            "processing": "Processing...",
+            "success": "Published successfully!",
+            "loginRequired": "Please login first!",
+            "pendingReview": "You have pending reviews (GroupID: {groupId}). Please complete them before creating a new group!\nGo to review now?"
+        }
+    },
+    "login": {
+        "tabs": {
+            "login": "Login",
+            "register": "Register"
+        },
+        "form": {
+            "displayName": "Display Name",
+            "displayNamePlaceholder": "e.g. Alice",
+            "email": "Email",
+            "emailPlaceholder": "example@mail.com",
+            "password": "Password",
+            "passwordPlaceholder": "At least 6 characters",
+            "submitLogin": "Login",
+            "submitRegister": "Register",
+            "or": "OR",
+            "googleLogin": "Sign in with Google",
+            "termsPrefix": "By continuing, you agree to our",
+            "termsLink": "Terms of Service",
+            "privacyLink": "Privacy Policy",
+            "agree": "and"
+        }
+    },
+    "auth": {
+        "error": {
+            "emailInUse": "Email already in use",
+            "invalidEmail": "Invalid email format",
+            "weakPassword": "Password is too weak (min 6 chars)",
+            "userNotFound": "User not found",
+            "wrongPassword": "Wrong password",
+            "popupClosed": "Login popup closed",
+            "unknown": "An unexpected error occurred"
+        }
+    },
+    "group": {
+        "status": {
+            "OPEN": "Recruiting",
+            "CLOSED": "Closed",
+            "FULL": "Full"
+        },
+        "detail": {
+            "back": "Back to Bulletin",
+            "host": "Host",
+            "postedAt": "Posted at",
+            "pricePerMonth": "Price/Person",
+            "slotsLeft": "Slots Left",
+            "paymentMethod": "Payment Method",
+            "paymentMethodValue": "Discuss in Chat",
+            "description": "Description",
+            "enterChat": "Enter Chat",
+            "hostRole": "Host",
+            "closedRole": "Closed",
+            "hostHint": "You are the host. You can check applications in the chat room.",
+            "applyJoin": "Apply to Join (Open Chat)",
+            "full": "Group is Full",
+            "manualClose": "Manually Close",
+            "deleteGroup": "Delete Group",
+            "confirmClose": "Are you sure you want to close this group? This will mark it as completed.",
+            "confirmDelete": "Are you sure you want to delete this group? This action cannot be undone.",
+            "loading": "Loading or group not found..."
+        },
+        "error": {
+            "deleteFailed": "Delete failed",
+            "closeFailed": "Close failed"
+        }
+    },
+    "profile": {
+        "defaultName": "Unnamed User",
+        "reputation": "Reputation",
+        "edit": {
+            "title": "Edit Profile",
+            "displayName": "Display Name",
+            "photoURL": "Avatar URL",
+            "save": "Save Changes",
+            "cancel": "Cancel"
+        },
+        "tabs": {
+            "hosted": "Hosted",
+            "joined": "Joined"
+        },
+        "info": {
+            "chatRetention": "Chat history is retained for one year. It is automatically deleted after expiration once the deal is closed."
+        },
+        "emptyHistory": "No history yet",
+        "error": {
+            "updateFailed": "Update failed",
+            "fetchFailed": "Failed to fetch history"
+        }
+    },
+    "terms": {
+        "title": "Terms of Service",
+        "introTitle": "1. Introduction",
+        "introContent": "\"Sub-Buddy\" (hereinafter referred to as the Service) provides an information matching platform to assist users in finding partners for streaming services. The Service only provides information exchange and group management tools and does not involve any payment processing.",
+        "disclaimerTitle": "2. Disclaimer",
+        "riskPayment": "Payment Risk",
+        "riskPaymentContent": ": The Service does not handle any financial transactions. All payments occur privately between users (e.g., bank transfer). The Service is not liable for any fraud or financial disputes.",
+        "riskAccount": "Account Sharing Risk",
+        "riskAccountContent": ": Sharing streaming accounts may violate the terms of use of some platforms. Users assume the risk of account suspension or termination.",
+        "riskAccuracy": "Data Accuracy",
+        "riskAccuracyContent": ": Group information is posted by users. The Service does not guarantee its authenticity or accuracy.",
+        "rulesTitle": "3. User Rules",
+        "rulesIntro": "You agree to abide by the following rules when using the Service:",
+        "rule1": "Do not post false, fraudulent, harassing, or illegal content.",
+        "rule2": "Do not maliciously abandon orders or fail to provide services after receiving payment.",
+        "rule3": "We reserve the right to suspend or delete accounts if malicious behavior is reported.",
+        "changesTitle": "4. Changes to Terms",
+        "changesContent": "We reserve the right to modify these Terms of Service at any time. Significant changes will be announced on the site. Continued use of the Service constitutes acceptance of the revised terms."
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "collectTitle": "1. Information We Collect",
+        "collectIntro": "When you use \"Sub-Buddy\" (hereinafter referred to as the Service), we collect the following basic information via Firebase Authentication:",
+        "collectEmail": "Your Email address",
+        "collectName": "Your Display Name",
+        "collectPhoto": "Your Photo URL (Avatar)",
+        "collectUid": "Unique Identifier (UID) assigned by Firebase",
+        "usageTitle": "2. How We Use Data",
+        "usageIntro": "We use the collected data only for the following purposes:",
+        "usageIdentity": "To identify your user identity for group management and chat functions.",
+        "usageDisplay": "To display your avatar and nickname in group lists and chat rooms so other members can identify you.",
+        "usageReputation": "To record your reputation score and past group history.",
+        "shareTitle": "3. Data Sharing and Disclosure",
+        "shareIntro": "We will not share your personal data with third parties except in the following cases:",
+        "shareMember": "Group Members",
+        "shareMemberContent": ": When you join a group, fellow members can see your nickname and avatar for communication purposes.",
+        "securityTitle": "4. Data Security",
+        "securityContent": "The Service uses Google Firebase cloud infrastructure. Your data is stored on Google's encrypted servers. We cannot directly access your Google login password.",
+        "contactTitle": "5. Contact Us",
+        "contactContent": "If you have any questions about this Privacy Policy or wish to delete your account data, please contact the developer via {link}."
+    },
+    "chat": {
+        "safetyCredit": "⚠️ Do NOT send credit card numbers, passwords, or sensitive info here.",
+        "safetyRights": "⚠️ Please confirm rights before closing the deal. Do not delete chat before closing.",
+        "backToDetail": "← Back to Detail",
+        "title": "Project Chat",
+        "closedLabel": "✅ Deal Confirmed by both parties",
+        "confirmDeal": "Confirm Deal",
+        "confirmed": "Confirmed",
+        "systemClosed": "This deal is confirmed closed by both parties. Please remember to rate each other!",
+        "inputPlaceholder": "Type a message...",
+        "inputClosed": "Deal is closed. Cannot send messages.",
+        "ratePartner": "⭐ Rate Partner",
+        "ratingTitle": "Rate Partner",
+        "rated": "✅ Rated",
+        "noTarget": "No one to rate (Only members who have spoken)",
+        "ratingPlaceholder": "Write a review (required)...",
+        "submitRating": "Submit {score} Star Rating",
+        "errorJoin": "Failed to join chat (permissions?): {error}",
+        "errorSend": "Send failed: {error}",
+        "errorConfirm": "Confirm failed: {error}",
+        "errorRate": "Rate failed: {error}",
+        "successRate": "Successfully rated {name} {score} stars!",
+        "confirmDealPrompt": "Confirm deal? This means you have completed the transaction (paid/received).",
+        "loginRequired": "Please login to view chat."
+    },
+    "common": {
+        "errorTitle": "Error:",
+        "refreshHint": "Please try refreshing the page.",
+        "loadingData": "Loading data...",
+        "anonymous": "Anonymous"
+    },
+    "admin": {
+        "portal": "Admin Portal",
+        "dashboard": "Dashboard",
+        "groups": "Group Management",
+        "backToSite": "Back to Site",
+        "exit": "Exit",
+        "overview": "Overview",
+        "totalUsers": "Total Users",
+        "activeGroups": "Active Groups",
+        "pendingReports": "Pending Reports",
+        "systemAlerts": "System Alerts",
+        "systemNormal": "System running normally.",
+        "stats": {
+            "fromLastMonth": "vs Last Month",
+            "newToday": "New Today",
+            "needsAttention": "Needs Attention"
+        },
+        "table": {
+            "name": "Group Name",
+            "service": "Service",
+            "plan": "Price",
+            "status": "Status",
+            "actions": "Actions",
+            "terminate": "Terminate"
+        }
+    }
+}
