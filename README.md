@@ -184,12 +184,7 @@ docker run -p 8080:80 subscription-buddy
 1. **即時監聽邏輯封裝 (Composable Refactoring)** - ✓ 已實作 `useFirestoreDoc` composable
 2. **PWA 離線支援 (PWA Integration)** - ✓ 已配置 `vite-plugin-pwa`
 3. **統一錯誤處理與通知 (Centralized Error Handling)** - ✓ 已整合 Vue Toastification
-
-### 🔜 待優化項目 (Pending)
-
-1. **影像優化與懶載入 (Image Optimization)** `[P3 - Low]`
-    * **現況**: 用戶頭像與圖示直接載入。
-    * **建議**: 實作圖片 Lazy Loading 與 CDN 整合，並使用 WebP 格式減少傳輸量，提升 Core Web Vitals 分數。
+4. **影像優化與懶載入 (Image Optimization)** - ✓ 已建立 `LazyImage` 元件，支援 `loading="lazy"` 原生屬性
 
 ---
 
