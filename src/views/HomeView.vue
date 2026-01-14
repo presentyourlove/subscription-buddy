@@ -165,7 +165,6 @@ onMounted(() => {
 /* Correct logic: */
 // I will just replace the ref line.
 
-
 onMounted(() => {
   groupStore.fetchGroups()
 })

@@ -248,7 +248,7 @@ const fetchHistory = async () => {
     // 1. Hosted Groups
     const qHosted = query(collection(db, 'groups'), where('hostId', '==', userStore.user.uid))
     const snapHosted = await getDocs(qHosted)
-    hostedGroups.value = snapHosted.docs.map((d) => ({ id: d.id, ...d.data() } as Group))
+    hostedGroups.value = snapHosted.docs.map((d) => ({ id: d.id, ...d.data() }) as Group)
 
     // 2. Joined Chats -> Groups
     const qChats = query(

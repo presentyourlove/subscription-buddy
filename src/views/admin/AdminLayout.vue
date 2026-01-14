@@ -6,10 +6,18 @@
         <h1 class="text-xl font-bold text-gray-800">{{ $t('admin.portal') }}</h1>
       </div>
       <nav class="flex-1 p-4 space-y-2">
-        <router-link to="/admin" class="block px-4 py-2 rounded text-gray-700 hover:bg-indigo-50 hover:text-indigo-600" active-class="bg-indigo-50 text-indigo-600 font-medium">
+        <router-link
+          to="/admin"
+          class="block px-4 py-2 rounded text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
+          active-class="bg-indigo-50 text-indigo-600 font-medium"
+        >
           {{ $t('admin.dashboard') }}
         </router-link>
-        <router-link to="/admin/groups" class="block px-4 py-2 rounded text-gray-700 hover:bg-indigo-50 hover:text-indigo-600" active-class="bg-indigo-50 text-indigo-600 font-medium">
+        <router-link
+          to="/admin/groups"
+          class="block px-4 py-2 rounded text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
+          active-class="bg-indigo-50 text-indigo-600 font-medium"
+        >
           {{ $t('admin.groups') }}
         </router-link>
         <router-link to="/" class="block px-4 py-2 mt-8 text-gray-500 hover:text-gray-700">
@@ -33,5 +41,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

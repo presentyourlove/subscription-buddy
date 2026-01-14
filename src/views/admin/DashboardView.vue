@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="text-2xl font-bold mb-6 text-gray-800">{{ $t('admin.overview') }}</h2>
-    
+
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
@@ -31,5 +31,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
