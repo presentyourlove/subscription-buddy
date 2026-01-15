@@ -12,7 +12,8 @@
         "esModuleInterop": true,
         "lib": [
             "ESNext",
-            "DOM"
+            "DOM",
+            "WebWorker"
         ],
         "skipLibCheck": true,
         "baseUrl": ".",
@@ -20,7 +21,10 @@
             "@/*": [
                 "src/*"
             ]
-        }
+        },
+        "types": [
+            "vite-plugin-pwa/client"
+        ]
     },
     "include": [
         "src/**/*.ts",

@@ -196,19 +196,36 @@ docker run -p 8080:80 subscription-buddy
 13. **UX 優化 (Refactor Alerts)** - ✓ 改用 Toast 通知
 14. **型別安全 (Type Safety)** - ✓ 移除 Store `any` 用法
 15. **擴充性 (Pagination)** - ✓ 實作列表分頁與載入更多
+16. **管理員儀表板資料串接 (Admin Dashboard Integration)** - ✓ 已串接 Firestore 真實數據
+17. **聊天室 Store 型別優化 (Refactor ChatStore Types)** - ✓ 已移除 `any` 並強化錯誤型別
+18. **PWA 更新提示 (PWA Update Prompt)** - ✓ 已新增版本更新提示元件
+19. **Profile 邏輯抽離 (Refactor Profile Logic)** - ✓ 已將歷史資料邏輯移至 UserStore
+20. **CI/CD 整合 E2E 測試 (CI/CD E2E)** - ✓ GitHub Actions 已整合 Playwright
+21. **Tailwind 主題配置 (Tailwind Theme Config)** - ✓ 已設定專案主色系 (`brand-dark`)
+22. **全域錯誤處理 (Global Error Handling)** - ✓ 已實作 `app.config.errorHandler`
+23. **SEO 增強 (Dynamic Meta Tags)** - ✓ 已引入 `@unhead/vue` 實作動態 Meta
 
 ### 🔜 待優化項目 (Pending)
 
-1. **管理員儀表板資料串接 (Admin Dashboard Integration)** `[P2 - Medium]`
+1. **無障礙設計優化 (Accessibility - A11y)** `[P3 - Low]`
+    * **現況**: 表單元件 (`BaseInput`) 缺少 `id` 與 `label for` 的關聯，影響螢幕閱讀器體驗。
+    * **建議**: 為所有輸入框元件實作自動生成 ID 機制。
+2. **安全性標頭配置 (Security Headers)** `[P2 - Medium]`
+    * **現況**: `firebase.json` 僅包含基本 Hosting 設定。
+    * **建議**: 新增 HSTS, X-Content-Type-Options, X-Frame-Options 等安全標頭。
+3. **開發流程自動化 (Husky & Lint Staged)** `[P3 - Low]`
+    * **現況**: 目前未強制執行 Commit 前檢查。
+    * **建議**: 引入 Husky 與 Lint Staged，確保 Commit 代碼符合 ESLint/Prettier 規範。
+4. **管理員儀表板資料串接 (Admin Dashboard Integration)** `[P2 - Medium]`
     * **現況**: `DashboardView` 目前顯示假資料。
     * **建議**: 串接 Firestore 統計數據 (如總使用者數、拼團數)。
-2. **聊天室 Store 型別優化 (Refactor ChatStore Types)** `[P3 - Low]`
+5. **聊天室 Store 型別優化 (Refactor ChatStore Types)** `[P3 - Low]`
     * **現況**: `chatStore` 仍有部分 `any` 型別。
     * **建議**: 比照 `groupStore` 進行嚴格型別定義。
-3. **PWA 更新提示 (PWA Update Prompt)** `[P2 - Medium]`
+6. **PWA 更新提示 (PWA Update Prompt)** `[P2 - Medium]`
     * **現況**: `vite.config.ts` 設定為自動更新但無使用者提示。
     * **建議**: 當有新版本時彈出 Toast 提示使用者重新整理。
-4. **Profile 邏輯抽離 (Refactor Profile Logic)** `[P3 - Low]`
+7. **Profile 邏輯抽離 (Refactor Profile Logic)** `[P3 - Low]`
     * **現況**: `ProfileView` 包含複雜的資料撈取邏輯。
     * **建議**: 將 `fetchHistory` 等邏輯搬移至 `userStore`。
 

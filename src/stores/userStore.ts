@@ -3,6 +3,7 @@ import { authService } from '../services/authService'
 import { userService } from '../services/userService'
 import { FIREBASE_AUTH_CODES } from '../utils/constants'
 import { User } from 'firebase/auth'
+import type { Group } from '../types'
 
 interface UserState {
   user: User | null
@@ -113,14 +114,13 @@ export const useUserStore = defineStore('user', {
 
       try {
         const { db } = await import('../firebase/config')
-        const { collection, query, where, getDocs, doc, getDoc } = await import('firebase/firestore')
-        const { Group } = await import('../types') // Type only import if possible, else might need direct type definition
+        const { collection, query, where, getDocs, doc, getDoc } =
+          await import('firebase/firestore')
 
         // 1. Hosted Groups
         const qHosted = query(collection(db, 'groups'), where('hostId', '==', this.user.uid))
         const snapHosted = await getDocs(qHosted)
-        // @ts-ignore
-        const hosted = snapHosted.docs.map((d) => ({ id: d.id, ...d.data() }))
+        const hosted = snapHosted.docs.map((d) => ({ id: d.id, ...d.data() })) as Group[]
 
         // 2. Joined Chats -> Groups
         const qChats = query(
@@ -139,7 +139,7 @@ export const useUserStore = defineStore('user', {
             const gRef = doc(db, 'groups', groupId)
             const gSnap = await getDoc(gRef)
             if (gSnap.exists()) {
-              joined.push({ id: gSnap.id, ...gSnap.data() })
+              joined.push({ id: gSnap.id, ...gSnap.data() } as Group)
             }
           } catch (innerErr) {
             console.warn('Skipping invalid group ref:', groupId, innerErr)
