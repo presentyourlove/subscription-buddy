@@ -1,4 +1,35 @@
-const __VLS_ctx = {};
+import { ref, onMounted } from 'vue';
+import { db } from '../../firebase/config';
+import { collection, getCountFromServer, query } from 'firebase/firestore';
+const totalUsers = ref(0);
+const totalGroups = ref(0);
+const loading = ref(true);
+onMounted(async () => {
+    loading.value = true;
+    try {
+        // 1. Total Users (Assuming users collection exists or we count something else, usually separate users collection is needed or count from auth which is not directly possible from client SDK easily without cloud function.
+        // We will count 'users' collection if we assume we sync users there.)
+        const usersColl = collection(db, 'users');
+        const usersSnapshot = await getCountFromServer(usersColl);
+        totalUsers.value = usersSnapshot.data().count;
+        // 2. Active Groups
+        const groupsColl = collection(db, 'groups');
+        // Maybe filter by status = OPEN ?
+        const qOpen = query(groupsColl); // For now total groups
+        const groupsSnapshot = await getCountFromServer(qOpen);
+        totalGroups.value = groupsSnapshot.data().count;
+    }
+    catch (err) {
+        console.error('Failed to fetch dashboard stats', err);
+    }
+    finally {
+        loading.value = false;
+    }
+});
+const __VLS_ctx = {
+    ...{},
+    ...{},
+};
 let __VLS_components;
 let __VLS_intrinsics;
 let __VLS_directives;
@@ -42,6 +73,17 @@ __VLS_asFunctionalElement1(__VLS_intrinsics.p, __VLS_intrinsics.p)({
 /** @type {__VLS_StyleScopedClasses['font-bold']} */ ;
 /** @type {__VLS_StyleScopedClasses['text-gray-800']} */ ;
 /** @type {__VLS_StyleScopedClasses['mt-2']} */ ;
+if (__VLS_ctx.loading) {
+    __VLS_asFunctionalElement1(__VLS_intrinsics.span, __VLS_intrinsics.span)({
+        ...{ class: "text-base font-normal" },
+    });
+    /** @type {__VLS_StyleScopedClasses['text-base']} */ ;
+    /** @type {__VLS_StyleScopedClasses['font-normal']} */ ;
+}
+else {
+    __VLS_asFunctionalElement1(__VLS_intrinsics.span, __VLS_intrinsics.span)({});
+    (__VLS_ctx.totalUsers);
+}
 __VLS_asFunctionalElement1(__VLS_intrinsics.span, __VLS_intrinsics.span)({
     ...{ class: "text-green-500 text-sm" },
 });
@@ -71,6 +113,17 @@ __VLS_asFunctionalElement1(__VLS_intrinsics.p, __VLS_intrinsics.p)({
 /** @type {__VLS_StyleScopedClasses['font-bold']} */ ;
 /** @type {__VLS_StyleScopedClasses['text-gray-800']} */ ;
 /** @type {__VLS_StyleScopedClasses['mt-2']} */ ;
+if (__VLS_ctx.loading) {
+    __VLS_asFunctionalElement1(__VLS_intrinsics.span, __VLS_intrinsics.span)({
+        ...{ class: "text-base font-normal" },
+    });
+    /** @type {__VLS_StyleScopedClasses['text-base']} */ ;
+    /** @type {__VLS_StyleScopedClasses['font-normal']} */ ;
+}
+else {
+    __VLS_asFunctionalElement1(__VLS_intrinsics.span, __VLS_intrinsics.span)({});
+    (__VLS_ctx.totalGroups);
+}
 __VLS_asFunctionalElement1(__VLS_intrinsics.span, __VLS_intrinsics.span)({
     ...{ class: "text-green-500 text-sm" },
 });
@@ -131,7 +184,7 @@ __VLS_asFunctionalElement1(__VLS_intrinsics.div, __VLS_intrinsics.div)({
 /** @type {__VLS_StyleScopedClasses['rounded-md']} */ ;
 (__VLS_ctx.$t('admin.systemNormal'));
 // @ts-ignore
-[$t, $t, $t, $t, $t, $t, $t, $t, $t,];
+[$t, $t, $t, $t, $t, $t, $t, $t, $t, loading, loading, totalUsers, totalGroups,];
 const __VLS_export = (await import('vue')).defineComponent({});
 export default {};
 //# sourceMappingURL=DashboardView.vue.js.map

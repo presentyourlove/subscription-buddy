@@ -199,7 +199,18 @@ docker run -p 8080:80 subscription-buddy
 
 ### 🔜 待優化項目 (Pending)
 
-*(暫無 - 主要優化項目皆已完成)*
+1. **管理員儀表板資料串接 (Admin Dashboard Integration)** `[P2 - Medium]`
+    * **現況**: `DashboardView` 目前顯示假資料。
+    * **建議**: 串接 Firestore 統計數據 (如總使用者數、拼團數)。
+2. **聊天室 Store 型別優化 (Refactor ChatStore Types)** `[P3 - Low]`
+    * **現況**: `chatStore` 仍有部分 `any` 型別。
+    * **建議**: 比照 `groupStore` 進行嚴格型別定義。
+3. **PWA 更新提示 (PWA Update Prompt)** `[P2 - Medium]`
+    * **現況**: `vite.config.ts` 設定為自動更新但無使用者提示。
+    * **建議**: 當有新版本時彈出 Toast 提示使用者重新整理。
+4. **Profile 邏輯抽離 (Refactor Profile Logic)** `[P3 - Low]`
+    * **現況**: `ProfileView` 包含複雜的資料撈取邏輯。
+    * **建議**: 將 `fetchHistory` 等邏輯搬移至 `userStore`。
 
 ## 👤 作者 (Author)
 

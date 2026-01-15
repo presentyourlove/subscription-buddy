@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-[#0f172a] text-white font-sans selection:bg-purple-500 selection:text-white"
+    class="min-h-screen bg-brand-dark text-white font-sans selection:bg-purple-500 selection:text-white"
   >
     <Navbar />
     <main v-if="userStore.authReady">
@@ -12,6 +12,7 @@
       ></div>
     </div>
     <CookieConsent />
+    <ReloadPrompt />
     <Footer />
   </div>
 </template>
@@ -20,6 +21,7 @@
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
 import CookieConsent from './components/CookieConsent.vue'
+import ReloadPrompt from './components/ReloadPrompt.vue'
 import { useUserStore } from './stores/userStore'
 import { onMounted } from 'vue'
 

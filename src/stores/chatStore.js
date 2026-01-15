@@ -20,12 +20,16 @@ export const useChatStore = defineStore('chat', {
             }
             catch (err) {
                 console.error('Join chat error:', err);
-                if (err.message && err.message.startsWith(`${ERROR_CODES.PENDING_REVIEW}:`)) {
-                    const pendingGroupId = err.message.split(':')[1];
+                let errorMessage = 'Unknown error';
+                if (err instanceof Error) {
+                    errorMessage = err.message;
+                }
+                if (errorMessage.startsWith(`${ERROR_CODES.PENDING_REVIEW}:`)) {
+                    const pendingGroupId = errorMessage.split(':')[1];
                     this.error = `您有尚未完成的評價 (Group ID: ${pendingGroupId})，請先完成評價！`;
                 }
                 else {
-                    this.error = err.message || 'Unknown error';
+                    this.error = errorMessage;
                 }
                 throw err;
             }
@@ -42,7 +46,7 @@ export const useChatStore = defineStore('chat', {
                 this.messages = messages;
             }, (err) => {
                 console.error('Snapshot error:', err);
-                this.error = err.message;
+                this.error = err instanceof Error ? err.message : 'Unknown snapshot error';
             });
         },
         unsubscribeFromMessages() {
@@ -62,7 +66,7 @@ export const useChatStore = defineStore('chat', {
             }
             catch (err) {
                 console.error('Send message error:', err);
-                this.error = err.message;
+                this.error = err instanceof Error ? err.message : 'Unknown error';
                 throw err;
             }
         },
@@ -73,7 +77,7 @@ export const useChatStore = defineStore('chat', {
             }
             catch (err) {
                 console.error('Confirm deal error:', err);
-                this.error = err.message;
+                this.error = err instanceof Error ? err.message : 'Unknown error';
                 throw err;
             }
         },
@@ -84,7 +88,7 @@ export const useChatStore = defineStore('chat', {
             }
             catch (err) {
                 console.error('Leave chat error:', err);
-                this.error = err.message;
+                this.error = err instanceof Error ? err.message : 'Unknown error';
                 throw err;
             }
         },
@@ -95,7 +99,15 @@ export const useChatStore = defineStore('chat', {
             }
             catch (err) {
                 console.error('Rate user error:', err);
-                this.error = typeof err === 'string' ? err : err.message || 'Error rating user';
+                if (typeof err === 'string') {
+                    this.error = err;
+                }
+                else if (err instanceof Error) {
+                    this.error = err.message;
+                }
+                else {
+                    this.error = 'Error rating user';
+                }
                 throw err;
             }
         },

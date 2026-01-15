@@ -145,6 +145,7 @@ import UserRating from '../components/UserRating.vue'
 import { GROUP_STATUS } from '../utils/constants'
 import { useI18n } from 'vue-i18n'
 import { Group } from '../types'
+import { useHead } from '@unhead/vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -157,6 +158,24 @@ const groupId = route.params.id as string
 
 // Use composable for real-time group data
 const { data: group } = useFirestoreDoc<Group>('groups', groupId)
+
+useHead({
+  title: computed(() => group.value?.title ? `${group.value.title} | Sub-Buddy` : 'Loading... | Sub-Buddy'),
+  meta: [
+    {
+      name: 'description',
+      content: computed(() => group.value?.description || 'Join this subscription group on Sub-Buddy!')
+    },
+    {
+      property: 'og:title',
+      content: computed(() => group.value?.title ? `${group.value.title} | Sub-Buddy` : 'Sub-Buddy Group')
+    },
+    {
+      property: 'og:description',
+      content: computed(() => group.value?.description || 'Join this subscription group on Sub-Buddy!')
+    }
+  ]
+})
 
 const isHost = computed(() => {
   return group.value && userStore.user && group.value.hostId === userStore.user.uid

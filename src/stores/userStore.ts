@@ -103,6 +103,54 @@ export const useUserStore = defineStore('user', {
         console.error('Logout failed:', err)
         throw err
       }
+    },
+
+    /**
+     * Fetch user's hosted and joined group history
+     */
+    async fetchUserGroupHistory() {
+      if (!this.user) return { hosted: [], joined: [] }
+
+      try {
+        const { db } = await import('../firebase/config')
+        const { collection, query, where, getDocs, doc, getDoc } = await import('firebase/firestore')
+        const { Group } = await import('../types') // Type only import if possible, else might need direct type definition
+
+        // 1. Hosted Groups
+        const qHosted = query(collection(db, 'groups'), where('hostId', '==', this.user.uid))
+        const snapHosted = await getDocs(qHosted)
+        // @ts-ignore
+        const hosted = snapHosted.docs.map((d) => ({ id: d.id, ...d.data() }))
+
+        // 2. Joined Chats -> Groups
+        const qChats = query(
+          collection(db, 'chats'),
+          where('participants', 'array-contains', this.user.uid)
+        )
+        const snapChats = await getDocs(qChats)
+
+        const joined: any[] = []
+        for (const cDoc of snapChats.docs) {
+          const groupId = cDoc.id
+          // Skip if I am the host
+          if (hosted.find((g: any) => g.id === groupId)) continue
+
+          try {
+            const gRef = doc(db, 'groups', groupId)
+            const gSnap = await getDoc(gRef)
+            if (gSnap.exists()) {
+              joined.push({ id: gSnap.id, ...gSnap.data() })
+            }
+          } catch (innerErr) {
+            console.warn('Skipping invalid group ref:', groupId, innerErr)
+          }
+        }
+
+        return { hosted, joined }
+      } catch (err) {
+        console.error('Fetch user history error:', err)
+        throw err
+      }
     }
   }
 })

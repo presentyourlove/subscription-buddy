@@ -13,6 +13,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@unhead/vue": "^2.1.2",
     "@vueuse/core": "^14.1.0",
     "caniuse-lite": "^1.0.30001764",
     "firebase": "^12.6.0",

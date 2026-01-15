@@ -18,13 +18,13 @@ let __VLS_components;
 let __VLS_intrinsics;
 let __VLS_directives;
 __VLS_asFunctionalElement1(__VLS_intrinsics.nav, __VLS_intrinsics.nav)({
-    ...{ class: "sticky top-0 z-50 backdrop-blur-md bg-[#0f172a]/80 border-b border-white/10 shadow-lg" },
+    ...{ class: "sticky top-0 z-50 backdrop-blur-md bg-brand-dark/80 border-b border-white/10 shadow-lg" },
 });
 /** @type {__VLS_StyleScopedClasses['sticky']} */ ;
 /** @type {__VLS_StyleScopedClasses['top-0']} */ ;
 /** @type {__VLS_StyleScopedClasses['z-50']} */ ;
 /** @type {__VLS_StyleScopedClasses['backdrop-blur-md']} */ ;
-/** @type {__VLS_StyleScopedClasses['bg-[#0f172a]/80']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-brand-dark/80']} */ ;
 /** @type {__VLS_StyleScopedClasses['border-b']} */ ;
 /** @type {__VLS_StyleScopedClasses['border-white/10']} */ ;
 /** @type {__VLS_StyleScopedClasses['shadow-lg']} */ ;
@@ -316,13 +316,13 @@ else {
     });
 }
 __VLS_asFunctionalElement1(__VLS_intrinsics.div, __VLS_intrinsics.div)({
-    ...{ class: "md:hidden border-t border-white/10 bg-[#0f172a]" },
+    ...{ class: "md:hidden border-t border-white/10 bg-brand-dark" },
 });
 __VLS_asFunctionalDirective(__VLS_directives.vShow, {})(null, { ...__VLS_directiveBindingRestFields, value: (__VLS_ctx.isOpen) }, null, null);
 /** @type {__VLS_StyleScopedClasses['md:hidden']} */ ;
 /** @type {__VLS_StyleScopedClasses['border-t']} */ ;
 /** @type {__VLS_StyleScopedClasses['border-white/10']} */ ;
-/** @type {__VLS_StyleScopedClasses['bg-[#0f172a]']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-brand-dark']} */ ;
 __VLS_asFunctionalElement1(__VLS_intrinsics.div, __VLS_intrinsics.div)({
     ...{ class: "px-2 pt-2 pb-3 space-y-1 sm:px-3" },
 });

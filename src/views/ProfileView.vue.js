@@ -2,8 +2,6 @@ import { ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/userStore';
 import UserRating from '../components/UserRating.vue';
-import { db } from '../firebase/config';
-import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import BaseInput from '../components/BaseInput.vue';
 import BaseButton from '../components/BaseButton.vue';
 import LazyImage from '../components/LazyImage.vue';
@@ -48,30 +46,8 @@ const fetchHistory = async () => {
     loadingHistory.value = true;
     globalError.value = null; // Clear previous errors
     try {
-        // 1. Hosted Groups
-        const qHosted = query(collection(db, 'groups'), where('hostId', '==', userStore.user.uid));
-        const snapHosted = await getDocs(qHosted);
-        hostedGroups.value = snapHosted.docs.map((d) => ({ id: d.id, ...d.data() }));
-        // 2. Joined Chats -> Groups
-        const qChats = query(collection(db, 'chats'), where('participants', 'array-contains', userStore.user.uid));
-        const snapChats = await getDocs(qChats);
-        const joined = [];
-        for (const cDoc of snapChats.docs) {
-            const groupId = cDoc.id;
-            // Skip if I am the host
-            if (hostedGroups.value.find((g) => g.id === groupId))
-                continue;
-            try {
-                const gRef = doc(db, 'groups', groupId);
-                const gSnap = await getDoc(gRef);
-                if (gSnap.exists()) {
-                    joined.push({ id: gSnap.id, ...gSnap.data() });
-                }
-            }
-            catch (innerErr) {
-                console.warn('Skipping invalid group ref:', groupId, innerErr);
-            }
-        }
+        const { hosted, joined } = await userStore.fetchUserGroupHistory();
+        hostedGroups.value = hosted;
         joinedGroups.value = joined;
     }
     catch (e) {

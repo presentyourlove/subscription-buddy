@@ -215,6 +215,7 @@ else if (__VLS_ctx.groupStore.error) {
     (__VLS_ctx.groupStore.error);
 }
 else {
+    __VLS_asFunctionalElement1(__VLS_intrinsics.div, __VLS_intrinsics.div)({});
     __VLS_asFunctionalElement1(__VLS_intrinsics.div, __VLS_intrinsics.div)({
         ...{ class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" },
     });
@@ -473,6 +474,53 @@ else {
         // @ts-ignore
         [];
     }
+    if (__VLS_ctx.groupStore.hasMore && !__VLS_ctx.searchQuery && !__VLS_ctx.debouncedQuery) {
+        __VLS_asFunctionalElement1(__VLS_intrinsics.div, __VLS_intrinsics.div)({
+            ...{ class: "flex justify-center mt-12" },
+        });
+        /** @type {__VLS_StyleScopedClasses['flex']} */ ;
+        /** @type {__VLS_StyleScopedClasses['justify-center']} */ ;
+        /** @type {__VLS_StyleScopedClasses['mt-12']} */ ;
+        __VLS_asFunctionalElement1(__VLS_intrinsics.button, __VLS_intrinsics.button)({
+            ...{ onClick: (...[$event]) => {
+                    if (!!(__VLS_ctx.groupStore.loading))
+                        return;
+                    if (!!(__VLS_ctx.groupStore.error))
+                        return;
+                    if (!(__VLS_ctx.groupStore.hasMore && !__VLS_ctx.searchQuery && !__VLS_ctx.debouncedQuery))
+                        return;
+                    __VLS_ctx.groupStore.fetchNextPage();
+                    // @ts-ignore
+                    [searchQuery, groupStore, groupStore, debouncedQuery,];
+                } },
+            disabled: (__VLS_ctx.groupStore.loading),
+            ...{ class: "px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors flex items-center gap-2" },
+        });
+        /** @type {__VLS_StyleScopedClasses['px-6']} */ ;
+        /** @type {__VLS_StyleScopedClasses['py-3']} */ ;
+        /** @type {__VLS_StyleScopedClasses['bg-white/10']} */ ;
+        /** @type {__VLS_StyleScopedClasses['hover:bg-white/20']} */ ;
+        /** @type {__VLS_StyleScopedClasses['text-white']} */ ;
+        /** @type {__VLS_StyleScopedClasses['rounded-full']} */ ;
+        /** @type {__VLS_StyleScopedClasses['font-medium']} */ ;
+        /** @type {__VLS_StyleScopedClasses['transition-colors']} */ ;
+        /** @type {__VLS_StyleScopedClasses['flex']} */ ;
+        /** @type {__VLS_StyleScopedClasses['items-center']} */ ;
+        /** @type {__VLS_StyleScopedClasses['gap-2']} */ ;
+        if (__VLS_ctx.groupStore.loading) {
+            __VLS_asFunctionalElement1(__VLS_intrinsics.span, __VLS_intrinsics.span)({
+                ...{ class: "animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full" },
+            });
+            /** @type {__VLS_StyleScopedClasses['animate-spin']} */ ;
+            /** @type {__VLS_StyleScopedClasses['h-4']} */ ;
+            /** @type {__VLS_StyleScopedClasses['w-4']} */ ;
+            /** @type {__VLS_StyleScopedClasses['border-2']} */ ;
+            /** @type {__VLS_StyleScopedClasses['border-white/30']} */ ;
+            /** @type {__VLS_StyleScopedClasses['border-t-white']} */ ;
+            /** @type {__VLS_StyleScopedClasses['rounded-full']} */ ;
+        }
+        (__VLS_ctx.groupStore.loading ? '載入中...' : '載入更多');
+    }
 }
 if (!__VLS_ctx.groupStore.loading && __VLS_ctx.filteredGroups.length === 0) {
     __VLS_asFunctionalElement1(__VLS_intrinsics.div, __VLS_intrinsics.div)({
@@ -506,7 +554,7 @@ if (!__VLS_ctx.groupStore.loading && __VLS_ctx.filteredGroups.length === 0) {
     const { default: __VLS_27 } = __VLS_25.slots;
     (__VLS_ctx.$t('home.createLink'));
     // @ts-ignore
-    [$t, $t, groupStore, filteredGroups,];
+    [$t, $t, groupStore, groupStore, groupStore, groupStore, filteredGroups,];
     var __VLS_25;
 }
 // @ts-ignore

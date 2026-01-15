@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 import CookieConsent from './components/CookieConsent.vue';
+import ReloadPrompt from './components/ReloadPrompt.vue';
 import { useUserStore } from './stores/userStore';
 import { onMounted } from 'vue';
 const userStore = useUserStore();
@@ -15,10 +16,10 @@ let __VLS_components;
 let __VLS_intrinsics;
 let __VLS_directives;
 __VLS_asFunctionalElement1(__VLS_intrinsics.div, __VLS_intrinsics.div)({
-    ...{ class: "min-h-screen bg-[#0f172a] text-white font-sans selection:bg-purple-500 selection:text-white" },
+    ...{ class: "min-h-screen bg-brand-dark text-white font-sans selection:bg-purple-500 selection:text-white" },
 });
 /** @type {__VLS_StyleScopedClasses['min-h-screen']} */ ;
-/** @type {__VLS_StyleScopedClasses['bg-[#0f172a]']} */ ;
+/** @type {__VLS_StyleScopedClasses['bg-brand-dark']} */ ;
 /** @type {__VLS_StyleScopedClasses['text-white']} */ ;
 /** @type {__VLS_StyleScopedClasses['font-sans']} */ ;
 /** @type {__VLS_StyleScopedClasses['selection:bg-purple-500']} */ ;
@@ -59,10 +60,14 @@ const __VLS_10 = CookieConsent;
 // @ts-ignore
 const __VLS_11 = __VLS_asFunctionalComponent1(__VLS_10, new __VLS_10({}));
 const __VLS_12 = __VLS_11({}, ...__VLS_functionalComponentArgsRest(__VLS_11));
-const __VLS_15 = Footer;
+const __VLS_15 = ReloadPrompt;
 // @ts-ignore
 const __VLS_16 = __VLS_asFunctionalComponent1(__VLS_15, new __VLS_15({}));
 const __VLS_17 = __VLS_16({}, ...__VLS_functionalComponentArgsRest(__VLS_16));
+const __VLS_20 = Footer;
+// @ts-ignore
+const __VLS_21 = __VLS_asFunctionalComponent1(__VLS_20, new __VLS_20({}));
+const __VLS_22 = __VLS_21({}, ...__VLS_functionalComponentArgsRest(__VLS_21));
 // @ts-ignore
 [userStore,];
 const __VLS_export = (await import('vue')).defineComponent({});
