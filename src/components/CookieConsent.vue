@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const accepted = ref(true) // Default to true to prevent flash, check in onMounted
 

@@ -135,17 +135,18 @@
 </template>
 
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { useGroupStore } from '../stores/groupStore'
-import { useUserStore } from '../stores/userStore'
+
+import UserRating from '../components/UserRating.vue'
 import { useFirestoreDoc } from '../composables/useFirestoreDoc'
 import { useNotification } from '../composables/useNotification'
-import UserRating from '../components/UserRating.vue'
-import { GROUP_STATUS } from '../utils/constants'
-import { useI18n } from 'vue-i18n'
+import { useGroupStore } from '../stores/groupStore'
+import { useUserStore } from '../stores/userStore'
 import { Group } from '../types'
-import { useHead } from '@unhead/vue'
+import { GROUP_STATUS } from '../utils/constants'
 
 const route = useRoute()
 const router = useRouter()
@@ -160,19 +161,27 @@ const groupId = route.params.id as string
 const { data: group } = useFirestoreDoc<Group>('groups', groupId)
 
 useHead({
-  title: computed(() => group.value?.title ? `${group.value.title} | Sub-Buddy` : 'Loading... | Sub-Buddy'),
+  title: computed(() =>
+    group.value?.title ? `${group.value.title} | Sub-Buddy` : 'Loading... | Sub-Buddy'
+  ),
   meta: [
     {
       name: 'description',
-      content: computed(() => group.value?.description || 'Join this subscription group on Sub-Buddy!')
+      content: computed(
+        () => group.value?.description || 'Join this subscription group on Sub-Buddy!'
+      )
     },
     {
       property: 'og:title',
-      content: computed(() => group.value?.title ? `${group.value.title} | Sub-Buddy` : 'Sub-Buddy Group')
+      content: computed(() =>
+        group.value?.title ? `${group.value.title} | Sub-Buddy` : 'Sub-Buddy Group'
+      )
     },
     {
       property: 'og:description',
-      content: computed(() => group.value?.description || 'Join this subscription group on Sub-Buddy!')
+      content: computed(
+        () => group.value?.description || 'Join this subscription group on Sub-Buddy!'
+      )
     }
   ]
 })

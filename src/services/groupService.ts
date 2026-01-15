@@ -1,20 +1,21 @@
 import {
-  collection,
-  getDocs,
   addDoc,
+  collection,
   deleteDoc,
   doc,
-  updateDoc,
+  DocumentSnapshot,
   getDoc,
-  query,
-  orderBy,
+  getDocs,
   limit,
+  orderBy,
+  query,
   startAfter,
-  DocumentSnapshot
+  updateDoc
 } from 'firebase/firestore'
+
 import { db } from '../firebase/config'
-import { COLLECTIONS, GROUP_STATUS } from '../utils/constants'
 import { Group } from '../types'
+import { COLLECTIONS, GROUP_STATUS } from '../utils/constants'
 
 /**
  * Service to handle Group data in Firestore

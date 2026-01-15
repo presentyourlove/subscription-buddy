@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+
 import { groupService } from '../services/groupService'
 import { Group } from '../types'
 
@@ -110,8 +111,7 @@ export const useGroupStore = defineStore('group', {
         // Update local state
         const g = this.groups.find((g) => g.id === groupId)
         if (g) {
-          // @ts-ignore: Assuming status is valid for now, or we'd need to update Group type
-          g.status = status
+          g.status = status as Group['status']
         }
       } catch (err) {
         console.error('Update status error:', err)

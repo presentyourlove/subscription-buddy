@@ -204,30 +204,13 @@ docker run -p 8080:80 subscription-buddy
 21. **Tailwind 主題配置 (Tailwind Theme Config)** - ✓ 已設定專案主色系 (`brand-dark`)
 22. **全域錯誤處理 (Global Error Handling)** - ✓ 已實作 `app.config.errorHandler`
 23. **SEO 增強 (Dynamic Meta Tags)** - ✓ 已引入 `@unhead/vue` 實作動態 Meta
+24. **無障礙設計優化 (Accessibility - A11y)** - ✓ BaseInput 實作自動 ID 生成
+25. **安全性標頭配置 (Security Headers)** - ✓ Firebase.json 新增 HSTS 等標頭
+26. **開發流程自動化 (Husky & Lint Staged)** - ✓ 設定 Pre-commit Hooks
 
 ### 🔜 待優化項目 (Pending)
 
-1. **無障礙設計優化 (Accessibility - A11y)** `[P3 - Low]`
-    * **現況**: 表單元件 (`BaseInput`) 缺少 `id` 與 `label for` 的關聯，影響螢幕閱讀器體驗。
-    * **建議**: 為所有輸入框元件實作自動生成 ID 機制。
-2. **安全性標頭配置 (Security Headers)** `[P2 - Medium]`
-    * **現況**: `firebase.json` 僅包含基本 Hosting 設定。
-    * **建議**: 新增 HSTS, X-Content-Type-Options, X-Frame-Options 等安全標頭。
-3. **開發流程自動化 (Husky & Lint Staged)** `[P3 - Low]`
-    * **現況**: 目前未強制執行 Commit 前檢查。
-    * **建議**: 引入 Husky 與 Lint Staged，確保 Commit 代碼符合 ESLint/Prettier 規範。
-4. **管理員儀表板資料串接 (Admin Dashboard Integration)** `[P2 - Medium]`
-    * **現況**: `DashboardView` 目前顯示假資料。
-    * **建議**: 串接 Firestore 統計數據 (如總使用者數、拼團數)。
-5. **聊天室 Store 型別優化 (Refactor ChatStore Types)** `[P3 - Low]`
-    * **現況**: `chatStore` 仍有部分 `any` 型別。
-    * **建議**: 比照 `groupStore` 進行嚴格型別定義。
-6. **PWA 更新提示 (PWA Update Prompt)** `[P2 - Medium]`
-    * **現況**: `vite.config.ts` 設定為自動更新但無使用者提示。
-    * **建議**: 當有新版本時彈出 Toast 提示使用者重新整理。
-7. **Profile 邏輯抽離 (Refactor Profile Logic)** `[P3 - Low]`
-    * **現況**: `ProfileView` 包含複雜的資料撈取邏輯。
-    * **建議**: 將 `fetchHistory` 等邏輯搬移至 `userStore`。
+*(暫無 - 主要優化項目皆已完成)*
 
 ## 👤 作者 (Author)
 

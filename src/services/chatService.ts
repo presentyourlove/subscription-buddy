@@ -1,27 +1,28 @@
-import { db } from '../firebase/config'
+import { User } from 'firebase/auth'
 import {
+  addDoc,
+  arrayRemove,
+  arrayUnion,
   collection,
   doc,
+  DocumentData,
   getDoc,
   getDocs,
-  setDoc,
-  updateDoc,
-  addDoc,
   onSnapshot,
-  query,
-  where,
   orderBy,
-  serverTimestamp,
-  arrayUnion,
-  arrayRemove,
-  runTransaction,
-  DocumentData,
+  query,
   QueryDocumentSnapshot,
-  SnapshotOptions
+  runTransaction,
+  serverTimestamp,
+  setDoc,
+  SnapshotOptions,
+  updateDoc,
+  where
 } from 'firebase/firestore'
-import { COLLECTIONS, MESSAGE_TYPES, DEFAULTS, ERROR_CODES, GROUP_STATUS } from '../utils/constants'
+
+import { db } from '../firebase/config'
 import { Chat, Message, UserProfile } from '../types'
-import { User } from 'firebase/auth'
+import { COLLECTIONS, DEFAULTS, ERROR_CODES, GROUP_STATUS, MESSAGE_TYPES } from '../utils/constants'
 
 /**
  * Service to handle Chat and Rating logic in Firestore

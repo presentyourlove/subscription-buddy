@@ -75,16 +75,16 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+
+import BaseButton from '../components/BaseButton.vue'
+import BaseInput from '../components/BaseInput.vue'
+import BaseTextarea from '../components/BaseTextarea.vue'
+import { useNotification } from '../composables/useNotification'
+import { useChatStore } from '../stores/chatStore'
 import { useGroupStore } from '../stores/groupStore'
 import { useUserStore } from '../stores/userStore'
-import { useI18n } from 'vue-i18n'
-import { useNotification } from '../composables/useNotification'
-
-import { useChatStore } from '../stores/chatStore'
-import BaseInput from '../components/BaseInput.vue'
-import BaseButton from '../components/BaseButton.vue'
-import BaseTextarea from '../components/BaseTextarea.vue'
 
 const router = useRouter()
 const groupStore = useGroupStore()

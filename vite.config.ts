@@ -1,12 +1,22 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
+import { visualizer } from 'rollup-plugin-visualizer'
+import Components from 'unplugin-vue-components/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vitest/config'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    Components({
+      dts: 'src/components.d.ts'
+    }),
+    visualizer({
+      open: false,
+      gzipSize: true,
+      brotliSize: true
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'pwa-192x192.webp', 'pwa-512x512.png'],

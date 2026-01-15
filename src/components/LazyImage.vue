@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 interface Props {
   src: string | null | undefined

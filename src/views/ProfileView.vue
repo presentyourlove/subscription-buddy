@@ -191,14 +191,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/userStore'
-import UserRating from '../components/UserRating.vue'
-import BaseInput from '../components/BaseInput.vue'
-import BaseButton from '../components/BaseButton.vue'
-import LazyImage from '../components/LazyImage.vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+import BaseButton from '../components/BaseButton.vue'
+import BaseInput from '../components/BaseInput.vue'
+import LazyImage from '../components/LazyImage.vue'
+import UserRating from '../components/UserRating.vue'
+import { useUserStore } from '../stores/userStore'
 import { Group } from '../types'
 
 const router = useRouter()

@@ -1,13 +1,14 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 import './style.css'
-import App from './App.vue'
-import router from './router'
-import i18n from './i18n'
 
 import { createHead } from '@unhead/vue'
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+import Toast from 'vue-toastification'
+
+import App from './App.vue'
+import i18n from './i18n'
+import router from './router'
 
 const app = createApp(App)
 const head = createHead()

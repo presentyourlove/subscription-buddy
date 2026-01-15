@@ -1,5 +1,6 @@
-import { ref, onUnmounted, watch, Ref, isRef } from 'vue'
-import { doc, onSnapshot, Unsubscribe, DocumentData } from 'firebase/firestore'
+import { doc, DocumentData, onSnapshot, Unsubscribe } from 'firebase/firestore'
+import { isRef, onUnmounted, Ref, ref, watch } from 'vue'
+
 import { db } from '../firebase/config'
 
 /**

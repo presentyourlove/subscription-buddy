@@ -1,8 +1,9 @@
-import { defineStore } from 'pinia'
-import chatService from '../services/chatService'
-import { ERROR_CODES } from '../utils/constants'
-import { Message } from '../types'
 import { User } from 'firebase/auth'
+import { defineStore } from 'pinia'
+
+import chatService from '../services/chatService'
+import { Message } from '../types'
+import { ERROR_CODES } from '../utils/constants'
 
 interface ChatState {
   messages: Message[]

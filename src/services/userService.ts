@@ -1,8 +1,9 @@
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
-import { db } from '../firebase/config'
-import { COLLECTIONS, DEFAULTS } from '../utils/constants'
-import { UserProfile } from '../types'
 import { User } from 'firebase/auth'
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+
+import { db } from '../firebase/config'
+import { UserProfile } from '../types'
+import { COLLECTIONS, DEFAULTS } from '../utils/constants'
 
 /**
  * Service to handle User data in Firestore

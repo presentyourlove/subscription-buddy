@@ -18,12 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import Navbar from './components/Navbar.vue'
-import Footer from './components/Footer.vue'
+import { onMounted } from 'vue'
+
 import CookieConsent from './components/CookieConsent.vue'
+import Footer from './components/Footer.vue'
+import Navbar from './components/Navbar.vue'
 import ReloadPrompt from './components/ReloadPrompt.vue'
 import { useUserStore } from './stores/userStore'
-import { onMounted } from 'vue'
 
 const userStore = useUserStore()
 

@@ -7,16 +7,16 @@
       <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
         <h3 class="text-gray-500 text-sm font-medium">{{ $t('admin.totalUsers') }}</h3>
         <p class="text-3xl font-bold text-gray-800 mt-2">
-            <span v-if="loading" class="text-base font-normal">Loading...</span>
-            <span v-else>{{ totalUsers }}</span>
+          <span v-if="loading" class="text-base font-normal">Loading...</span>
+          <span v-else>{{ totalUsers }}</span>
         </p>
         <span class="text-green-500 text-sm">↑ {{ $t('admin.stats.fromLastMonth') }}</span>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
         <h3 class="text-gray-500 text-sm font-medium">{{ $t('admin.activeGroups') }}</h3>
         <p class="text-3xl font-bold text-gray-800 mt-2">
-             <span v-if="loading" class="text-base font-normal">Loading...</span>
-             <span v-else>{{ totalGroups }}</span>
+          <span v-if="loading" class="text-base font-normal">Loading...</span>
+          <span v-else>{{ totalGroups }}</span>
         </p>
         <span class="text-green-500 text-sm">↑ {{ $t('admin.stats.newToday') }}</span>
       </div>
@@ -38,9 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { collection, getCountFromServer, query } from 'firebase/firestore'
+import { onMounted, ref } from 'vue'
+
 import { db } from '../../firebase/config'
-import { collection, getCountFromServer, query, where } from 'firebase/firestore'
 
 const totalUsers = ref(0)
 const totalGroups = ref(0)
@@ -61,7 +62,6 @@ onMounted(async () => {
     const qOpen = query(groupsColl) // For now total groups
     const groupsSnapshot = await getCountFromServer(qOpen)
     totalGroups.value = groupsSnapshot.data().count
-
   } catch (err) {
     console.error('Failed to fetch dashboard stats', err)
   } finally {

@@ -1,15 +1,16 @@
 import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
+  GoogleAuthProvider,
+  NextOrObserver,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
   User,
-  UserCredential,
-  NextOrObserver
+  UserCredential
 } from 'firebase/auth'
+
 import { auth } from '../firebase/config'
 import { FIREBASE_AUTH_CODES } from '../utils/constants'
 

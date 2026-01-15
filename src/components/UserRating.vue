@@ -9,8 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
 import { doc, getDoc } from 'firebase/firestore'
+import { computed, onMounted, ref } from 'vue'
+
 import { db } from '../firebase/config'
 
 const props = defineProps({

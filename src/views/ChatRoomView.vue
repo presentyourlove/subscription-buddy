@@ -186,18 +186,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue'
-import { useRoute } from 'vue-router'
+import { useVirtualList } from '@vueuse/core'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useUserStore } from '../stores/userStore'
-import { useChatStore } from '../stores/chatStore'
-import { useGroupStore } from '../stores/groupStore'
+import { useRoute } from 'vue-router'
+
+import LazyImage from '../components/LazyImage.vue'
 import { useFirestoreDoc } from '../composables/useFirestoreDoc'
 import { useNotification } from '../composables/useNotification'
-import LazyImage from '../components/LazyImage.vue'
-import { useVirtualList } from '@vueuse/core'
-import { GROUP_STATUS, DEFAULTS } from '../utils/constants'
+import { useChatStore } from '../stores/chatStore'
+import { useGroupStore } from '../stores/groupStore'
+import { useUserStore } from '../stores/userStore'
 import { Chat } from '../types'
+import { DEFAULTS, GROUP_STATUS } from '../utils/constants'
 
 const maxRating = DEFAULTS.MAX_RATING
 
@@ -271,7 +272,6 @@ onUnmounted(() => {
 })
 
 // Virtual Scroll Logic
-
 
 // Virtual Scroll Logic
 const { list, containerProps, wrapperProps, scrollTo } = useVirtualList(

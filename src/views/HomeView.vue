@@ -50,100 +50,109 @@
     <!-- Group Grid -->
     <div v-else>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div
-        v-for="group in filteredGroups"
-        :key="group.id"
-        class="group relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10"
-      >
-        <!-- Status Badge -->
-        <span
-          class="absolute top-4 right-4 px-2 py-1 text-xs rounded-full border"
-          :class="{
-            'bg-green-500/20 text-green-300 border-green-500/30':
-              group.status === GROUP_STATUS.OPEN,
-            'bg-gray-500/20 text-gray-300 border-gray-500/30': group.status === GROUP_STATUS.CLOSED,
-            'bg-red-500/20 text-red-300 border-red-500/30': group.status === GROUP_STATUS.FULL
-          }"
+        <div
+          v-for="group in filteredGroups"
+          :key="group.id"
+          class="group relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10"
         >
-          {{ $t(`group.status.${group.status}`) }}
-        </span>
-
-        <!-- Service Icon / Logo -->
-        <div class="h-16 mb-4 flex items-center">
-          <img
-            v-if="group.id && getServiceLogo(group.title) && !imageErrorMap[group.id]"
-            :src="getServiceLogo(group.title)"
-            class="h-full max-w-[50%] object-contain"
-            alt="Service Logo"
-            @error="handleImageError(group.id)"
-          />
-          <div
-            v-else
-            class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30"
+          <!-- Status Badge -->
+          <span
+            class="absolute top-4 right-4 px-2 py-1 text-xs rounded-full border"
+            :class="{
+              'bg-green-500/20 text-green-300 border-green-500/30':
+                group.status === GROUP_STATUS.OPEN,
+              'bg-gray-500/20 text-gray-300 border-gray-500/30':
+                group.status === GROUP_STATUS.CLOSED,
+              'bg-red-500/20 text-red-300 border-red-500/30': group.status === GROUP_STATUS.FULL
+            }"
           >
-            📺
-          </div>
-        </div>
+            {{ $t(`group.status.${group.status}`) }}
+          </span>
 
-        <h3 class="text-xl font-bold text-white mb-2">{{ group.title }}</h3>
-        <p class="text-gray-400 text-sm mb-4 line-clamp-2 h-10">{{ group.description }}</p>
-
-        <div class="flex items-center justify-between text-sm py-3 border-t border-white/10">
-          <div class="flex flex-col">
-            <span class="text-gray-500">{{ $t('home.card.pricePerMonth') }}</span>
-            <span class="font-bold text-purple-300 text-lg"
-              >${{ group.price }}
-              <span class="text-xs text-gray-500">{{ $t('home.card.month') }}</span></span
-            >
-          </div>
-          <div class="flex flex-col items-end">
-            <span class="text-gray-500">{{ $t('home.card.slots') }}</span>
-            <span class="font-bold text-white">{{ group.slots }} {{ $t('home.card.people') }}</span>
-          </div>
-        </div>
-
-        <!-- Host Info -->
-        <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
-          <div class="flex items-center gap-2">
+          <!-- Service Icon / Logo -->
+          <div class="h-16 mb-4 flex items-center">
+            <img
+              v-if="group.id && getServiceLogo(group.title) && !imageErrorMap[group.id]"
+              :src="getServiceLogo(group.title)"
+              class="h-full max-w-[50%] object-contain"
+              alt="Service Logo"
+              @error="handleImageError(group.id)"
+            />
             <div
-              class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs overflow-hidden"
+              v-else
+              class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30"
             >
-              <LazyImage
-                v-if="group.hostAvatar"
-                :src="group.hostAvatar"
-                image-class="w-full h-full object-cover"
-                container-class="w-full h-full"
-                :show-placeholder="false"
-              />
-              <span v-else>👤</span>
+              📺
             </div>
-            <span class="text-xs text-gray-400 flex items-center gap-1">
-              {{ group.hostName || $t('home.card.anonymous') }}
-              <UserRating :uid="group.hostId" />
-            </span>
           </div>
-          <router-link
-            :to="'/groups/' + group.id"
-            class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors"
-          >
-            {{ $t('home.card.details') }}
-          </router-link>
+
+          <h3 class="text-xl font-bold text-white mb-2">{{ group.title }}</h3>
+          <p class="text-gray-400 text-sm mb-4 line-clamp-2 h-10">{{ group.description }}</p>
+
+          <div class="flex items-center justify-between text-sm py-3 border-t border-white/10">
+            <div class="flex flex-col">
+              <span class="text-gray-500">{{ $t('home.card.pricePerMonth') }}</span>
+              <span class="font-bold text-purple-300 text-lg"
+                >${{ group.price }}
+                <span class="text-xs text-gray-500">{{ $t('home.card.month') }}</span></span
+              >
+            </div>
+            <div class="flex flex-col items-end">
+              <span class="text-gray-500">{{ $t('home.card.slots') }}</span>
+              <span class="font-bold text-white"
+                >{{ group.slots }} {{ $t('home.card.people') }}</span
+              >
+            </div>
+          </div>
+
+          <!-- Host Info -->
+          <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+            <div class="flex items-center gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs overflow-hidden"
+              >
+                <LazyImage
+                  v-if="group.hostAvatar"
+                  :src="group.hostAvatar"
+                  image-class="w-full h-full object-cover"
+                  container-class="w-full h-full"
+                  :show-placeholder="false"
+                />
+                <span v-else>👤</span>
+              </div>
+              <span class="text-xs text-gray-400 flex items-center gap-1">
+                {{ group.hostName || $t('home.card.anonymous') }}
+                <UserRating :uid="group.hostId" />
+              </span>
+            </div>
+            <router-link
+              :to="'/groups/' + group.id"
+              class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors"
+            >
+              {{ $t('home.card.details') }}
+            </router-link>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Load More Button -->
-    <div v-if="groupStore.hasMore && !searchQuery && !debouncedQuery" class="flex justify-center mt-12">
-      <button
-        @click="groupStore.fetchNextPage()"
-        :disabled="groupStore.loading"
-        class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors flex items-center gap-2"
+      <!-- Load More Button -->
+      <div
+        v-if="groupStore.hasMore && !searchQuery && !debouncedQuery"
+        class="flex justify-center mt-12"
       >
-        <span v-if="groupStore.loading" class="animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full"></span>
-        {{ groupStore.loading ? '載入中...' : '載入更多' }}
-      </button>
+        <button
+          :disabled="groupStore.loading"
+          class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors flex items-center gap-2"
+          @click="groupStore.fetchNextPage()"
+        >
+          <span
+            v-if="groupStore.loading"
+            class="animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full"
+          ></span>
+          {{ groupStore.loading ? '載入中...' : '載入更多' }}
+        </button>
+      </div>
     </div>
-  </div>
 
     <!-- Empty State -->
     <div v-if="!groupStore.loading && filteredGroups.length === 0" class="text-center py-20">
@@ -159,13 +168,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
 import { watchDebounced } from '@vueuse/core'
-import { useGroupStore } from '../stores/groupStore'
-import UserRating from '../components/UserRating.vue'
+import { computed, onMounted, ref } from 'vue'
+
 import LazyImage from '../components/LazyImage.vue'
-import { getServiceLogo } from '../utils/serviceUtils'
+import UserRating from '../components/UserRating.vue'
+import { useGroupStore } from '../stores/groupStore'
 import { GROUP_STATUS } from '../utils/constants'
+import { getServiceLogo } from '../utils/serviceUtils'
 
 const groupStore = useGroupStore()
 const searchQuery = ref('')

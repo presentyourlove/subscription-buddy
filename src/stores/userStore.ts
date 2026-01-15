@@ -1,9 +1,10 @@
+import { User } from 'firebase/auth'
 import { defineStore } from 'pinia'
+
 import { authService } from '../services/authService'
 import { userService } from '../services/userService'
-import { FIREBASE_AUTH_CODES } from '../utils/constants'
-import { User } from 'firebase/auth'
 import type { Group } from '../types'
+import { FIREBASE_AUTH_CODES } from '../utils/constants'
 
 interface UserState {
   user: User | null

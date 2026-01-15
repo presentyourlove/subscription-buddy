@@ -1,4 +1,4 @@
-import { useToast, POSITION, TYPE } from 'vue-toastification'
+import { POSITION, TYPE, useToast } from 'vue-toastification'
 
 const DEFAULT_TIMEOUT = 5000
 

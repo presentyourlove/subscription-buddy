@@ -15,14 +15,14 @@
     <div class="flex gap-2">
       <button
         v-if="needRefresh"
-        @click="updateServiceWorker()"
         class="px-3 py-1.5 bg-purple-600 text-white rounded-md text-sm font-medium hover:bg-purple-700 transition-colors"
+        @click="updateServiceWorker()"
       >
         {{ $t('common.refresh') }}
       </button>
       <button
-        @click="close"
         class="px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-md text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
+        @click="close"
       >
         {{ $t('common.close') }}
       </button>
@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue'
-import {  useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

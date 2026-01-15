@@ -1,4 +1,5 @@
 import { getToken } from 'firebase/messaging'
+
 import { messaging } from '../firebase/config'
 
 export const requestNotificationPermission = async (uid: string): Promise<string | undefined> => {
