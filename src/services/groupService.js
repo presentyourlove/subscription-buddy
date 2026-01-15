@@ -1,4 +1,4 @@
-import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, getDoc, query, orderBy, limit, startAfter } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { COLLECTIONS, GROUP_STATUS } from '../utils/constants';
 /**
@@ -7,12 +7,18 @@ import { COLLECTIONS, GROUP_STATUS } from '../utils/constants';
 class GroupService {
     static COLLECTION = COLLECTIONS.GROUPS;
     /**
-     * Fetch all groups
+     * Fetch groups with pagination
      */
-    async getAllGroups() {
+    async getGroups(limitCount = 10, lastDoc) {
         try {
-            const querySnapshot = await getDocs(collection(db, GroupService.COLLECTION));
-            return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            let q = query(collection(db, GroupService.COLLECTION), orderBy('createdAt', 'desc'), limit(limitCount));
+            if (lastDoc) {
+                q = query(collection(db, GroupService.COLLECTION), orderBy('createdAt', 'desc'), startAfter(lastDoc), limit(limitCount));
+            }
+            const querySnapshot = await getDocs(q);
+            const groups = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            const newLastDoc = querySnapshot.docs.length > 0 ? querySnapshot.docs[querySnapshot.docs.length - 1] : null;
+            return { groups, lastDoc: newLastDoc };
         }
         catch (err) {
             console.error('[GroupService] Fetch error:', err);

@@ -48,7 +48,8 @@
     </div>
 
     <!-- Group Grid -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div v-else>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         v-for="group in filteredGroups"
         :key="group.id"
@@ -130,6 +131,19 @@
         </div>
       </div>
     </div>
+
+    <!-- Load More Button -->
+    <div v-if="groupStore.hasMore && !searchQuery && !debouncedQuery" class="flex justify-center mt-12">
+      <button
+        @click="groupStore.fetchNextPage()"
+        :disabled="groupStore.loading"
+        class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors flex items-center gap-2"
+      >
+        <span v-if="groupStore.loading" class="animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full"></span>
+        {{ groupStore.loading ? '載入中...' : '載入更多' }}
+      </button>
+    </div>
+  </div>
 
     <!-- Empty State -->
     <div v-if="!groupStore.loading && filteredGroups.length === 0" class="text-center py-20">

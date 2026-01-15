@@ -37,6 +37,6 @@ export const FIREBASE_AUTH_CODES = {
     POPUP_CLOSED: 'auth/popup-closed-by-user'
 };
 export const ADMIN_EMAILS = [
-    'admin@example.com' // Replace with real admin emails in production
+    'jasonwth0928@gmail.com'
 ];
 //# sourceMappingURL=constants.js.map

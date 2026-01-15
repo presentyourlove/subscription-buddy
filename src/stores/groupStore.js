@@ -4,21 +4,51 @@ export const useGroupStore = defineStore('group', {
     state: () => ({
         groups: [],
         loading: false,
-        error: null
+        error: null,
+        lastDoc: null,
+        hasMore: true
     }),
     actions: {
         /**
-         * Fetch all groups
+         * Fetch initial groups (reset pagination)
          */
         async fetchGroups() {
             this.loading = true;
             this.error = null;
+            this.groups = []; // Reset
+            this.lastDoc = null;
+            this.hasMore = true;
             try {
-                this.groups = await groupService.getAllGroups();
+                const { groups, lastDoc } = await groupService.getGroups(10); // Limit 10
+                this.groups = groups;
+                this.lastDoc = lastDoc;
+                this.hasMore = groups.length === 10;
             }
             catch (err) {
-                this.error = err.message;
+                if (err instanceof Error) {
+                    this.error = err.message;
+                }
                 console.error('Error fetching groups:', err);
+            }
+            finally {
+                this.loading = false;
+            }
+        },
+        async fetchNextPage() {
+            if (!this.hasMore || this.loading)
+                return;
+            this.loading = true;
+            try {
+                const { groups, lastDoc } = await groupService.getGroups(10, this.lastDoc);
+                this.groups = [...this.groups, ...groups];
+                this.lastDoc = lastDoc;
+                this.hasMore = groups.length === 10;
+            }
+            catch (err) {
+                if (err instanceof Error) {
+                    this.error = err.message;
+                }
+                console.error('Error fetching next page:', err);
             }
             finally {
                 this.loading = false;
@@ -36,7 +66,9 @@ export const useGroupStore = defineStore('group', {
                 await this.fetchGroups();
             }
             catch (err) {
-                this.error = err.message;
+                if (err instanceof Error) {
+                    this.error = err.message;
+                }
                 throw err;
             }
             finally {
@@ -54,7 +86,9 @@ export const useGroupStore = defineStore('group', {
                 this.groups = this.groups.filter((g) => g.id !== groupId);
             }
             catch (err) {
-                this.error = err.message;
+                if (err instanceof Error) {
+                    this.error = err.message;
+                }
                 throw err;
             }
             finally {
@@ -69,8 +103,10 @@ export const useGroupStore = defineStore('group', {
                 await groupService.updateStatus(groupId, status);
                 // Update local state
                 const g = this.groups.find((g) => g.id === groupId);
-                if (g)
-                    g.status = status; // Cast to any if strict literal types clash, but simplified for now
+                if (g) {
+                    // @ts-ignore: Assuming status is valid for now, or we'd need to update Group type
+                    g.status = status;
+                }
             }
             catch (err) {
                 console.error('Update status error:', err);

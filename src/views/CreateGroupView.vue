@@ -79,6 +79,7 @@ import { useRouter } from 'vue-router'
 import { useGroupStore } from '../stores/groupStore'
 import { useUserStore } from '../stores/userStore'
 import { useI18n } from 'vue-i18n'
+import { useNotification } from '../composables/useNotification'
 
 import { useChatStore } from '../stores/chatStore'
 import BaseInput from '../components/BaseInput.vue'
@@ -90,6 +91,7 @@ const groupStore = useGroupStore()
 const userStore = useUserStore()
 const chatStore = useChatStore() // Init chatStore
 const { t } = useI18n()
+const notification = useNotification()
 import { DEFAULTS } from '../utils/constants'
 
 const form = reactive({
@@ -101,7 +103,8 @@ const form = reactive({
 
 const handleSubmit = async () => {
   if (!userStore.user) {
-    alert(t('create.form.loginRequired'))
+    notification.error(t('create.form.loginRequired'))
+    router.push('/login')
     return
   }
 
@@ -125,7 +128,7 @@ const handleSubmit = async () => {
       hostName: userStore.user.displayName || t('common.anonymous'),
       hostAvatar: userStore.user.photoURL || ''
     })
-    alert(t('create.form.success'))
+    notification.success(t('create.form.success'))
     router.push('/')
   } catch (err) {
     // Error is handled in store, simply stay on page to show it
