@@ -18,4 +18,13 @@ const db = getFirestore(app)
 const auth = getAuth(app)
 const messaging = getMessaging(app)
 
-export { auth, db, messaging }
+import { getAnalytics, isSupported } from 'firebase/analytics'
+let analytics: ReturnType<typeof getAnalytics> | null = null
+
+isSupported().then((supported) => {
+  if (supported) {
+    analytics = getAnalytics(app)
+  }
+})
+
+export { analytics, auth, db, messaging }

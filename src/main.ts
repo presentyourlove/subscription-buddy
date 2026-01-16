@@ -1,3 +1,4 @@
+import './firebase/config' // Ensure Firebase (and Analytics) is initialized
 import 'vue-toastification/dist/index.css'
 import './style.css'
 
