@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as firebaseAuth from 'firebase/auth'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 

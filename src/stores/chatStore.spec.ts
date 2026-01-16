@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -29,7 +30,8 @@ describe('ChatStore', () => {
 
   it('sendMessage should call service', async () => {
     const store = useChatStore()
-    await store.sendMessage('g1', 'hi', {} as any)
+    store.currentGroupId = 'g1'
+    await store.sendMessage('hi', {} as any)
     expect(chatService.sendMessage).toHaveBeenCalled()
   })
 })

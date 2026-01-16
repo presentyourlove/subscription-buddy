@@ -1,6 +1,7 @@
 import * as firestore from 'firebase/firestore'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import chatService from './chatService'
 
 // Mock Firestore

@@ -32,9 +32,6 @@
 
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
 
 // Replaced updateServiceWorker with proper handling
 // offlineReady: boolean, needRefresh: boolean, updateServiceWorker: function

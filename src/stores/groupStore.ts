@@ -7,7 +7,8 @@ interface GroupState {
   groups: Group[]
   loading: boolean
   error: string | null
-  lastDoc: any // Using specific type might require importing DocumentSnapshot which is heavy for store type, or use 'unknown'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  lastDoc: any // Using specific type might require importing DocumentSnapshot which is heavy for store type
   hasMore: boolean
 }
 

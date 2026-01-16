@@ -1,7 +1,7 @@
 import 'vue-toastification/dist/index.css'
 import './style.css'
 
-import { createHead } from '@unhead/vue'
+import { createUnhead } from '@unhead/vue'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import Toast from 'vue-toastification'
@@ -11,12 +11,13 @@ import i18n from './i18n'
 import router from './router'
 
 const app = createApp(App)
-const head = createHead()
+const head = createUnhead()
 
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
-app.use(head)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+app.use(head as any)
 app.use(Toast, {
   position: 'top-right',
   timeout: 5000,

@@ -2,7 +2,7 @@ import { getToken } from 'firebase/messaging'
 
 import { messaging } from '../firebase/config'
 
-export const requestNotificationPermission = async (uid: string): Promise<string | undefined> => {
+export const requestNotificationPermission = async (): Promise<string | undefined> => {
   try {
     const permission = await Notification.requestPermission()
     if (permission === 'granted') {

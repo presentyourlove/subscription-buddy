@@ -190,9 +190,11 @@ const isHost = computed(() => {
   return group.value && userStore.user && group.value.hostId === userStore.user.uid
 })
 
-const formatDate = (timestamp: any) => {
+const formatDate = (timestamp: Date | { seconds: number } | null | undefined) => {
   if (!timestamp) return ''
-  return new Date(timestamp.seconds * 1000).toLocaleDateString()
+  if (timestamp instanceof Date) return timestamp.toLocaleDateString()
+  if ('seconds' in timestamp) return new Date(timestamp.seconds * 1000).toLocaleDateString()
+  return ''
 }
 
 const handleDelete = async () => {

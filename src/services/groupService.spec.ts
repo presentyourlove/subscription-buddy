@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as firestore from 'firebase/firestore'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { GROUP_STATUS } from '../utils/constants'
-import groupService from './groupService'
+import { groupService } from './groupService'
 
 // Mock Firestore
 vi.mock('firebase/firestore', () => {
@@ -35,18 +36,20 @@ describe('GroupService', () => {
 
   describe('createGroup', () => {
     it('should create a group', async () => {
-      const mockUser = { uid: '123', displayName: 'Test', photoURL: 'url' }
+      // const mockUser = { uid: '123', displayName: 'Test', photoURL: 'url' }
       const mockData = {
         title: 'Netflix',
         description: 'Family Plan',
         price: 100,
         slots: 4,
-        serviceName: 'Netflix Premium'
+        serviceName: 'Netflix Premium',
+        hostId: '123',
+        hostName: 'Test'
       }
 
       vi.mocked(firestore.addDoc).mockResolvedValue({ id: 'new-group-id' } as any)
 
-      await groupService.createGroup(mockData, mockUser as any)
+      await groupService.createGroup(mockData)
 
       expect(firestore.addDoc).toHaveBeenCalledWith(
         expect.anything(),
@@ -94,7 +97,7 @@ describe('GroupService', () => {
 
       vi.mocked(firestore.updateDoc).mockResolvedValue(undefined)
 
-      await groupService.closeGroup('g1')
+      await groupService.updateStatus('g1', GROUP_STATUS.CLOSED)
 
       expect(firestore.updateDoc).toHaveBeenCalled()
     })

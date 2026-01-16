@@ -5,7 +5,7 @@ export interface UserProfile {
   photoURL: string | null
   ratingSum?: number
   ratingCount?: number
-  createdAt?: Date | any // Firestore Timestamp
+  createdAt?: Date | { seconds: number }
 }
 
 export interface Group {
@@ -19,7 +19,7 @@ export interface Group {
   hostName: string
   hostAvatar?: string
   status: 'OPEN' | 'CLOSED' | 'FULL'
-  createdAt?: Date | any
+  createdAt?: Date | { seconds: number }
 }
 
 export interface Message {
@@ -28,7 +28,7 @@ export interface Message {
   senderId: string
   senderName: string
   senderAvatar?: string | null
-  createdAt?: any
+  createdAt?: Date | { seconds: number }
   type: 'text' | 'image' | 'system'
 }
 
@@ -36,7 +36,7 @@ export interface Chat {
   id?: string
   participants: string[]
   confirmedUsers?: string[]
-  expireAt?: any
+  expireAt?: Date | { seconds: number }
   ratings?: Record<string, Record<string, number>>
-  createdAt?: any
+  createdAt?: Date | { seconds: number }
 }

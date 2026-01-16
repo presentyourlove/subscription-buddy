@@ -200,8 +200,7 @@ import { useUserStore } from '../stores/userStore'
 import { Chat } from '../types'
 import { DEFAULTS, GROUP_STATUS } from '../utils/constants'
 
-const maxRating = DEFAULTS.MAX_RATING
-
+// maxRating removed
 const { t } = useI18n()
 const route = useRoute()
 const chatStore = useChatStore()
@@ -249,8 +248,9 @@ const initChat = async () => {
     // 2. Subscribe messages
     chatStore.subscribeToMessages(groupId)
     // Note: Chat meta is now handled by useFirestoreDoc composable
-  } catch (err: any) {
-    notification.error(t('chat.errorJoin', { error: err.message }))
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    notification.error(t('chat.errorJoin', { error: message }))
   }
 }
 
@@ -306,8 +306,8 @@ const handleSend = async () => {
   try {
     await chatStore.sendMessage(newMessage.value, userStore.user)
     newMessage.value = ''
-  } catch (err: any) {
-    notification.error(t('chat.errorSend', { error: err.message }))
+  } catch (err: unknown) {
+    notification.error(t('chat.errorSend', { error: (err as Error).message }))
   }
 }
 
@@ -316,17 +316,24 @@ const handleConfirm = async () => {
   if (!userStore.user) return
   try {
     await chatStore.confirmDeal(groupId, userStore.user)
-  } catch (err: any) {
-    notification.error(t('chat.errorConfirm', { error: err.message }))
+  } catch (err: unknown) {
+    notification.error(t('chat.errorConfirm', { error: (err as Error).message }))
   }
 }
 
-const formatTime = (timestamp: { seconds: number } | null | undefined) => {
+const formatTime = (timestamp: Date | { seconds: number } | null | undefined) => {
   if (!timestamp) return '...'
-  return new Date(timestamp.seconds * 1000).toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+  if (timestamp instanceof Date)
+    return timestamp.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  if ('seconds' in timestamp)
+    return new Date(timestamp.seconds * 1000).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  return '...'
 }
 
 // --- Rating System ---
@@ -335,29 +342,11 @@ const ratingTarget = ref<{ uid: string; name: string; avatar: string } | null>(n
 const ratingScore = ref<number>(DEFAULTS.MAX_RATING) // Use constant
 const ratingComment = ref('')
 
-const participantsInfo = computed(() => {
-  // We need complete info (name, avatar) for participants.
-  // Ideally userStore or chatStore should provide this.
-  // Strategy: Extract unique senders from message history as a MVP solution for participant info.
-
-  if (!chatStore.messages) return []
-  const senders: Record<string, { uid: string; name: string; avatar: string }> = {}
-  chatStore.messages.forEach((m) => {
-    if (m.senderId !== userStore.user?.uid) {
-      senders[m.senderId] = {
-        uid: m.senderId,
-        name: m.senderName,
-        avatar: m.senderAvatar || ''
-      }
-    }
-  })
-  return Object.values(senders)
-})
-
-const setRating = (score: number, target: { uid: string; name: string; avatar: string }) => {
-  ratingScore.value = score
-  ratingTarget.value = target
-}
+// Unused logic removed for cleanup
+// const maxRating = ...
+// const participantsInfo = ...
+// const setRating = ...
+// const checkRated = ...
 
 const handleRate = async () => {
   if (!ratingTarget.value || !userStore.user) return
@@ -368,15 +357,9 @@ const handleRate = async () => {
     )
     showRatingModal.value = false
     ratingComment.value = '' // Reset
-    // Refresh meta logic? useFirestoreDoc handles it.
-  } catch (err) {
-    notification.error(t('chat.errorRate', { error: err }))
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    notification.error(t('chat.errorRate', { error: message }))
   }
-}
-
-const checkRated = (targetUid: string) => {
-  if (!chatMeta.value || !chatMeta.value.ratings || !userStore.user) return false
-  const myRatings = chatMeta.value.ratings[userStore.user.uid]
-  return myRatings && myRatings[targetUid] !== undefined
 }
 </script>

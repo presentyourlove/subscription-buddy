@@ -5,23 +5,20 @@ import {
   arrayUnion,
   collection,
   doc,
-  DocumentData,
   getDoc,
   getDocs,
   onSnapshot,
   orderBy,
   query,
-  QueryDocumentSnapshot,
   runTransaction,
   serverTimestamp,
   setDoc,
-  SnapshotOptions,
   updateDoc,
   where
 } from 'firebase/firestore'
 
 import { db } from '../firebase/config'
-import { Chat, Message, UserProfile } from '../types'
+import { Chat, Group, Message, UserProfile } from '../types'
 import { COLLECTIONS, DEFAULTS, ERROR_CODES, GROUP_STATUS, MESSAGE_TYPES } from '../utils/constants'
 
 /**
@@ -71,7 +68,7 @@ class ChatService {
   subscribeToMessages(
     groupId: string,
     callback: (messages: Message[]) => void,
-    onError: (error: any) => void
+    onError: (error: unknown) => void
   ) {
     const q = query(
       collection(db, COLLECTIONS.CHATS, groupId, COLLECTIONS.MESSAGES),
@@ -126,7 +123,8 @@ class ChatService {
         confirmed = [...confirmed, user.uid]
       }
 
-      const updates: any = { confirmedUsers: confirmed }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const updates: Record<string, any> = { confirmedUsers: confirmed }
 
       // Check if everyone has confirmed
       const allConfirmed =
@@ -193,7 +191,8 @@ class ChatService {
         ratingSum: newSum
       })
 
-      const updateData: any = {}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const updateData: Record<string, any> = {}
       updateData[`ratings.${reviewerId}.${targetUserId}`] = score
 
       transaction.update(chatRef, updateData)
@@ -253,9 +252,9 @@ class ChatService {
         } else {
           try {
             const gSnap = await getDoc(doc(db, COLLECTIONS.GROUPS, groupId))
-            if (gSnap.exists() && (gSnap.data() as any).status === GROUP_STATUS.CLOSED)
+            if (gSnap.exists() && (gSnap.data() as Group).status === GROUP_STATUS.CLOSED)
               isClosed = true
-          } catch (e) {
+          } catch {
             // ignore error
           }
         }

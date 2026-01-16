@@ -257,12 +257,13 @@ const fetchHistory = async () => {
   }
 }
 
-const formatDate = (ts: any) => {
+const formatDate = (ts: Date | { seconds: number } | null | undefined) => {
   if (!ts) return ''
   try {
-    const date = ts.seconds ? new Date(ts.seconds * 1000) : new Date(ts)
-    return date.toLocaleDateString()
-  } catch (e) {
+    if (ts instanceof Date) return ts.toLocaleDateString()
+    if ('seconds' in ts) return new Date(ts.seconds * 1000).toLocaleDateString()
+    return new Date(ts).toLocaleDateString()
+  } catch {
     return 'Invalid Date'
   }
 }
