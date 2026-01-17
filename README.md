@@ -253,11 +253,11 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 利用 Service Worker 的 Background Sync API 處理離線訊息發送。
     * **效益**: 即使在網路不穩定的捷運或電梯中，使用者的訊息也能在連線恢復後自動送出。
 
-4. **稽核軌跡記錄 (Audit Logging)**
+4. **稽核軌跡記錄 (Audit Logging)** `[DONE]`
     * **描述**: 利用 Cloud Functions 觸發器紀錄所有關鍵資料異動 (Create/Update/Delete) 至獨立 Log 集合。
     * **效益**: 符合企業級合規要求 (Compliance)，確保操作可追溯。
 
-5. **相依性弱點掃描 (SCA / Dependabot)**
+5. **相依性弱點掃描 (SCA / Dependabot)** `[DONE]`
     * **描述**: 啟用 GitHub Dependabot 或整合 Snyk。
     * **效益**: 自動偵測 npm 套件安全漏洞，降低供應鏈攻擊風險。
 
@@ -312,23 +312,25 @@ docker run -p 8080:80 subscription-buddy
     * **效益**: 滿足 GDPR/CCPA 對於資料可攜權與被遺忘權的法律要求，降低法遵風險。
 
 2. **端對端加密 (E2E Encryption)**
+3. **GDPR 資料權利自動化 (Subject Rights Automation)**
+    * **描述**: 實作「一鍵匯出個資」與「徹底刪除帳號」的自助功能。
+    * **效益**: 滿足 GDPR/CCPA 對於資料可攜權與被遺忘權的法律要求，降低法遵風險。
+
+4. **端對端加密 (E2E Encryption)**
     * **描述**: 針對聊天室訊息實作客戶端加密 (如 Signal Protocol)，僅參與者可解密。
     * **效益**: 確保即使伺服器被入侵，使用者的對話內容依然安全，達到最高資安標準。
 
 ## 📝 近期變更 (Recent Changes)
 
+### Phase 9: Deployment & Monitoring `[DONE]`
+
+* **Content Security Policy**: 實作嚴格的 CSP 標頭配置。
+* **CI/CD Pipeline**: (GitHub Actions) 自動化測試與部署。
+* **Sentry**: 錯誤追蹤整合。
+* **DevOps Suite**: Semantic Release, Audit Logging, Dependabot.
+
 ### Phase 8: 開發增強與規範化 (2026-01-17)
 
-* **Storybook 整合**: 為核心 UI 元件建立文件。
-
-* **視覺回歸測試 (VRT)**: 引入 Playwright 截圖比對機制。
-* **Firebase Emulator**: 建立本地開發模擬環境。
-* **Schema Validation**: 引入 Zod 統一表單驗證。
-* **Lighthouse CI**: 建立前端效能自動化檢測閘門。
-* **Component Refactoring**: 拆分臃腫元件 (ChatRoomView)。
-* **Skeleton Screens**: 實作資料載入時的骨架屏體驗。
-* **Image CDN**: 整合 wsrv.nl 進行圖片自動優化。
-* **Route Prefetching**: 實作按需預取的路由連結。
 * **Fuzzy Search**: 引入 Fuse.js 實作錯字容忍搜尋。
 * **Pinia Persistence**: 整合 pinia-plugin-persistedstate 持久化 Store 狀態。
 * **Docker Optimization**: 實作 Multi-stage Build 與 Nginx SPA 配置。
@@ -371,9 +373,12 @@ docker run -p 8080:80 subscription-buddy
   * `Dockerfile`: 整合 Nginx 設定與多階段優化
   * `src/main.ts`: 註冊 Persistence Plugin
   * `vite.config.ts`: 配置 Workbox Background Sync
-  * `firebase.json`: 配置 CSP 安全標頭
+  * `firebase.json`: 配置 Functions 與 CSP
   * `.releaserc.json`: Semantic Release 設定檔
   * `.github/workflows/release.yml`: 自動發布流程
+* **新增**:
+  * `functions/`: Cloud Functions 專案目錄 (含 `triggers`)
+  * `.github/dependabot.yml`: 自動化依賴更新設定
 
 ---
 
