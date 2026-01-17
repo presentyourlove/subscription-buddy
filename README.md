@@ -271,15 +271,17 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
     * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
 
-2. **容器健康檢查 (Container Health Check)**
+## 🚧 待定項目 (Pending Decision)
+
+1. **容器健康檢查 (Container Health Check)**
     * **描述**: 於 Dockerfile 中新增 `HEALTHCHECK` 指令。
     * **效益**: 讓容器編排平台 (如 K8s) 能自動偵測並重啟異常容器，提升服務可用性。
 
-3. **交易冪等性機制 (Idempotency Keys)**
+2. **交易冪等性機制 (Idempotency Keys)**
     * **描述**: 針對關鍵交易 (如開團、結案) 實作操作冪等性，防止重複扣款或狀態異常。
     * **效益**: 提升分散式系統的強一致性與可靠度。
 
-4. **Security Rules 單元測試**
+3. **Security Rules 單元測試**
     * **描述**: 建立專門針對 `firestore.rules` 的自動化測試套件。
     * **效益**: 確保權限邏輯的正確性，防止因規則修改導致的權限洩漏。
 
