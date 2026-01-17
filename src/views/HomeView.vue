@@ -28,16 +28,23 @@
         <span class="text-gray-400">🔍</span>
       </div>
       <input
-        v-model="searchQuery"
+        v-model="groupStore.searchQuery"
         type="text"
         class="block w-full pl-10 pr-3 py-3 border border-white/10 rounded-xl leading-5 bg-white/5 text-gray-300 placeholder-gray-500 focus:outline-none focus:bg-white/10 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm backdrop-blur-sm transition-all"
         :placeholder="$t('home.searchPlaceholder')"
       />
     </div>
 
-    <!-- Loading State -->
-    <!-- Loading State: Skeleton Screen -->
-    <div v-if="groupStore.loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Background Refresh Indicator (Optional) -->
+    <div v-if="groupStore.loading && groupStore.groups.length > 0" class="flex justify-center mb-4">
+      <span class="bg-purple-600/80 text-white text-xs px-3 py-1 rounded-full flex items-center gap-2 animate-pulse">
+         <span class="animate-spin h-3 w-3 border-2 border-white/30 border-t-white rounded-full"></span>
+         Updating...
+      </span>
+    </div>
+
+    <!-- Loading State: Skeleton Screen (Only if no data) -->
+    <div v-if="groupStore.loading && groupStore.groups.length === 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         v-for="i in 6"
         :key="i"
@@ -191,7 +198,7 @@
 
 <script setup lang="ts">
 import { watchDebounced } from '@vueuse/core'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 import BaseSkeleton from '../components/BaseSkeleton.vue'
 import LazyImage from '../components/LazyImage.vue'
@@ -206,7 +213,7 @@ const groupStore = useGroupStore()
 const imageErrorMap = ref<Record<string, boolean>>({})
 
 // Fuzzy Search Setup
-const { searchTerm: searchQuery, results: searchResults } = useFuzzySearch(
+const { searchTerm, results: searchResults } = useFuzzySearch(
   computed(() => groupStore.groups),
   {
     keys: [
@@ -218,13 +225,17 @@ const { searchTerm: searchQuery, results: searchResults } = useFuzzySearch(
   }
 )
 
+// Sync store search query with local fuse search term
+watch(
+  () => groupStore.searchQuery,
+  (val) => {
+    searchTerm.value = val
+  },
+  { immediate: true }
+)
+
 // Debounced search query update for UI responsiveness
-const debouncedQuery = ref('') // Kept for UI logic if needed, but Fuse is fast enough.
-// Actually, useFuzzySearch uses searchTerm reactive ref.
-// We can bind v-model="searchQuery" directly to the composable's searchTerm.
-// But the original code used watchDebounced to update debouncedQuery, and filtered based on that.
-// We should simplify: Bind input to a ref, update composable's searchTerm.
-// Let's directly alias proper names.
+// Removed local ref, using store directly via v-model
 
 
 onMounted(() => {

@@ -231,9 +231,9 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 使用 Fuse.js 在客戶端實作模糊搜尋 (Client-side Fuzzy Search)。
     * **效益**: 支援錯字容忍 (Typos Tolerance) 與多欄位權重排序，大幅提升搜尋體驗。
 
-5. **狀態持久化 (Pinia Persistence)**
+5. **狀態持久化 (Pinia Persistence)** `[DONE]`
     * **描述**: 引入 `pinia-plugin-persistedstate`。
-    * **效益**: 防止使用者重新整理網頁後丟失非敏感的暫存狀態 (如篩選條件)。
+    * **效益**: 防止使用者重新整理網頁後丟失非敏感的暫存狀態 (如篩選條件、快取列表)。
 
 6. **Docker 多階段建構 (Multi-stage Build)**
     * **描述**: 優化 Dockerfile，採用 `node:alpine` 或 `distroless` 映像檔。
@@ -330,6 +330,7 @@ docker run -p 8080:80 subscription-buddy
 * **Image CDN**: 整合 wsrv.nl 進行圖片自動優化。
 * **Route Prefetching**: 實作按需預取的路由連結。
 * **Fuzzy Search**: 引入 Fuse.js 實作錯字容忍搜尋。
+* **Pinia Persistence**: 整合 pinia-plugin-persistedstate 持久化 Store 狀態。
 
 **檔案變更清單：**
 
@@ -369,6 +370,8 @@ docker run -p 8080:80 subscription-buddy
   * `src/components/LazyImage.vue`: 整合自動圖片優化
   * `src/views/HomeView.vue`: 整合骨架屏、預取連結與模糊搜尋
   * `src/components/Navbar.vue`: 整合預取連結
+  * `src/stores/groupStore.ts`: 啟用狀態持久化
+  * `src/main.ts`: 註冊 Persistence Plugin
 
 ---
 

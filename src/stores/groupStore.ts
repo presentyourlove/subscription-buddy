@@ -10,16 +10,20 @@ interface GroupState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lastDoc: any // Using specific type might require importing DocumentSnapshot which is heavy for store type
   hasMore: boolean
+  searchQuery: string
 }
 
 export const useGroupStore = defineStore('group', {
   state: (): GroupState => ({
     groups: [],
     loading: false,
-    error: null,
     lastDoc: null,
-    hasMore: true
+    hasMore: true,
+    searchQuery: ''
   }),
+  persist: {
+    paths: ['groups', 'searchQuery']
+  },
   actions: {
     /**
      * Fetch initial groups (reset pagination)
@@ -27,7 +31,8 @@ export const useGroupStore = defineStore('group', {
     async fetchGroups() {
       this.loading = true
       this.error = null
-      this.groups = [] // Reset
+      // Don't clear groups immediately to allow stale-while-revalidate
+      // this.groups = [] 
       this.lastDoc = null
       this.hasMore = true
       try {

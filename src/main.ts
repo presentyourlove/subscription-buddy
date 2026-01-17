@@ -4,6 +4,7 @@ import './style.css'
 
 import { createUnhead } from '@unhead/vue'
 import { createPinia } from 'pinia'
+import { createPersistedState } from 'pinia-plugin-persistedstate'
 import { createApp } from 'vue'
 import Toast from 'vue-toastification'
 
@@ -14,7 +15,10 @@ import router from './router'
 const app = createApp(App)
 const head = createUnhead()
 
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(createPersistedState())
+
+app.use(pinia)
 app.use(router)
 app.use(i18n)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
