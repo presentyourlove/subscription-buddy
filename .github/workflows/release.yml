@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - branch-v2
+
+permissions:
+  contents: write # required for creating releases and tags
+  issues: write   # required for commenting on released issues
+  pull-requests: write # required for commenting on released PRs
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # fetch all history for proper commit analysis
+          persist-credentials: false # semantic-release will reuse the GITHUB_TOKEN
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release

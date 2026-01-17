@@ -245,7 +245,7 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 於 `firebase.json` headers 配置嚴格的 CSP 規則。
     * **效益**: 有效防禦 XSS 攻擊與未授權的外部資源載入。
 
-2. **語意化版本發布 (Semantic Release)**
+2. **語意化版本發布 (Semantic Release)** `[DONE]`
     * **描述**: 設定 CI 流程自動根據 Commit Message 產生 Changelog 並發布版本 Tag。
     * **效益**: 自動化版本管理，確保版號與變更紀錄的一致性。
 
@@ -371,6 +371,8 @@ docker run -p 8080:80 subscription-buddy
   * `Dockerfile`: 整合 Nginx 設定與多階段優化
   * `src/main.ts`: 註冊 Persistence Plugin
   * `firebase.json`: 配置 CSP 安全標頭
+  * `.releaserc.json`: Semantic Release 設定檔
+  * `.github/workflows/release.yml`: 自動發布流程
 
 ---
 
