@@ -249,7 +249,7 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 設定 CI 流程自動根據 Commit Message 產生 Changelog 並發布版本 Tag。
     * **效益**: 自動化版本管理，確保版號與變更紀錄的一致性。
 
-3. **進階離線同步 (Background Sync)**
+3. **進階離線同步 (Background Sync)** `[DONE]`
     * **描述**: 利用 Service Worker 的 Background Sync API 處理離線訊息發送。
     * **效益**: 即使在網路不穩定的捷運或電梯中，使用者的訊息也能在連線恢復後自動送出。
 
@@ -361,7 +361,7 @@ docker run -p 8080:80 subscription-buddy
   * `firebase.json`: 新增模擬器配置
   * `playwright.config.js`: 新增 VRT 配置
   * `tsconfig.json`: 優化排除規則
-  * `src/firebase/config.ts`: 支援模擬器連接
+  * `src/firebase/config.ts`: 啟用 Offline Persistence
   * `src/components/BaseInput.vue`, `BaseTextarea.vue`: 支援錯誤顯示
   * `src/views/ChatRoomView.vue`: 引入子元件重構邏輯
   * `src/components/LazyImage.vue`: 整合自動圖片優化
@@ -370,6 +370,7 @@ docker run -p 8080:80 subscription-buddy
   * `src/stores/groupStore.ts`: 啟用狀態持久化
   * `Dockerfile`: 整合 Nginx 設定與多階段優化
   * `src/main.ts`: 註冊 Persistence Plugin
+  * `vite.config.ts`: 配置 Workbox Background Sync
   * `firebase.json`: 配置 CSP 安全標頭
   * `.releaserc.json`: Semantic Release 設定檔
   * `.github/workflows/release.yml`: 自動發布流程

@@ -63,6 +63,19 @@ export default defineConfig({
                 statuses: [0, 200]
               }
             }
+          },
+          {
+            urlPattern: /^http.*/i,
+            method: 'POST',
+            handler: 'NetworkOnly',
+            options: {
+              backgroundSync: {
+                name: 'background-sync-queue',
+                options: {
+                  maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
+                }
+              }
+            }
           }
         ]
       }
