@@ -261,7 +261,7 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 啟用 GitHub Dependabot 或整合 Snyk。
     * **效益**: 自動偵測 npm 套件安全漏洞，降低供應鏈攻擊風險。
 
-6. **靜態應用程式安全測試 (SAST / SonarQube)**
+6. **靜態應用程式安全測試 (SAST / SonarQube)** `[DONE]`
     * **描述**: 於 CI 流程整合 SonarCloud 或類似工具進行程式碼品質掃描。
     * **效益**: 自動偵測程式碼異味 (Code Smells)、資安漏洞與技術債。
 
@@ -379,6 +379,8 @@ docker run -p 8080:80 subscription-buddy
 * **新增**:
   * `functions/`: Cloud Functions 專案目錄 (含 `triggers`)
   * `.github/dependabot.yml`: 自動化依賴更新設定
+  * `sonar-project.properties`: SonarCloud 設定檔
+  * `.github/workflows/sonar.yml`: SAST 掃描流程
 
 ---
 
