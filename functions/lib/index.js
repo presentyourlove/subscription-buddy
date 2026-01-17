@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onChatWrite = exports.onGroupWrite = void 0;
+exports.scheduledFirestoreExport = exports.onChatWrite = exports.onGroupWrite = void 0;
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
@@ -55,4 +55,7 @@ exports.onGroupWrite = functions.firestore
 exports.onChatWrite = functions.firestore
     .document("chats/{docId}")
     .onWrite((change, context) => createAuditLog(change, context, "chats"));
+// Backup Trigger
+var backup_1 = require("./backup");
+Object.defineProperty(exports, "scheduledFirestoreExport", { enumerable: true, get: function () { return backup_1.scheduledFirestoreExport; } });
 //# sourceMappingURL=index.js.map

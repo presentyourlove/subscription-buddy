@@ -61,3 +61,6 @@ export const onGroupWrite = functions.firestore
 export const onChatWrite = functions.firestore
     .document("chats/{docId}")
     .onWrite((change, context) => createAuditLog(change, context, "chats"));
+
+// Backup Trigger
+export { scheduledFirestoreExport } from './backup';
