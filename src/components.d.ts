@@ -24,9 +24,11 @@ declare module 'vue' {
     LegalLayout: typeof import('./components/LegalLayout.vue')['default']
     Navbar: typeof import('./components/Navbar.vue')['default']
     PrefetchLink: typeof import('./components/PrefetchLink.vue')['default']
+    PullToRefresh: typeof import('./components/PullToRefresh.vue')['default']
     ReloadPrompt: typeof import('./components/ReloadPrompt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ThemeToggle: typeof import('./components/ThemeToggle.vue')['default']
     UserRating: typeof import('./components/UserRating.vue')['default']
   }
 }

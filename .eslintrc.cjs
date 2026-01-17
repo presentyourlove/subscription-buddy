@@ -1,7 +1,13 @@
 /* eslint-env node */
 module.exports = {
   root: true,
-  extends: ['plugin:vue/vue3-recommended', 'eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'plugin:vue/vue3-recommended',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:storybook/recommended'
+  ],
   plugins: ['simple-import-sort'],
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -28,6 +34,21 @@ module.exports = {
       globals: {
         firebase: 'readonly',
         importScripts: 'readonly'
+      }
+    },
+    {
+      files: ['functions/src/**/*.ts'],
+      rules: {
+        'prettier/prettier': [
+          'error',
+          {
+            singleQuote: true,
+            semi: false,
+            tabWidth: 4,
+            trailingComma: 'none',
+            useTabs: false
+          }
+        ]
       }
     }
   ]

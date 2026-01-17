@@ -38,7 +38,6 @@ export const useUserStore = defineStore('user', {
             const privateKeyStr = await keyStore.get<string>(`priv_${user.uid}`)
 
             if (!privateKeyStr) {
-              console.log('Generating new E2EE keys...')
               // Generate new pair
               const keyPair = await cryptoService.generateKeyPair()
 
@@ -51,9 +50,6 @@ export const useUserStore = defineStore('user', {
 
               // Upload Public to Firestore
               await userService.uploadPublicKey(user.uid, pubKeyStr)
-              console.log('E2EE keys generated and stored.')
-            } else {
-              console.log('E2EE private key found locally.')
             }
           } catch (e) {
             console.error('E2EE Key Provisioning failed:', e)
