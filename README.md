@@ -201,15 +201,15 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 引入 `zod` 或 `vee-validate` 取代手寫驗證邏輯。
     * **效益**: 統一全站表單驗證規則，提升型別安全性與錯誤訊息的可維護性。
 
-6. **Git 提交規範 (Commitlint)**
+6. **Git 提交規範 (Commitlint)** `[DONE]`
     * **描述**: 配置 `commitlint` 強制檢查 Commit Message 格式。
     * **效益**: 確保團隊協作時 Git 歷史紀錄整潔，有利於自動化工具分析。
 
-7. **前端效能閘門 (Lighthouse CI)**
+7. **前端效能閘門 (Lighthouse CI)** `[DONE]`
     * **描述**: 於 CI 流程整合 Lighthouse，強制要求 Performance 分數 > 90。
     * **效益**: 確保專案符合企業級效能標準，防止效能退化。
 
-8. **元件拆分與微型化 (Component Refactoring)**
+8. **元件拆分與微型化 (Component Refactoring)** `[DONE]`
     * **描述**: 嚴格遵守單一檔案 < 300 行規範 (目前 ChatRoomView 已超標)。
     * **效益**: 降低程式碼複雜度 (Cyclomatic Complexity)，提升可讀性與可維護性。
 
@@ -319,26 +319,32 @@ docker run -p 8080:80 subscription-buddy
 
 ### Phase 8: 開發增強與規範化 (2026-01-17)
 
-- **Storybook 整合**: 為核心 UI 元件建立文件。
+* **Storybook 整合**: 為核心 UI 元件建立文件。
+
 * **視覺回歸測試 (VRT)**: 引入 Playwright 截圖比對機制。
 * **Firebase Emulator**: 建立本地開發模擬環境。
 * **Schema Validation**: 引入 Zod 統一表單驗證。
+* **Lighthouse CI**: 建立前端效能自動化檢測閘門。
+* **Component Refactoring**: 拆分臃腫元件 (ChatRoomView)。
 
 **檔案變更清單：**
+
 * **新增**:
+  * `src/components/chat/*`: 拆分後聊天室子元件
+  * `.lighthouserc.json`: Lighthouse CI 設定檔
   * `src/schemas/*`: Zod 驗證架構
   * `src/composables/useFormValidation.ts`: 驗證邏輯封裝
   * `src/components/*.stories.ts`: Storybook 故事檔案
   * `tests/e2e/visual.spec.ts`: 視覺回歸測試腳本
   * `.storybook/*.ts`: Storybook 設定檔
 * **修改**:
-  * `package.json`: 新增依賴與 scripts
+  * `package.json`: 新增依賴、scripts (lhci:full)
   * `firebase.json`: 新增模擬器配置
   * `playwright.config.js`: 新增 VRT 配置
   * `tsconfig.json`: 優化排除規則
   * `src/firebase/config.ts`: 支援模擬器連接
   * `src/components/BaseInput.vue`, `BaseTextarea.vue`: 支援錯誤顯示
-  * `src/views/LoginView.vue`, `CreateGroupView.vue`: 整合 Zod 驗證
+  * `src/views/ChatRoomView.vue`: 引入子元件重構邏輯
 
 ---
 
