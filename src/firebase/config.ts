@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import { connectAuthEmulator, getAuth } from 'firebase/auth'
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
 import { getMessaging } from 'firebase/messaging'
 
 const firebaseConfig = {
@@ -17,6 +17,13 @@ const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 const auth = getAuth(app)
 const messaging = getMessaging(app)
+
+// Connect to Emulators in development mode
+if (import.meta.env.VITE_USE_EMULATOR === 'true') {
+  connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true })
+  connectFirestoreEmulator(db, 'localhost', 8080)
+  console.info('🔧 Firebase Emulators connected (Auth: 9099, Firestore: 8080)')
+}
 
 import { getAnalytics, isSupported } from 'firebase/analytics'
 let analytics: ReturnType<typeof getAnalytics> | null = null

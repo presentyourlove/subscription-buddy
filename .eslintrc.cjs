@@ -1,12 +1,7 @@
 /* eslint-env node */
 module.exports = {
   root: true,
-  extends: [
-    'plugin:vue/vue3-recommended',
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended'
-  ],
+  extends: ['plugin:vue/vue3-recommended', 'eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'plugin:storybook/recommended'],
   plugins: ['simple-import-sort'],
   parser: 'vue-eslint-parser',
   parserOptions: {

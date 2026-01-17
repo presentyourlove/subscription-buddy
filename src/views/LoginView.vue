@@ -34,7 +34,8 @@
             v-model="displayName"
             :label="$t('login.form.displayName')"
             :placeholder="$t('login.form.displayNamePlaceholder')"
-            required
+            :error="errors.displayName"
+            @blur="validateField('displayName', displayName)"
           />
         </div>
 
@@ -44,7 +45,8 @@
             :label="$t('login.form.email')"
             type="email"
             :placeholder="$t('login.form.emailPlaceholder')"
-            required
+            :error="errors.email"
+            @blur="validateField('email', email)"
           />
         </div>
 
@@ -54,8 +56,8 @@
             :label="$t('login.form.password')"
             type="password"
             :placeholder="$t('login.form.passwordPlaceholder')"
-            minlength="6"
-            required
+            :error="errors.password"
+            @blur="validateField('password', password)"
           />
         </div>
 
@@ -103,11 +105,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import BaseButton from '../components/BaseButton.vue'
 import BaseInput from '../components/BaseInput.vue'
+import { useFormValidation } from '../composables/useFormValidation'
+import { loginSchema, registerSchema } from '../schemas'
 import { useUserStore } from '../stores/userStore'
 
 const userStore = useUserStore()
@@ -121,8 +125,39 @@ const displayName = ref('')
 const error = ref<string | null>(null)
 const loading = ref(false)
 
+// 動態選擇 schema
+const loginValidation = useFormValidation(loginSchema)
+const registerValidation = useFormValidation(registerSchema)
+
+// 根據模式取得對應的驗證器
+const errors = ref<Record<string, string | undefined>>({})
+const validateField = (field: string, value: string) => {
+  const validation = isLogin.value ? loginValidation : registerValidation
+  validation.validateField(field as never, value)
+  errors.value = { ...validation.errors }
+}
+
+// 切換模式時清除錯誤
+watch(isLogin, () => {
+  loginValidation.clearErrors()
+  registerValidation.clearErrors()
+  errors.value = {}
+})
+
 const handleSubmit = async () => {
   error.value = null
+
+  const formData = isLogin.value
+    ? { email: email.value, password: password.value }
+    : { email: email.value, password: password.value, displayName: displayName.value }
+
+  const validation = isLogin.value ? loginValidation : registerValidation
+
+  if (!validation.validate(formData)) {
+    errors.value = { ...validation.errors }
+    return
+  }
+
   loading.value = true
   try {
     if (isLogin.value) {

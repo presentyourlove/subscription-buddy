@@ -181,23 +181,23 @@ docker run -p 8080:80 subscription-buddy
 
 #### 🛠️ 開發體驗與架構 (DevEx & Architecture)
 
-1. **UI 元件文件化 (Storybook Integration)**
+1. **UI 元件文件化 (Storybook Integration)** `[DONE]`
     * **描述**: 為 `BaseButton`, `UserRating` 等元件建立視覺化文件。
     * **效益**: 加速新成員開發，並做為設計系統與程式碼的單一真理來源 (SSOT)。
 
-2. **視覺回歸測試 (Visual Regression Testing)**
+2. **視覺回歸測試 (Visual Regression Testing)** `[DONE]`
     * **描述**: 擴充 Playwright 測試，加入 Screenshot Comparison。
     * **效益**: 自動偵測 CSS 樣式意外跑版或 UI 渲染異常。
 
-3. **本地模擬器環境 (Firebase Emulator Suite)**
+3. **本地模擬器環境 (Firebase Emulator Suite)** `[DONE]`
     * **描述**: 整合 Firestore, Auth, Functions 模擬器於本地開發環境。
     * **效益**: 允許在離線或無須連接真實專案的情況下進行完整功能測試與開發，提升安全性。
 
-4. **架構模組化 (Monorepo Refactoring)**
+4. **架構模組化 (Monorepo Refactoring)** `[V3]`
     * **描述**: 當商業邏輯複雜化時，將 `core` (Model/Service) 與 `ui` (View) 分離為不同 Package。
     * **效益**: 提升編譯速度，並允許邏輯在不同專案 (如 Admin 後台) 間共用。
 
-5. **表單驗證架構化 (Schema Validation)**
+5. **表單驗證架構化 (Schema Validation)** `[DONE]`
     * **描述**: 引入 `zod` 或 `vee-validate` 取代手寫驗證邏輯。
     * **效益**: 統一全站表單驗證規則，提升型別安全性與錯誤訊息的可維護性。
 
@@ -314,6 +314,33 @@ docker run -p 8080:80 subscription-buddy
 2. **端對端加密 (E2E Encryption)**
     * **描述**: 針對聊天室訊息實作客戶端加密 (如 Signal Protocol)，僅參與者可解密。
     * **效益**: 確保即使伺服器被入侵，使用者的對話內容依然安全，達到最高資安標準。
+
+## 📝 近期變更 (Recent Changes)
+
+### Phase 8: 開發增強與規範化 (2026-01-17)
+
+- **Storybook 整合**: 為核心 UI 元件建立文件。
+* **視覺回歸測試 (VRT)**: 引入 Playwright 截圖比對機制。
+* **Firebase Emulator**: 建立本地開發模擬環境。
+* **Schema Validation**: 引入 Zod 統一表單驗證。
+
+**檔案變更清單：**
+* **新增**:
+  * `src/schemas/*`: Zod 驗證架構
+  * `src/composables/useFormValidation.ts`: 驗證邏輯封裝
+  * `src/components/*.stories.ts`: Storybook 故事檔案
+  * `tests/e2e/visual.spec.ts`: 視覺回歸測試腳本
+  * `.storybook/*.ts`: Storybook 設定檔
+* **修改**:
+  * `package.json`: 新增依賴與 scripts
+  * `firebase.json`: 新增模擬器配置
+  * `playwright.config.js`: 新增 VRT 配置
+  * `tsconfig.json`: 優化排除規則
+  * `src/firebase/config.ts`: 支援模擬器連接
+  * `src/components/BaseInput.vue`, `BaseTextarea.vue`: 支援錯誤顯示
+  * `src/views/LoginView.vue`, `CreateGroupView.vue`: 整合 Zod 驗證
+
+---
 
 ## 👤 作者 (Author)
 

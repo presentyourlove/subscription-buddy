@@ -11,11 +11,15 @@
         v-bind="$attrs"
         :id="id"
         :value="modelValue"
-        class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
-        :class="{ 'pl-8': $slots.prefix }"
+        class="w-full bg-black/20 border rounded-lg px-4 py-3 text-white focus:outline-none transition-colors"
+        :class="[
+          $slots.prefix ? 'pl-8' : '',
+          error ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-purple-500'
+        ]"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
       />
     </div>
+    <p v-if="error" class="mt-1 text-sm text-red-400">{{ error }}</p>
   </div>
 </template>
 
@@ -29,6 +33,10 @@ defineProps({
     default: ''
   },
   label: {
+    type: String,
+    default: ''
+  },
+  error: {
     type: String,
     default: ''
   }

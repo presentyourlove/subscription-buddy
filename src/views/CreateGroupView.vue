@@ -9,13 +9,13 @@
 
       <form class="space-y-6" @submit.prevent="handleSubmit">
         <!-- Service Name -->
-        <!-- Service Name -->
         <div>
           <BaseInput
             v-model="form.title"
             :label="$t('create.form.serviceName')"
             :placeholder="$t('create.form.servicePlaceholder')"
-            required
+            :error="errors.title"
+            @blur="handleValidateField('title', form.title)"
           />
         </div>
 
@@ -24,9 +24,10 @@
           <BaseTextarea
             v-model="form.description"
             :label="$t('create.form.description')"
-            required
             rows="3"
             :placeholder="$t('create.form.descPlaceholder')"
+            :error="errors.description"
+            @blur="handleValidateField('description', form.description)"
           />
         </div>
 
@@ -37,8 +38,9 @@
               v-model.number="form.price"
               :label="$t('create.form.price')"
               type="number"
-              required
               min="0"
+              :error="errors.price"
+              @blur="handleValidateField('price', form.price)"
             >
               <template #prefix>$</template>
             </BaseInput>
@@ -50,9 +52,10 @@
               v-model.number="form.slots"
               :label="$t('create.form.slots')"
               type="number"
-              required
               min="1"
               :max="DEFAULTS.MAX_SLOTS"
+              :error="errors.slots"
+              @blur="handleValidateField('slots', form.slots)"
             />
           </div>
         </div>
@@ -74,37 +77,60 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 import BaseButton from '../components/BaseButton.vue'
 import BaseInput from '../components/BaseInput.vue'
 import BaseTextarea from '../components/BaseTextarea.vue'
+import { useFormValidation } from '../composables/useFormValidation'
 import { useNotification } from '../composables/useNotification'
+import { createGroupSchema } from '../schemas'
 import { useChatStore } from '../stores/chatStore'
 import { useGroupStore } from '../stores/groupStore'
 import { useUserStore } from '../stores/userStore'
+import { DEFAULTS } from '../utils/constants'
 
 const router = useRouter()
 const groupStore = useGroupStore()
 const userStore = useUserStore()
-const chatStore = useChatStore() // Init chatStore
+const chatStore = useChatStore()
 const { t } = useI18n()
 const notification = useNotification()
-import { DEFAULTS } from '../utils/constants'
+
+const { errors: validationErrors, validate, validateField } = useFormValidation(createGroupSchema)
+const errors = ref<Record<string, string | undefined>>({})
 
 const form = reactive({
   title: '',
   description: '',
-  price: '',
-  slots: ''
+  price: '' as unknown as number,
+  slots: '' as unknown as number
 })
+
+const handleValidateField = (field: string, value: unknown) => {
+  validateField(field as never, value)
+  errors.value = { ...validationErrors }
+}
 
 const handleSubmit = async () => {
   if (!userStore.user) {
     notification.error(t('create.form.loginRequired'))
     router.push('/login')
+    return
+  }
+
+  // 驗證表單
+  const formData = {
+    title: form.title,
+    description: form.description,
+    price: Number(form.price),
+    slots: Number(form.slots)
+  }
+
+  if (!validate(formData)) {
+    errors.value = { ...validationErrors }
     return
   }
 
@@ -123,7 +149,7 @@ const handleSubmit = async () => {
       description: form.description,
       price: Number(form.price),
       slots: Number(form.slots),
-      serviceName: form.title, // Use title as serviceName
+      serviceName: form.title,
       hostId: userStore.user.uid,
       hostName: userStore.user.displayName || t('common.anonymous'),
       hostAvatar: userStore.user.photoURL || ''
@@ -131,7 +157,6 @@ const handleSubmit = async () => {
     notification.success(t('create.form.success'))
     router.push('/')
   } catch (err) {
-    // Error is handled in store, simply stay on page to show it
     console.error(err)
   }
 }

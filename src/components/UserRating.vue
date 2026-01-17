@@ -17,7 +17,12 @@ import { db } from '../firebase/config'
 const props = defineProps({
   uid: {
     type: String,
-    required: true
+    required: false,
+    default: ''
+  },
+  initialData: {
+    type: Object, // { ratingSum: number, ratingCount: number }
+    default: null
   }
 })
 
@@ -31,7 +36,16 @@ const score = computed(() => {
 })
 
 onMounted(async () => {
-  if (!props.uid) return
+  if (props.initialData) {
+    ratingSum.value = props.initialData.ratingSum || 0
+    ratingCount.value = props.initialData.ratingCount || 0
+    loading.value = false
+    return
+  }
+  if (!props.uid) {
+    loading.value = false
+    return
+  }
   try {
     const docRef = doc(db, 'users', props.uid)
     const snap = await getDoc(docRef)
