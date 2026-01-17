@@ -235,7 +235,7 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 引入 `pinia-plugin-persistedstate`。
     * **效益**: 防止使用者重新整理網頁後丟失非敏感的暫存狀態 (如篩選條件、快取列表)。
 
-6. **Docker 多階段建構 (Multi-stage Build)**
+6. **Docker 多階段建構 (Multi-stage Build)** `[DONE]`
     * **描述**: 優化 Dockerfile，採用 `node:alpine` 或 `distroless` 映像檔。
     * **效益**: 大幅縮減映像檔體積 (預計減少 60%+) 並降低資安攻擊面。
 
@@ -331,6 +331,7 @@ docker run -p 8080:80 subscription-buddy
 * **Route Prefetching**: 實作按需預取的路由連結。
 * **Fuzzy Search**: 引入 Fuse.js 實作錯字容忍搜尋。
 * **Pinia Persistence**: 整合 pinia-plugin-persistedstate 持久化 Store 狀態。
+* **Docker Optimization**: 實作 Multi-stage Build 與 Nginx SPA 配置。
 
 **檔案變更清單：**
 
@@ -353,12 +354,8 @@ docker run -p 8080:80 subscription-buddy
   * `src/utils/imageOptimizer.ts`: 圖片優化工具
   * `src/components/BaseSkeleton.vue`: 骨架屏原子元件
   * `src/components/chat/*`: 拆分後聊天室子元件
-  * `.lighthouserc.json`: Lighthouse CI 設定檔
-  * `src/schemas/*`: Zod 驗證架構
-  * `src/composables/useFormValidation.ts`: 驗證邏輯封裝
-  * `src/components/*.stories.ts`: Storybook 故事檔案
-  * `tests/e2e/visual.spec.ts`: 視覺回歸測試腳本
-  * `.storybook/*.ts`: Storybook 設定檔
+  * `.dockerignore`: 用於 Docker 建構優化
+  * `nginx.default.conf`: SPA 專用 Nginx 設定
 * **修改**:
   * `package.json`: 新增依賴、scripts (lhci:full)
   * `firebase.json`: 新增模擬器配置
@@ -371,6 +368,7 @@ docker run -p 8080:80 subscription-buddy
   * `src/views/HomeView.vue`: 整合骨架屏、預取連結與模糊搜尋
   * `src/components/Navbar.vue`: 整合預取連結
   * `src/stores/groupStore.ts`: 啟用狀態持久化
+  * `Dockerfile`: 整合 Nginx 設定與多階段優化
   * `src/main.ts`: 註冊 Persistence Plugin
 
 ---
