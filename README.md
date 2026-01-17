@@ -215,7 +215,7 @@ docker run -p 8080:80 subscription-buddy
 
 #### ⚡ 效能與體驗 (Performance & UX)
 
-1. **骨架屏載入體驗 (Skeleton Screens)**
+1. **骨架屏載入體驗 (Skeleton Screens)** `[DONE]`
     * **描述**: 在資料載入期間顯示 UI 骨架而非旋轉圈圈 (Spinner)。
     * **效益**: 降低感官等待時間 (Perceived Latency)，提升應用程式的流暢感。
 
@@ -326,10 +326,12 @@ docker run -p 8080:80 subscription-buddy
 * **Schema Validation**: 引入 Zod 統一表單驗證。
 * **Lighthouse CI**: 建立前端效能自動化檢測閘門。
 * **Component Refactoring**: 拆分臃腫元件 (ChatRoomView)。
+* **Skeleton Screens**: 實作資料載入時的骨架屏體驗。
 
 **檔案變更清單：**
 
 * **新增**:
+  * `src/components/BaseSkeleton.vue`: 骨架屏原子元件
   * `src/components/chat/*`: 拆分後聊天室子元件
   * `.lighthouserc.json`: Lighthouse CI 設定檔
   * `src/schemas/*`: Zod 驗證架構
@@ -345,6 +347,7 @@ docker run -p 8080:80 subscription-buddy
   * `src/firebase/config.ts`: 支援模擬器連接
   * `src/components/BaseInput.vue`, `BaseTextarea.vue`: 支援錯誤顯示
   * `src/views/ChatRoomView.vue`: 引入子元件重構邏輯
+  * `src/views/HomeView.vue`, `GroupDetailView.vue`: 整合骨架屏
 
 ---
 

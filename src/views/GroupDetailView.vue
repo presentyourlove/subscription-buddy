@@ -131,7 +131,59 @@
       </div>
     </div>
   </div>
-  <div v-else class="text-center py-20 text-gray-500">{{ $t('group.detail.loading') }}</div>
+  <div v-else class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Back Button Skeleton -->
+    <div class="mb-6">
+      <BaseSkeleton width="120px" height="1.5em" />
+    </div>
+
+    <div class="bg-white/5 border border-white/10 rounded-2xl p-8 shadow-xl">
+      <!-- Header Skeleton -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div class="flex-1 w-full">
+          <div class="flex items-center gap-3 mb-2">
+            <BaseSkeleton width="200px" height="2em" />
+            <BaseSkeleton width="80px" height="1.5em" variant="rectangular" class="rounded-full" />
+          </div>
+          <div class="flex items-center gap-4">
+            <BaseSkeleton width="150px" height="1em" />
+            <BaseSkeleton width="180px" height="1em" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Grid Skeleton -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-black/20 rounded-xl p-4 border border-white/5">
+          <BaseSkeleton width="80px" height="1em" class="mb-2" />
+          <BaseSkeleton width="60%" height="1.5em" />
+        </div>
+        <div class="bg-black/20 rounded-xl p-4 border border-white/5">
+          <BaseSkeleton width="80px" height="1em" class="mb-2" />
+          <BaseSkeleton width="60%" height="1.5em" />
+        </div>
+        <div class="bg-black/20 rounded-xl p-4 border border-white/5">
+          <BaseSkeleton width="80px" height="1em" class="mb-2" />
+          <BaseSkeleton width="60%" height="1.5em" />
+        </div>
+      </div>
+
+      <!-- Description Skeleton -->
+      <div class="mb-8">
+        <BaseSkeleton width="100px" height="1.2em" class="mb-3" />
+        <div class="bg-black/10 p-4 rounded-xl border border-white/5 space-y-2">
+          <BaseSkeleton width="100%" />
+          <BaseSkeleton width="100%" />
+          <BaseSkeleton width="80%" />
+        </div>
+      </div>
+
+      <!-- Action Area Skeleton -->
+      <div class="pt-8 border-t border-white/10">
+        <BaseSkeleton width="100%" height="3.5em" variant="rectangular" class="rounded-xl" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -140,6 +192,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
+import BaseSkeleton from '../components/BaseSkeleton.vue'
 import UserRating from '../components/UserRating.vue'
 import { useFirestoreDoc } from '../composables/useFirestoreDoc'
 import { useNotification } from '../composables/useNotification'

@@ -36,10 +36,32 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="groupStore.loading" class="flex justify-center py-12">
+    <!-- Loading State: Skeleton Screen -->
+    <div v-if="groupStore.loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
-        class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"
-      ></div>
+        v-for="i in 6"
+        :key="i"
+        class="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col gap-4"
+      >
+        <!-- Icon & Title -->
+        <div class="flex items-center gap-4">
+          <BaseSkeleton variant="rectangular" width="48px" height="48px" class="rounded-xl" />
+          <div class="flex-1">
+            <BaseSkeleton width="60%" height="1.5em" class="mb-2" />
+            <BaseSkeleton width="40%" height="1em" />
+          </div>
+        </div>
+        <!-- Description -->
+        <div class="space-y-2">
+          <BaseSkeleton width="100%" />
+          <BaseSkeleton width="80%" />
+        </div>
+        <!-- Footer -->
+        <div class="flex justify-between mt-4 pt-4 border-t border-white/10">
+          <BaseSkeleton width="30%" />
+          <BaseSkeleton width="20%" />
+        </div>
+      </div>
     </div>
 
     <!-- Error State -->
@@ -171,6 +193,7 @@
 import { watchDebounced } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 
+import BaseSkeleton from '../components/BaseSkeleton.vue'
 import LazyImage from '../components/LazyImage.vue'
 import UserRating from '../components/UserRating.vue'
 import { useGroupStore } from '../stores/groupStore'

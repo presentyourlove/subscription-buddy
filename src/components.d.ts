@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BaseButton: typeof import('./components/BaseButton.vue')['default']
     BaseInput: typeof import('./components/BaseInput.vue')['default']
+    BaseSkeleton: typeof import('./components/BaseSkeleton.vue')['default']
     BaseTextarea: typeof import('./components/BaseTextarea.vue')['default']
     ChatInputArea: typeof import('./components/chat/ChatInputArea.vue')['default']
     ChatMessageList: typeof import('./components/chat/ChatMessageList.vue')['default']
