@@ -99,7 +99,7 @@ npm run dev
 
 ---
 
-## � 專案結構 (Project Structure)
+## 專案結構 (Project Structure)
 
 ```text
 src/
@@ -185,10 +185,6 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 當商業邏輯複雜化時，將 `core` (Model/Service) 與 `ui` (View) 分離為不同 Package。
     * **效益**: 提升編譯速度，並允許邏輯在不同專案 (如 Admin 後台) 間共用。
 
-2. **容器健康檢查 (Container Health Check)** `[Pending]`
-    * **描述**: 於 Dockerfile 中新增 `HEALTHCHECK` 指令。
-    * **效益**: 讓容器編排平台 (如 K8s) 能自動偵測並重啟異常容器，提升服務可用性。
-
 #### 🛡️ 安全性與維運 (Security & DevOps)
 
 1. **自動化備份與還原演練 (Automated Backup & DR)** `[V3]`
@@ -236,68 +232,6 @@ docker run -p 8080:80 subscription-buddy
 2. **端對端加密 (E2E Encryption)** `[Pending]`
     * **描述**: 針對聊天室訊息實作客戶端加密 (如 Signal Protocol)，僅參與者可解密。
     * **效益**: 確保即使伺服器被入侵，使用者的對話內容依然安全，達到最高資安標準。
-
-## 📝 近期變更 (Recent Changes)
-
-### Phase 9: Deployment & Monitoring `[DONE]`
-
-* **Content Security Policy**: 實作嚴格的 CSP 標頭配置。
-* **CI/CD Pipeline**: (GitHub Actions) 自動化測試與部署。
-* **Sentry**: 錯誤追蹤整合。
-* **DevOps Suite**: Semantic Release, Audit Logging, Dependabot.
-
-### Phase 8: 開發增強與規範化 (2026-01-17)
-
-* **Fuzzy Search**: 引入 Fuse.js 實作錯字容忍搜尋。
-* **Pinia Persistence**: 整合 pinia-plugin-persistedstate 持久化 Store 狀態。
-* **Docker Optimization**: 實作 Multi-stage Build 與 Nginx SPA 配置。
-
-**檔案變更清單：**
-
-* **新增**:
-  * `src/composables/useFuzzySearch.ts`: 模糊搜尋邏輯
-  * `src/components/PrefetchLink.vue`: 路由預取元件
-  * `src/utils/imageOptimizer.ts`: 圖片優化工具
-  * `src/components/BaseSkeleton.vue`: 骨架屏原子元件
-  * `src/components/chat/*`: 拆分後聊天室子元件
-  * `.lighthouserc.json`: Lighthouse CI 設定檔
-  * `src/schemas/*`: Zod 驗證架構
-  * `src/composables/useFormValidation.ts`: 驗證邏輯封裝
-  * `src/components/*.stories.ts`: Storybook 故事檔案
-  * `tests/e2e/visual.spec.ts`: 視覺回歸測試腳本
-  * `.storybook/*.ts`: Storybook 設定檔
-* **修改**:
-  * `package.json`: 新增依賴、scripts (lhci:full)
-  * `firebase.json`: 新增模擬器配置
-* **新增**:
-  * `src/utils/imageOptimizer.ts`: 圖片優化工具
-  * `src/components/BaseSkeleton.vue`: 骨架屏原子元件
-  * `src/components/chat/*`: 拆分後聊天室子元件
-  * `.dockerignore`: 用於 Docker 建構優化
-  * `nginx.default.conf`: SPA 專用 Nginx 設定
-* **修改**:
-  * `package.json`: 新增依賴、scripts (lhci:full)
-  * `firebase.json`: 新增模擬器配置
-  * `playwright.config.js`: 新增 VRT 配置
-  * `tsconfig.json`: 優化排除規則
-  * `src/firebase/config.ts`: 啟用 Offline Persistence
-  * `src/components/BaseInput.vue`, `BaseTextarea.vue`: 支援錯誤顯示
-  * `src/views/ChatRoomView.vue`: 引入子元件重構邏輯
-  * `src/components/LazyImage.vue`: 整合自動圖片優化
-  * `src/views/HomeView.vue`: 整合骨架屏、預取連結與模糊搜尋
-  * `src/components/Navbar.vue`: 整合預取連結
-  * `src/stores/groupStore.ts`: 啟用狀態持久化
-  * `Dockerfile`: 整合 Nginx 設定與多階段優化
-  * `src/main.ts`: 註冊 Persistence Plugin
-  * `vite.config.ts`: 配置 Workbox Background Sync
-  * `firebase.json`: 配置 Functions 與 CSP
-  * `.releaserc.json`: Semantic Release 設定檔
-  * `.github/workflows/release.yml`: 自動發布流程
-* **新增**:
-  * `functions/`: Cloud Functions 專案目錄 (含 `triggers`)
-  * `.github/dependabot.yml`: 自動化依賴更新設定
-  * `sonar-project.properties`: SonarCloud 設定檔
-  * `.github/workflows/sonar.yml`: SAST 掃描流程
 
 ---
 
