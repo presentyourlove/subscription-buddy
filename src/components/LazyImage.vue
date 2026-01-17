@@ -33,6 +33,7 @@ interface Props {
   showPlaceholder?: boolean
   imageClass?: string
   containerClass?: string
+  width?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -48,11 +49,13 @@ const imageRef = ref<HTMLImageElement | null>(null)
 const isLoading = ref(true)
 const hasError = ref(false)
 
+import { optimizeImage } from '../utils/imageOptimizer'
+
 const currentSrc = computed(() => {
   if (hasError.value && props.fallbackSrc) {
     return props.fallbackSrc
   }
-  return props.src || ''
+  return optimizeImage(props.src, props.width)
 })
 
 const handleLoad = () => {

@@ -219,8 +219,8 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 在資料載入期間顯示 UI 骨架而非旋轉圈圈 (Spinner)。
     * **效益**: 降低感官等待時間 (Perceived Latency)，提升應用程式的流暢感。
 
-2. **圖片 CDN 與自動優化 (Image CDN)**
-    * **描述**: 整合 Cloudinary 或 Firebase Image Extension。
+2. **圖片 CDN 與自動優化 (Image CDN)** `[DONE]`
+    * **描述**: 整合 wsrv.nl 進行即時圖片轉檔與優化。
     * **效益**: 自動將使用者上傳圖片轉檔為 AVIF/WebP 並進行響應式縮放，大幅節省頻寬。
 
 3. **路由預取 (Route Prefetching)**
@@ -327,10 +327,25 @@ docker run -p 8080:80 subscription-buddy
 * **Lighthouse CI**: 建立前端效能自動化檢測閘門。
 * **Component Refactoring**: 拆分臃腫元件 (ChatRoomView)。
 * **Skeleton Screens**: 實作資料載入時的骨架屏體驗。
+* **Image CDN**: 整合 wsrv.nl 進行圖片自動優化。
 
 **檔案變更清單：**
 
 * **新增**:
+  * `src/utils/imageOptimizer.ts`: 圖片優化工具
+  * `src/components/BaseSkeleton.vue`: 骨架屏原子元件
+  * `src/components/chat/*`: 拆分後聊天室子元件
+  * `.lighthouserc.json`: Lighthouse CI 設定檔
+  * `src/schemas/*`: Zod 驗證架構
+  * `src/composables/useFormValidation.ts`: 驗證邏輯封裝
+  * `src/components/*.stories.ts`: Storybook 故事檔案
+  * `tests/e2e/visual.spec.ts`: 視覺回歸測試腳本
+  * `.storybook/*.ts`: Storybook 設定檔
+* **修改**:
+  * `package.json`: 新增依賴、scripts (lhci:full)
+  * `firebase.json`: 新增模擬器配置
+* **新增**:
+  * `src/utils/imageOptimizer.ts`: 圖片優化工具
   * `src/components/BaseSkeleton.vue`: 骨架屏原子元件
   * `src/components/chat/*`: 拆分後聊天室子元件
   * `.lighthouserc.json`: Lighthouse CI 設定檔
@@ -347,6 +362,7 @@ docker run -p 8080:80 subscription-buddy
   * `src/firebase/config.ts`: 支援模擬器連接
   * `src/components/BaseInput.vue`, `BaseTextarea.vue`: 支援錯誤顯示
   * `src/views/ChatRoomView.vue`: 引入子元件重構邏輯
+  * `src/components/LazyImage.vue`: 整合自動圖片優化
   * `src/views/HomeView.vue`, `GroupDetailView.vue`: 整合骨架屏
 
 ---
