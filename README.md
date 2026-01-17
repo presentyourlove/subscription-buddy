@@ -175,152 +175,65 @@ docker run -p 8080:80 subscription-buddy
 
 ---
 
-### 🔮 後繼優化建議 (Future Roadmap)
+## 🔮 未來規劃 (Future Roadmap)
 
 基於專案現況與未來擴展需求，我們擬定以下分階段優化藍圖：
 
 #### 🛠️ 開發體驗與架構 (DevEx & Architecture)
 
-1. **UI 元件文件化 (Storybook Integration)** `[DONE]`
-    * **描述**: 為 `BaseButton`, `UserRating` 等元件建立視覺化文件。
-    * **效益**: 加速新成員開發，並做為設計系統與程式碼的單一真理來源 (SSOT)。
-
-2. **視覺回歸測試 (Visual Regression Testing)** `[DONE]`
-    * **描述**: 擴充 Playwright 測試，加入 Screenshot Comparison。
-    * **效益**: 自動偵測 CSS 樣式意外跑版或 UI 渲染異常。
-
-3. **本地模擬器環境 (Firebase Emulator Suite)** `[DONE]`
-    * **描述**: 整合 Firestore, Auth, Functions 模擬器於本地開發環境。
-    * **效益**: 允許在離線或無須連接真實專案的情況下進行完整功能測試與開發，提升安全性。
-
-4. **架構模組化 (Monorepo Refactoring)** `[V3]`
+1. **架構模組化 (Monorepo Refactoring)** `[V3]`
     * **描述**: 當商業邏輯複雜化時，將 `core` (Model/Service) 與 `ui` (View) 分離為不同 Package。
     * **效益**: 提升編譯速度，並允許邏輯在不同專案 (如 Admin 後台) 間共用。
 
-5. **表單驗證架構化 (Schema Validation)** `[DONE]`
-    * **描述**: 引入 `zod` 或 `vee-validate` 取代手寫驗證邏輯。
-    * **效益**: 統一全站表單驗證規則，提升型別安全性與錯誤訊息的可維護性。
-
-6. **Git 提交規範 (Commitlint)** `[DONE]`
-    * **描述**: 配置 `commitlint` 強制檢查 Commit Message 格式。
-    * **效益**: 確保團隊協作時 Git 歷史紀錄整潔，有利於自動化工具分析。
-
-7. **前端效能閘門 (Lighthouse CI)** `[DONE]`
-    * **描述**: 於 CI 流程整合 Lighthouse，強制要求 Performance 分數 > 90。
-    * **效益**: 確保專案符合企業級效能標準，防止效能退化。
-
-8. **元件拆分與微型化 (Component Refactoring)** `[DONE]`
-    * **描述**: 嚴格遵守單一檔案 < 300 行規範 (目前 ChatRoomView 已超標)。
-    * **效益**: 降低程式碼複雜度 (Cyclomatic Complexity)，提升可讀性與可維護性。
-
-#### ⚡ 效能與體驗 (Performance & UX)
-
-1. **骨架屏載入體驗 (Skeleton Screens)** `[DONE]`
-    * **描述**: 在資料載入期間顯示 UI 骨架而非旋轉圈圈 (Spinner)。
-    * **效益**: 降低感官等待時間 (Perceived Latency)，提升應用程式的流暢感。
-
-2. **圖片 CDN 與自動優化 (Image CDN)** `[DONE]`
-    * **描述**: 整合 wsrv.nl 進行即時圖片轉檔與優化。
-    * **效益**: 自動將使用者上傳圖片轉檔為 AVIF/WebP 並進行響應式縮放，大幅節省頻寬。
-
-3. **路由預取 (Route Prefetching)** `[DONE]`
-    * **描述**: 在使用者滑鼠懸停於導航連結時，預先下載下一頁的 JS Chunk。
-    * **效益**: 實現「點擊即顯示」的極致換頁體驗。
-
-4. **模糊搜尋引擎 (Algolia / MeiliSearch)** `[DONE]`
-    * **描述**: 使用 Fuse.js 在客戶端實作模糊搜尋 (Client-side Fuzzy Search)。
-    * **效益**: 支援錯字容忍 (Typos Tolerance) 與多欄位權重排序，大幅提升搜尋體驗。
-
-5. **狀態持久化 (Pinia Persistence)** `[DONE]`
-    * **描述**: 引入 `pinia-plugin-persistedstate`。
-    * **效益**: 防止使用者重新整理網頁後丟失非敏感的暫存狀態 (如篩選條件、快取列表)。
-
-6. **Docker 多階段建構 (Multi-stage Build)** `[DONE]`
-    * **描述**: 優化 Dockerfile，採用 `node:alpine` 或 `distroless` 映像檔。
-    * **效益**: 大幅縮減映像檔體積 (預計減少 60%+) 並降低資安攻擊面。
-
-#### 🛡️ 安全性與維運 (Security & DevOps)
-
-1. **內容安全策略 (Content Security Policy - CSP)** `[DONE]`
-    * **描述**: 於 `firebase.json` headers 配置嚴格的 CSP 規則。
-    * **效益**: 有效防禦 XSS 攻擊與未授權的外部資源載入。
-
-2. **語意化版本發布 (Semantic Release)** `[DONE]`
-    * **描述**: 設定 CI 流程自動根據 Commit Message 產生 Changelog 並發布版本 Tag。
-    * **效益**: 自動化版本管理，確保版號與變更紀錄的一致性。
-
-3. **進階離線同步 (Background Sync)** `[DONE]`
-    * **描述**: 利用 Service Worker 的 Background Sync API 處理離線訊息發送。
-    * **效益**: 即使在網路不穩定的捷運或電梯中，使用者的訊息也能在連線恢復後自動送出。
-
-4. **稽核軌跡記錄 (Audit Logging)** `[DONE]`
-    * **描述**: 利用 Cloud Functions 觸發器紀錄所有關鍵資料異動 (Create/Update/Delete) 至獨立 Log 集合。
-    * **效益**: 符合企業級合規要求 (Compliance)，確保操作可追溯。
-
-5. **相依性弱點掃描 (SCA / Dependabot)** `[DONE]`
-    * **描述**: 啟用 GitHub Dependabot 或整合 Snyk。
-    * **效益**: 自動偵測 npm 套件安全漏洞，降低供應鏈攻擊風險。
-
-6. **靜態應用程式安全測試 (SAST / SonarQube)** `[DONE]`
-    * **描述**: 於 CI 流程整合 SonarCloud 或類似工具進行程式碼品質掃描。
-    * **效益**: 自動偵測程式碼異味 (Code Smells)、資安漏洞與技術債。
-
-## 🔮 未來規劃 (Future Roadmap - V3)
-
-1. **自動化備份與還原演練 (Automated Backup & DR)**
-    * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
-    * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
-
-## 🚧 待定項目 (Pending Decision)
-
-1. **容器健康檢查 (Container Health Check)**
+2. **容器健康檢查 (Container Health Check)** `[Pending]`
     * **描述**: 於 Dockerfile 中新增 `HEALTHCHECK` 指令。
     * **效益**: 讓容器編排平台 (如 K8s) 能自動偵測並重啟異常容器，提升服務可用性。
 
-2. **交易冪等性機制 (Idempotency Keys)**
+#### 🛡️ 安全性與維運 (Security & DevOps)
+
+1. **自動化備份與還原演練 (Automated Backup & DR)** `[V3]`
+    * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
+    * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
+
+2. **交易冪等性機制 (Idempotency Keys)** `[Pending]`
     * **描述**: 針對關鍵交易 (如開團、結案) 實作操作冪等性，防止重複扣款或狀態異常。
     * **效益**: 提升分散式系統的強一致性與可靠度。
 
-3. **Security Rules 單元測試**
+3. **Security Rules 單元測試** `[Pending]`
     * **描述**: 建立專門針對 `firestore.rules` 的自動化測試套件。
     * **效益**: 確保權限邏輯的正確性，防止因規則修改導致的權限洩漏。
 
 #### 🌍 無障礙與多元化 (Accessibility & Inclusion)
 
-1. **WCAG 2.1 自動化稽核**
+1. **WCAG 2.1 自動化稽核** `[Pending]`
     * **描述**: 引入 `pa11y` 或 `axe-core` 於 CI 流程中。
     * **效益**: 確保應用程式符合無障礙標準，照顧視障或操作不便的使用者。
 
-2. **多主題切換支援 (Theme Switching)**
+2. **多主題切換支援 (Theme Switching)** `[Pending]`
     * **描述**: 解除目前的強制深色模式限制，實作淺色/深色主題切換。
     * **效益**: 尊重使用者系統偏好，提升在不同環境光線下的閱讀舒適度。
 
-3. **手勢互動優化 (Mobile Gestures)**
+3. **手勢互動優化 (Mobile Gestures)** `[Pending]`
     * **描述**: 引入 `useSwipe` 等手勢庫，支援左滑返回、下拉更新等原生 App 體驗。
     * **效益**: 符合行動裝置使用習慣，提升 PWA 的操作直覺性。
 
-4. **安全區域適配 (Safe Area Adaptation)**
+4. **安全區域適配 (Safe Area Adaptation)** `[Pending]`
     * **描述**: 針對 iPhone 動態島與瀏海屏進行 CSS `env(safe-area-inset)` 適配。
     * **效益**: 防止內容被遮擋，確保在各種全螢幕裝置上的視覺完整性。
 
 #### 📊 數據與分析 (Analytics)
 
-1. **轉換率漏斗追蹤 (Custom Events Strategy)**
+1. **轉換率漏斗追蹤 (Custom Events Strategy)** `[Pending]`
     * **描述**: 定義關鍵路徑 (如：註冊 -> 開團 -> 滿團) 的自訂事件。
     * **效益**: 精確掌握使用者流失節點，作為產品迭代的數據支撐。
 
 #### ⚖️ 合規與私隱 (Compliance & Privacy)
 
-1. **GDPR 資料權利自動化 (Subject Rights Automation)**
+1. **GDPR 資料權利自動化 (Subject Rights Automation)** `[Pending]`
     * **描述**: 實作「一鍵匯出個資」與「徹底刪除帳號」的自助功能。
     * **效益**: 滿足 GDPR/CCPA 對於資料可攜權與被遺忘權的法律要求，降低法遵風險。
 
-2. **端對端加密 (E2E Encryption)**
-3. **GDPR 資料權利自動化 (Subject Rights Automation)**
-    * **描述**: 實作「一鍵匯出個資」與「徹底刪除帳號」的自助功能。
-    * **效益**: 滿足 GDPR/CCPA 對於資料可攜權與被遺忘權的法律要求，降低法遵風險。
-
-4. **端對端加密 (E2E Encryption)**
+2. **端對端加密 (E2E Encryption)** `[Pending]`
     * **描述**: 針對聊天室訊息實作客戶端加密 (如 Signal Protocol)，僅參與者可解密。
     * **效益**: 確保即使伺服器被入侵，使用者的對話內容依然安全，達到最高資安標準。
 
