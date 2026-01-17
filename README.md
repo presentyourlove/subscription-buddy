@@ -223,7 +223,7 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 整合 wsrv.nl 進行即時圖片轉檔與優化。
     * **效益**: 自動將使用者上傳圖片轉檔為 AVIF/WebP 並進行響應式縮放，大幅節省頻寬。
 
-3. **路由預取 (Route Prefetching)**
+3. **路由預取 (Route Prefetching)** `[DONE]`
     * **描述**: 在使用者滑鼠懸停於導航連結時，預先下載下一頁的 JS Chunk。
     * **效益**: 實現「點擊即顯示」的極致換頁體驗。
 
@@ -328,10 +328,12 @@ docker run -p 8080:80 subscription-buddy
 * **Component Refactoring**: 拆分臃腫元件 (ChatRoomView)。
 * **Skeleton Screens**: 實作資料載入時的骨架屏體驗。
 * **Image CDN**: 整合 wsrv.nl 進行圖片自動優化。
+* **Route Prefetching**: 實作按需預取的路由連結。
 
 **檔案變更清單：**
 
 * **新增**:
+  * `src/components/PrefetchLink.vue`: 路由預取元件
   * `src/utils/imageOptimizer.ts`: 圖片優化工具
   * `src/components/BaseSkeleton.vue`: 骨架屏原子元件
   * `src/components/chat/*`: 拆分後聊天室子元件
@@ -363,7 +365,8 @@ docker run -p 8080:80 subscription-buddy
   * `src/components/BaseInput.vue`, `BaseTextarea.vue`: 支援錯誤顯示
   * `src/views/ChatRoomView.vue`: 引入子元件重構邏輯
   * `src/components/LazyImage.vue`: 整合自動圖片優化
-  * `src/views/HomeView.vue`, `GroupDetailView.vue`: 整合骨架屏
+  * `src/views/HomeView.vue`: 整合骨架屏與預取連結
+  * `src/components/Navbar.vue`: 整合預取連結
 
 ---
 

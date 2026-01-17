@@ -6,40 +6,40 @@
       <div class="flex items-center justify-between h-16">
         <!-- Logo / Brand -->
         <div class="flex-shrink-0">
-          <router-link to="/" class="flex items-center gap-2">
+          <PrefetchLink to="/" class="flex items-center gap-2">
             <img src="/icon.png" class="w-8 h-8 object-contain" alt="Logo" />
             <span
               class="font-bold text-xl tracking-tight bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent"
             >
               {{ $t('app.title') }}
             </span>
-          </router-link>
+          </PrefetchLink>
         </div>
 
         <!-- Desktop Menu (Hidden on Mobile) -->
         <div class="hidden md:block">
           <div class="ml-10 flex items-baseline space-x-4">
-            <router-link
+            <PrefetchLink
               to="/"
               class="hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
               {{ $t('nav.bulletin') }}
-            </router-link>
+            </PrefetchLink>
 
             <template v-if="userStore.user">
-              <router-link
+              <PrefetchLink
                 to="/create"
                 class="group relative inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/40 hover:-translate-y-0.5"
               >
                 <span class="mr-1 text-lg">+</span> {{ $t('nav.createGroup') }}
-              </router-link>
+              </PrefetchLink>
               <button
                 class="hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium text-gray-300"
                 @click="handleLogout"
               >
                 {{ $t('nav.logout') }}
               </button>
-              <router-link
+              <PrefetchLink
                 to="/profile"
                 class="flex items-center gap-2 ml-4 hover:bg-white/10 p-2 rounded-lg transition-colors"
               >
@@ -51,16 +51,16 @@
                   container-class="w-8 h-8"
                 />
                 <span class="text-xs text-gray-400">{{ userStore.user.displayName }}</span>
-              </router-link>
+              </PrefetchLink>
             </template>
 
             <template v-else>
-              <router-link
+              <PrefetchLink
                 to="/login"
                 class="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-md text-sm font-medium transition-colors border border-white/10"
               >
                 {{ $t('nav.login') }}
-              </router-link>
+              </PrefetchLink>
             </template>
           </div>
         </div>
@@ -102,16 +102,16 @@
     <!-- Mobile Menu (Dropdown) -->
     <div v-show="isOpen" class="md:hidden border-t border-white/10 bg-brand-dark">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        <router-link
+        <PrefetchLink
           to="/"
           class="text-gray-300 hover:bg-white/10 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           @click="isOpen = false"
         >
           {{ $t('nav.bulletin') }}
-        </router-link>
+        </PrefetchLink>
 
         <template v-if="userStore.user">
-          <router-link
+          <PrefetchLink
             to="/profile"
             class="flex items-center gap-3 px-3 py-2 hover:bg-white/10 rounded-md transition-colors"
             @click="isOpen = false"
@@ -123,14 +123,14 @@
               container-class="w-8 h-8"
             />
             <span class="text-sm text-gray-400">{{ userStore.user.displayName }}</span>
-          </router-link>
-          <router-link
+          </PrefetchLink>
+          <PrefetchLink
             to="/create"
             class="mt-3 mb-3 w-full group relative inline-flex items-center justify-center px-6 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30"
             @click="isOpen = false"
           >
             <span class="mr-2 text-xl">+</span> {{ $t('nav.createGroup') }}
-          </router-link>
+          </PrefetchLink>
           <button
             class="text-gray-300 hover:bg-white/10 hover:text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium"
             @click="handleLogout"
@@ -140,12 +140,12 @@
         </template>
 
         <template v-else>
-          <router-link
+          <PrefetchLink
             to="/login"
             class="w-full text-center text-gray-300 hover:bg-white/10 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           >
             {{ $t('nav.login') }}
-          </router-link>
+          </PrefetchLink>
         </template>
       </div>
     </div>
@@ -158,6 +158,7 @@ import { useRouter } from 'vue-router'
 
 import { useUserStore } from '../stores/userStore'
 import LazyImage from './LazyImage.vue'
+import PrefetchLink from './PrefetchLink.vue'
 
 const userStore = useUserStore()
 const router = useRouter()

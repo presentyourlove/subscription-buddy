@@ -23,6 +23,7 @@ declare module 'vue' {
     LazyImage: typeof import('./components/LazyImage.vue')['default']
     LegalLayout: typeof import('./components/LegalLayout.vue')['default']
     Navbar: typeof import('./components/Navbar.vue')['default']
+    PrefetchLink: typeof import('./components/PrefetchLink.vue')['default']
     ReloadPrompt: typeof import('./components/ReloadPrompt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

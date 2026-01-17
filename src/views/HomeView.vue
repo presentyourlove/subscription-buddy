@@ -14,12 +14,12 @@
 
     <!-- Actions -->
     <div class="flex justify-center mb-8">
-      <router-link
+      <PrefetchLink
         to="/create"
         class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/40 hover:-translate-y-1"
       >
         <span class="mr-2 text-xl">+</span> {{ $t('home.createLink') }}
-      </router-link>
+      </PrefetchLink>
     </div>
 
     <!-- Search & Filter -->
@@ -147,12 +147,12 @@
                 <UserRating :uid="group.hostId" />
               </span>
             </div>
-            <router-link
+            <PrefetchLink
               :to="'/groups/' + group.id"
               class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors"
             >
               {{ $t('home.card.details') }}
-            </router-link>
+            </PrefetchLink>
           </div>
         </div>
       </div>
@@ -179,12 +179,12 @@
     <!-- Empty State -->
     <div v-if="!groupStore.loading && filteredGroups.length === 0" class="text-center py-20">
       <p class="text-gray-500 text-lg">{{ $t('home.emptyState') }}</p>
-      <router-link
+      <PrefetchLink
         to="/create"
         class="inline-block mt-4 text-purple-400 hover:text-purple-300 font-medium"
       >
         + {{ $t('home.createLink') }}
-      </router-link>
+      </PrefetchLink>
     </div>
   </div>
 </template>
@@ -195,6 +195,7 @@ import { computed, onMounted, ref } from 'vue'
 
 import BaseSkeleton from '../components/BaseSkeleton.vue'
 import LazyImage from '../components/LazyImage.vue'
+import PrefetchLink from '../components/PrefetchLink.vue'
 import UserRating from '../components/UserRating.vue'
 import { useGroupStore } from '../stores/groupStore'
 import { GROUP_STATUS } from '../utils/constants'
