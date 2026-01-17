@@ -20,6 +20,13 @@
 1. 在 "Choose your analysis method" 頁面，選擇 **"With GitHub Actions"**。
 2. 您會看到 SonarCloud 提供的設定指引，請專注於下方 **"Create a Secret"** 區塊。
 
+## 步驟 3.5: 設定 New Code Definition (重要)
+
+在此步驟 (或稍後在 Administration > New Code)，系統會詢問如何定義「新程式碼」。
+
+1. **請選擇 "Previous version" (建議)**。
+2. **原因**：因為我們已經導入了 `Semantic Release`，專案會有明確的版本號 (如 v1.0.0, v1.1.0)。選擇此選項能讓 SonarCloud 精準地以「版本」為界線，檢測新加入的程式碼品質。
+
 ## 步驟 4: 取得 SONAR_TOKEN
 
 1. 在設定頁面中，SonarCloud 會產生一組 **`SONAR_TOKEN`**。
