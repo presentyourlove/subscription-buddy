@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia'
 
+import { EVENTS, useAnalytics } from '../composables/useAnalytics'
 import { groupService } from '../services/groupService'
 import { Group } from '../types'
+
+const { logEvent } = useAnalytics()
 
 interface GroupState {
   groups: Group[]
@@ -32,7 +35,7 @@ export const useGroupStore = defineStore('group', {
       this.loading = true
       this.error = null
       // Don't clear groups immediately to allow stale-while-revalidate
-      // this.groups = [] 
+      // this.groups = []
       this.lastDoc = null
       this.hasMore = true
       try {
@@ -40,6 +43,9 @@ export const useGroupStore = defineStore('group', {
         this.groups = groups
         this.lastDoc = lastDoc
         this.hasMore = groups.length === 10
+
+        // Log view list event only on initial fetch
+        logEvent(EVENTS.VIEW_GROUP_LIST)
       } catch (err) {
         if (err instanceof Error) {
           this.error = err.message
@@ -76,9 +82,12 @@ export const useGroupStore = defineStore('group', {
       this.loading = true
       this.error = null
       try {
-        await groupService.createGroup(groupData)
+        // Generate Idempotency Key
+        const idempotencyKey = crypto.randomUUID()
+        await groupService.createGroup(groupData, idempotencyKey)
         // Refresh list
         await this.fetchGroups()
+        logEvent(EVENTS.CREATE_GROUP, { title: groupData.title, category: groupData.category })
       } catch (err) {
         if (err instanceof Error) {
           this.error = err.message

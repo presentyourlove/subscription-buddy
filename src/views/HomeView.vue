@@ -22,177 +22,189 @@
       </PrefetchLink>
     </div>
 
-    <!-- Search & Filter -->
-    <div class="mb-8 relative max-w-xl mx-auto">
-      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <span class="text-gray-400">🔍</span>
+    <PullToRefresh :on-refresh="groupStore.fetchGroups">
+      <!-- Search & Filter -->
+      <div class="mb-8 relative max-w-xl mx-auto">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <span class="text-gray-400">🔍</span>
+        </div>
+        <input
+          v-model="groupStore.searchQuery"
+          type="text"
+          class="block w-full pl-10 pr-3 py-3 border border-white/10 rounded-xl leading-5 bg-white/5 text-gray-300 placeholder-gray-500 focus:outline-none focus:bg-white/10 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm backdrop-blur-sm transition-all"
+          :placeholder="$t('home.searchPlaceholder')"
+        />
       </div>
-      <input
-        v-model="groupStore.searchQuery"
-        type="text"
-        class="block w-full pl-10 pr-3 py-3 border border-white/10 rounded-xl leading-5 bg-white/5 text-gray-300 placeholder-gray-500 focus:outline-none focus:bg-white/10 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-sm backdrop-blur-sm transition-all"
-        :placeholder="$t('home.searchPlaceholder')"
-      />
-    </div>
 
-    <!-- Background Refresh Indicator (Optional) -->
-    <div v-if="groupStore.loading && groupStore.groups.length > 0" class="flex justify-center mb-4">
-      <span class="bg-purple-600/80 text-white text-xs px-3 py-1 rounded-full flex items-center gap-2 animate-pulse">
-         <span class="animate-spin h-3 w-3 border-2 border-white/30 border-t-white rounded-full"></span>
-         Updating...
-      </span>
-    </div>
-
-    <!-- Loading State: Skeleton Screen (Only if no data) -->
-    <div v-if="groupStore.loading && groupStore.groups.length === 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Background Refresh Indicator (Optional) -->
       <div
-        v-for="i in 6"
-        :key="i"
-        class="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col gap-4"
+        v-if="groupStore.loading && groupStore.groups.length > 0"
+        class="flex justify-center mb-4"
       >
-        <!-- Icon & Title -->
-        <div class="flex items-center gap-4">
-          <BaseSkeleton variant="rectangular" width="48px" height="48px" class="rounded-xl" />
-          <div class="flex-1">
-            <BaseSkeleton width="60%" height="1.5em" class="mb-2" />
-            <BaseSkeleton width="40%" height="1em" />
-          </div>
-        </div>
-        <!-- Description -->
-        <div class="space-y-2">
-          <BaseSkeleton width="100%" />
-          <BaseSkeleton width="80%" />
-        </div>
-        <!-- Footer -->
-        <div class="flex justify-between mt-4 pt-4 border-t border-white/10">
-          <BaseSkeleton width="30%" />
-          <BaseSkeleton width="20%" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Error State -->
-    <div v-else-if="groupStore.error" class="text-center py-12 text-red-400">
-      {{ groupStore.error }}
-    </div>
-
-    <!-- Group Grid -->
-    <div v-else>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div
-          v-for="group in filteredGroups"
-          :key="group.id"
-          class="group relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10"
-        >
-          <!-- Status Badge -->
-          <span
-            class="absolute top-4 right-4 px-2 py-1 text-xs rounded-full border"
-            :class="{
-              'bg-green-500/20 text-green-300 border-green-500/30':
-                group.status === GROUP_STATUS.OPEN,
-              'bg-gray-500/20 text-gray-300 border-gray-500/30':
-                group.status === GROUP_STATUS.CLOSED,
-              'bg-red-500/20 text-red-300 border-red-500/30': group.status === GROUP_STATUS.FULL
-            }"
-          >
-            {{ $t(`group.status.${group.status}`) }}
-          </span>
-
-          <!-- Service Icon / Logo -->
-          <div class="h-16 mb-4 flex items-center">
-            <img
-              v-if="group.id && getServiceLogo(group.title) && !imageErrorMap[group.id]"
-              :src="getServiceLogo(group.title)"
-              class="h-full max-w-[50%] object-contain"
-              alt="Service Logo"
-              @error="handleImageError(group.id)"
-            />
-            <div
-              v-else
-              class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30"
-            >
-              📺
-            </div>
-          </div>
-
-          <h3 class="text-xl font-bold text-white mb-2">{{ group.title }}</h3>
-          <p class="text-gray-400 text-sm mb-4 line-clamp-2 h-10">{{ group.description }}</p>
-
-          <div class="flex items-center justify-between text-sm py-3 border-t border-white/10">
-            <div class="flex flex-col">
-              <span class="text-gray-500">{{ $t('home.card.pricePerMonth') }}</span>
-              <span class="font-bold text-purple-300 text-lg"
-                >${{ group.price }}
-                <span class="text-xs text-gray-500">{{ $t('home.card.month') }}</span></span
-              >
-            </div>
-            <div class="flex flex-col items-end">
-              <span class="text-gray-500">{{ $t('home.card.slots') }}</span>
-              <span class="font-bold text-white"
-                >{{ group.slots }} {{ $t('home.card.people') }}</span
-              >
-            </div>
-          </div>
-
-          <!-- Host Info -->
-          <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
-            <div class="flex items-center gap-2">
-              <div
-                class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs overflow-hidden"
-              >
-                <LazyImage
-                  v-if="group.hostAvatar"
-                  :src="group.hostAvatar"
-                  image-class="w-full h-full object-cover"
-                  container-class="w-full h-full"
-                  :show-placeholder="false"
-                />
-                <span v-else>👤</span>
-              </div>
-              <span class="text-xs text-gray-400 flex items-center gap-1">
-                {{ group.hostName || $t('home.card.anonymous') }}
-                <UserRating :uid="group.hostId" />
-              </span>
-            </div>
-            <PrefetchLink
-              :to="'/groups/' + group.id"
-              class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors"
-            >
-              {{ $t('home.card.details') }}
-            </PrefetchLink>
-          </div>
-        </div>
-      </div>
-
-      <!-- Load More Button -->
-      <div
-        v-if="groupStore.hasMore && !searchQuery && !debouncedQuery"
-        class="flex justify-center mt-12"
-      >
-        <button
-          :disabled="groupStore.loading"
-          class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors flex items-center gap-2"
-          @click="groupStore.fetchNextPage()"
+        <span
+          class="bg-purple-600/80 text-white text-xs px-3 py-1 rounded-full flex items-center gap-2 animate-pulse"
         >
           <span
-            v-if="groupStore.loading"
-            class="animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full"
+            class="animate-spin h-3 w-3 border-2 border-white/30 border-t-white rounded-full"
           ></span>
-          {{ groupStore.loading ? '載入中...' : '載入更多' }}
-        </button>
+          Updating...
+        </span>
       </div>
-    </div>
 
-    <!-- Empty State -->
-    <div v-if="!groupStore.loading && filteredGroups.length === 0" class="text-center py-20">
-      <p class="text-gray-500 text-lg">{{ $t('home.emptyState') }}</p>
-      <PrefetchLink
-        to="/create"
-        class="inline-block mt-4 text-purple-400 hover:text-purple-300 font-medium"
+      <!-- Loading State: Skeleton Screen (Only if no data) -->
+      <div
+        v-if="groupStore.loading && groupStore.groups.length === 0"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
-        + {{ $t('home.createLink') }}
-      </PrefetchLink>
-    </div>
+        <div
+          v-for="i in 6"
+          :key="i"
+          class="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col gap-4"
+        >
+          <!-- Icon & Title -->
+          <div class="flex items-center gap-4">
+            <BaseSkeleton variant="rectangular" width="48px" height="48px" class="rounded-xl" />
+            <div class="flex-1">
+              <BaseSkeleton width="60%" height="1.5em" class="mb-2" />
+              <BaseSkeleton width="40%" height="1em" />
+            </div>
+          </div>
+          <!-- Description -->
+          <div class="space-y-2">
+            <BaseSkeleton width="100%" />
+            <BaseSkeleton width="80%" />
+          </div>
+          <!-- Footer -->
+          <div class="flex justify-between mt-4 pt-4 border-t border-white/10">
+            <BaseSkeleton width="30%" />
+            <BaseSkeleton width="20%" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="groupStore.error" class="text-center py-12 text-red-400">
+        {{ groupStore.error }}
+      </div>
+
+      <!-- Group Grid -->
+      <div v-else>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            v-for="group in filteredGroups"
+            :key="group.id"
+            class="group relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10"
+          >
+            <!-- Status Badge -->
+            <span
+              class="absolute top-4 right-4 px-2 py-1 text-xs rounded-full border"
+              :class="{
+                'bg-green-500/20 text-green-300 border-green-500/30':
+                  group.status === GROUP_STATUS.OPEN,
+                'bg-gray-500/20 text-gray-300 border-gray-500/30':
+                  group.status === GROUP_STATUS.CLOSED,
+                'bg-red-500/20 text-red-300 border-red-500/30': group.status === GROUP_STATUS.FULL
+              }"
+            >
+              {{ $t(`group.status.${group.status}`) }}
+            </span>
+
+            <!-- Service Icon / Logo -->
+            <div class="h-16 mb-4 flex items-center">
+              <img
+                v-if="group.id && getServiceLogo(group.title) && !imageErrorMap[group.id]"
+                :src="getServiceLogo(group.title)"
+                class="h-full max-w-[50%] object-contain"
+                alt="Service Logo"
+                @error="handleImageError(group.id)"
+              />
+              <div
+                v-else
+                class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30"
+              >
+                📺
+              </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white mb-2">{{ group.title }}</h3>
+            <p class="text-gray-400 text-sm mb-4 line-clamp-2 h-10">{{ group.description }}</p>
+
+            <div class="flex items-center justify-between text-sm py-3 border-t border-white/10">
+              <div class="flex flex-col">
+                <span class="text-gray-500">{{ $t('home.card.pricePerMonth') }}</span>
+                <span class="font-bold text-purple-300 text-lg"
+                  >${{ group.price }}
+                  <span class="text-xs text-gray-500">{{ $t('home.card.month') }}</span></span
+                >
+              </div>
+              <div class="flex flex-col items-end">
+                <span class="text-gray-500">{{ $t('home.card.slots') }}</span>
+                <span class="font-bold text-white"
+                  >{{ group.slots }} {{ $t('home.card.people') }}</span
+                >
+              </div>
+            </div>
+
+            <!-- Host Info -->
+            <div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs overflow-hidden"
+                >
+                  <LazyImage
+                    v-if="group.hostAvatar"
+                    :src="group.hostAvatar"
+                    image-class="w-full h-full object-cover"
+                    container-class="w-full h-full"
+                    :show-placeholder="false"
+                  />
+                  <span v-else>👤</span>
+                </div>
+                <span class="text-xs text-gray-400 flex items-center gap-1">
+                  {{ group.hostName || $t('home.card.anonymous') }}
+                  <UserRating :uid="group.hostId" />
+                </span>
+              </div>
+              <PrefetchLink
+                :to="'/groups/' + group.id"
+                class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-xs font-medium transition-colors"
+              >
+                {{ $t('home.card.details') }}
+              </PrefetchLink>
+            </div>
+          </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div
+          v-if="groupStore.hasMore && !searchQuery && !debouncedQuery"
+          class="flex justify-center mt-12"
+        >
+          <button
+            :disabled="groupStore.loading"
+            class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors flex items-center gap-2"
+            @click="groupStore.fetchNextPage()"
+          >
+            <span
+              v-if="groupStore.loading"
+              class="animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full"
+            ></span>
+            {{ groupStore.loading ? '載入中...' : '載入更多' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div v-if="!groupStore.loading && filteredGroups.length === 0" class="text-center py-20">
+        <p class="text-gray-500 text-lg">{{ $t('home.emptyState') }}</p>
+        <PrefetchLink
+          to="/create"
+          class="inline-block mt-4 text-purple-400 hover:text-purple-300 font-medium"
+        >
+          + {{ $t('home.createLink') }}
+        </PrefetchLink>
+      </div>
+    </PullToRefresh>
   </div>
 </template>
 
@@ -203,6 +215,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import BaseSkeleton from '../components/BaseSkeleton.vue'
 import LazyImage from '../components/LazyImage.vue'
 import PrefetchLink from '../components/PrefetchLink.vue'
+import PullToRefresh from '../components/PullToRefresh.vue'
 import UserRating from '../components/UserRating.vue'
 import { useFuzzySearch } from '../composables/useFuzzySearch'
 import { useGroupStore } from '../stores/groupStore'
@@ -233,22 +246,6 @@ watch(
   },
   { immediate: true }
 )
-
-// Debounced search query update for UI responsiveness
-// Removed local ref, using store directly via v-model
-
-
-onMounted(() => {
-  groupStore.fetchGroups()
-})
-
-// ... (omitted middle part if contiguous it's fine, but here startLine 154) ...
-// Actually I need to split this replacement or just replace the block I verify.
-// I will replace imageErrorMap init at 154 and handleImageError at 185 separately?
-// Or just replace the ref definition first.
-
-/* Correct logic: */
-// I will just replace the ref line.
 
 onMounted(() => {
   groupStore.fetchGroups()

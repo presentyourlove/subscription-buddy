@@ -1,10 +1,15 @@
 import { User } from 'firebase/auth'
 import { defineStore } from 'pinia'
 
+import { EVENTS, useAnalytics } from '../composables/useAnalytics'
 import { authService } from '../services/authService'
+import { cryptoService } from '../services/CryptoService'
 import { userService } from '../services/userService'
 import type { Group } from '../types'
 import { FIREBASE_AUTH_CODES } from '../utils/constants'
+import { keyStore } from '../utils/indexedDB'
+
+const { logEvent } = useAnalytics()
 
 interface UserState {
   user: User | null
@@ -26,6 +31,34 @@ export const useUserStore = defineStore('user', {
           // Sync user data to Firestore on load/login
           await userService.syncUser(user)
           this.user = user
+
+          // --- E2EE Key Provisioning ---
+          try {
+            // Check if we have a private key locally
+            const privateKeyStr = await keyStore.get<string>(`priv_${user.uid}`)
+
+            if (!privateKeyStr) {
+              console.log('Generating new E2EE keys...')
+              // Generate new pair
+              const keyPair = await cryptoService.generateKeyPair()
+
+              // Export keys
+              const pubKeyStr = await cryptoService.exportKey(keyPair.publicKey)
+              const privKeyStr = await cryptoService.exportKey(keyPair.privateKey)
+
+              // Store Private locally
+              await keyStore.put(`priv_${user.uid}`, privKeyStr)
+
+              // Upload Public to Firestore
+              await userService.uploadPublicKey(user.uid, pubKeyStr)
+              console.log('E2EE keys generated and stored.')
+            } else {
+              console.log('E2EE private key found locally.')
+            }
+          } catch (e) {
+            console.error('E2EE Key Provisioning failed:', e)
+          }
+          // -----------------------------
         } else {
           this.user = null
         }
@@ -42,6 +75,7 @@ export const useUserStore = defineStore('user', {
         if (credential.user) {
           this.user = credential.user
           await userService.syncUser(credential.user)
+          logEvent(EVENTS.SIGN_UP, { method: 'email' })
         }
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err)
@@ -62,6 +96,7 @@ export const useUserStore = defineStore('user', {
       try {
         await authService.login(email, password)
         // this.user will be updated by initAuth listener
+        logEvent(EVENTS.LOGIN, { method: 'email' })
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err)
         console.error('Login failed:', message)
@@ -80,6 +115,7 @@ export const useUserStore = defineStore('user', {
       try {
         await authService.loginWithGoogle()
         // this.user will be updated by initAuth listener
+        logEvent(EVENTS.LOGIN, { method: 'google' })
       } catch (err: unknown) {
         const code = (err as { code?: string }).code
         if (code !== FIREBASE_AUTH_CODES.POPUP_CLOSED) {

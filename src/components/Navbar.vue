@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/80 border-b border-white/10 shadow-lg"
+    class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/80 border-b border-white/10 shadow-lg pt-safe"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
@@ -25,6 +25,8 @@
             >
               {{ $t('nav.bulletin') }}
             </PrefetchLink>
+
+            <ThemeToggle class="mr-4" />
 
             <template v-if="userStore.user">
               <PrefetchLink
@@ -110,6 +112,14 @@
           {{ $t('nav.bulletin') }}
         </PrefetchLink>
 
+        <!-- Theme Toggle (Mobile) -->
+        <div
+          class="px-3 py-2 flex items-center justify-between text-gray-300 hover:bg-white/10 rounded-md"
+        >
+          <span class="text-base font-medium">{{ $t('nav.theme') }}</span>
+          <ThemeToggle />
+        </div>
+
         <template v-if="userStore.user">
           <PrefetchLink
             to="/profile"
@@ -159,6 +169,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/userStore'
 import LazyImage from './LazyImage.vue'
 import PrefetchLink from './PrefetchLink.vue'
+import ThemeToggle from './ThemeToggle.vue'
 
 const userStore = useUserStore()
 const router = useRouter()

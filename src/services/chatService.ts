@@ -17,9 +17,10 @@ import {
   where
 } from 'firebase/firestore'
 
-import { db } from '../firebase/config'
 import { Chat, Group, Message, UserProfile } from '../types'
 import { COLLECTIONS, DEFAULTS, ERROR_CODES, GROUP_STATUS, MESSAGE_TYPES } from '../utils/constants'
+import { cryptoService } from './CryptoService'
+import { userService } from './userService'
 
 /**
  * Service to handle Chat and Rating logic in Firestore
@@ -94,15 +95,68 @@ class ChatService {
   /**
    * Send a text message
    */
+  /**
+   * Send a text message (Encrypted)
+   */
   async sendMessage(groupId: string, text: string, user: User): Promise<void> {
+    const chatRef = doc(db, COLLECTIONS.CHATS, groupId)
+    const chatSnap = await getDoc(chatRef)
+    if (!chatSnap.exists()) throw new Error('Chat not found')
+
+    const participants = chatSnap.data().participants || []
+
+    // 1. Fetch Public Keys
+    const publicKeys: CryptoKey[] = []
+    const participantIds: string[] = []
+
+    // We need to ensure order matches encryptedKeys
+    for (const uid of participants) {
+      const uProfile = await userService.getUser(uid)
+      if (uProfile?.publicKey) {
+        try {
+          const key = await cryptoService.importKey(uProfile.publicKey, 'public')
+          publicKeys.push(key)
+          participantIds.push(uid)
+        } catch (e) {
+          console.warn(`Invalid public key for user ${uid}`, e)
+        }
+      }
+    }
+
+    // 2. Encrypt
+    let payload: Partial<Message> = {
+      text: text, // Fallback for non-E2EE clients (optional, but here we strictly encrypt)
+      type: MESSAGE_TYPES.TEXT
+    }
+
+    if (publicKeys.length > 0) {
+      const encrypted = await cryptoService.encryptMessage(text, publicKeys)
+      payload = {
+        ...payload,
+        text: '', // Clear plain text
+        cipherText: encrypted.cipherText,
+        encryptedKeys: {}, // Map uid -> key string
+        iv: encrypted.iv,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        e2ee: true as any // Custom flag
+      }
+
+      // Map keys to UIDs
+      const keyMap: Record<string, string> = {}
+      participantIds.forEach((uid, index) => {
+        keyMap[uid] = encrypted.encryptedKeys[index]
+      })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(payload as any).encryptedKeys = keyMap
+    }
+
     const colRef = collection(db, COLLECTIONS.CHATS, groupId, COLLECTIONS.MESSAGES)
     await addDoc(colRef, {
-      text: text,
+      ...payload,
       senderId: user.uid,
       senderName: user.displayName || 'Anonymous',
       senderAvatar: user.photoURL || null,
-      createdAt: serverTimestamp(),
-      type: MESSAGE_TYPES.TEXT
+      createdAt: serverTimestamp()
     })
   }
 

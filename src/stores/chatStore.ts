@@ -2,8 +2,10 @@ import { User } from 'firebase/auth'
 import { defineStore } from 'pinia'
 
 import chatService from '../services/chatService'
+import { cryptoService } from '../services/CryptoService'
 import { Message } from '../types'
 import { ERROR_CODES } from '../utils/constants'
+import { keyStore } from '../utils/indexedDB'
 
 interface ChatState {
   messages: Message[]
@@ -57,8 +59,58 @@ export const useChatStore = defineStore('chat', {
 
       this.unsubscribe = chatService.subscribeToMessages(
         groupId,
-        (messages) => {
-          this.messages = messages
+        async (messages) => {
+          // Decrypt messages
+          // We need user ID to find our specific encrypted key
+          const { useUserStore } = await import('./userStore')
+          const userStore = useUserStore()
+          const uid = userStore.user?.uid
+
+          if (!uid) {
+            this.messages = messages
+            return
+          }
+
+          // Get Private Key
+          let privateKey: CryptoKey | null = null
+          try {
+            const privKeyStr = await keyStore.get<string>(`priv_${uid}`)
+            if (privKeyStr) {
+              privateKey = await cryptoService.importKey(privKeyStr, 'private')
+            }
+          } catch (e) {
+            console.error('Failed to load private key', e)
+          }
+
+          const decryptedMessages = await Promise.all(
+            messages.map(async (msg) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              if ((msg as any).e2ee && (msg as any).cipherText && privateKey) {
+                try {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  const myEncKey = (msg as any).encryptedKeys?.[uid]
+                  if (myEncKey) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const plainText = await cryptoService.decryptMessage(
+                      (msg as any).cipherText,
+                      myEncKey,
+                      (msg as any).iv,
+                      privateKey
+                    )
+                    return { ...msg, text: plainText }
+                  } else {
+                    return { ...msg, text: '🔒 Undecryptable (No Key)' }
+                  }
+                } catch (e) {
+                  console.error('Decryption failed for msg', msg.id, e)
+                  return { ...msg, text: '🔒 Decryption Failed' }
+                }
+              }
+              return msg
+            })
+          )
+
+          this.messages = decryptedMessages
         },
         (err) => {
           console.error('Snapshot error:', err)

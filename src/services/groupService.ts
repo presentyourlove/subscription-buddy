@@ -9,6 +9,7 @@ import {
   limit,
   orderBy,
   query,
+  setDoc,
   startAfter,
   updateDoc
 } from 'firebase/firestore'
@@ -75,14 +76,27 @@ class GroupService {
   /**
    * Add a new group
    */
-  async createGroup(groupData: Omit<Group, 'id' | 'createdAt' | 'status'>): Promise<string> {
+  async createGroup(
+    groupData: Omit<Group, 'id' | 'createdAt' | 'status'>,
+    idempotencyKey?: string
+  ): Promise<string> {
     try {
-      const docRef = await addDoc(collection(db, GroupService.COLLECTION), {
+      const data = {
         ...groupData,
         createdAt: new Date(),
         status: GROUP_STATUS.OPEN
-      })
-      return docRef.id
+      }
+
+      if (idempotencyKey) {
+        // Idempotency: Use key as Document ID
+        const docRef = doc(db, GroupService.COLLECTION, idempotencyKey)
+        await setDoc(docRef, data)
+        return idempotencyKey
+      } else {
+        // Fallback: Auto-generate ID (Legacy behavior)
+        const docRef = await addDoc(collection(db, GroupService.COLLECTION), data)
+        return docRef.id
+      }
     } catch (err) {
       console.error('[GroupService] Create error:', err)
       throw err

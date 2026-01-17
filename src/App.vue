@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-brand-dark text-white font-sans selection:bg-purple-500 selection:text-white"
+    class="min-h-screen bg-brand-dark text-white font-sans selection:bg-purple-500 selection:text-white pb-safe"
   >
     <Navbar />
     <main v-if="userStore.authReady">

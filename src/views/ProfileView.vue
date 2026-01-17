@@ -186,6 +186,44 @@
           {{ $t('profile.emptyHistory') }}
         </div>
       </div>
+      <div v-if="!loadingHistory" class="mt-12 pt-8 border-t border-white/10">
+        <h3 class="text-xl font-bold mb-6 text-gray-200">
+          🛡️ {{ $t('profile.privacy.title') || '隱私與資料管理' }}
+        </h3>
+
+        <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <p class="text-gray-400 text-sm mb-6">
+            {{
+              $t('profile.privacy.description') ||
+              '您擁有對個人資料的完全控制權。您可以隨時匯出副本或永久刪除您的帳號。'
+            }}
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <BaseButton
+              variant="secondary"
+              :loading="exporting"
+              class="flex-1 flex justify-center items-center gap-2"
+              @click="handleExportData"
+            >
+              <span>📥</span> {{ $t('profile.privacy.export') || '匯出我的資料' }}
+            </BaseButton>
+
+            <button
+              type="button"
+              class="flex-1 px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl font-bold transition-all duration-200 flex justify-center items-center gap-2"
+              @click="handleDeleteAccount"
+            >
+              <span
+                v-if="deleting"
+                class="animate-spin h-4 w-4 border-2 border-red-400 border-t-transparent rounded-full"
+              ></span>
+              <span v-else>🗑️</span>
+              {{ $t('profile.privacy.delete') || '刪除帳號' }}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -199,6 +237,7 @@ import BaseButton from '../components/BaseButton.vue'
 import BaseInput from '../components/BaseInput.vue'
 import LazyImage from '../components/LazyImage.vue'
 import UserRating from '../components/UserRating.vue'
+import { privacyService } from '../services/PrivacyService'
 import { useUserStore } from '../stores/userStore'
 import { Group } from '../types'
 
@@ -209,6 +248,8 @@ const { t } = useI18n()
 const isEditing = ref(false)
 const loading = ref(false)
 const loadingHistory = ref(false)
+const exporting = ref(false)
+const deleting = ref(false)
 const globalError = ref<string | null>(null)
 
 const activeTab = ref('hosted')
@@ -315,5 +356,54 @@ const getServiceLogo = (title: string | undefined) => {
   if (t.includes('chatgpt') || t.includes('openai'))
     return 'https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg'
   return undefined
+}
+
+const handleExportData = async () => {
+  if (!userStore.user) return
+  exporting.value = true
+  try {
+    const blob = await privacyService.exportUserData(userStore.user)
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `sub-buddy-data-${new Date().toISOString().split('T')[0]}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    alert('Export failed: ' + (e as Error).message)
+  } finally {
+    exporting.value = false
+  }
+}
+
+const handleDeleteAccount = async () => {
+  if (!userStore.user) return
+  if (
+    !confirm(
+      t('profile.privacy.deleteConfirm') ||
+        '警告：此動作無法復原！您的所有資料將被永久刪除。確定要繼續嗎？'
+    )
+  ) {
+    return
+  }
+
+  deleting.value = true
+  try {
+    await privacyService.deleteUserAccount(userStore.user)
+    alert(t('profile.privacy.deleteSuccess') || '帳號已刪除。再見！')
+    router.push('/')
+  } catch (e: any) {
+    if (e.code === 'auth/requires-recent-login') {
+      alert(
+        t('profile.privacy.reloginRequired') || '為了安全起見，請先登出並重新登入後再執行刪除操作。'
+      )
+    } else {
+      alert('Delete failed: ' + e.message)
+    }
+  } finally {
+    deleting.value = false
+  }
 }
 </script>

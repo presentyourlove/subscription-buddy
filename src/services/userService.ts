@@ -58,6 +58,16 @@ class UserService {
     const snap = await getDoc(userRef)
     return snap.exists() ? (snap.data() as UserProfile) : null
   }
+
+  /**
+   * Upload user's public key for E2EE
+   */
+  async uploadPublicKey(uid: string, publicKey: string): Promise<void> {
+    const userRef = doc(db, UserService.COLLECTION, uid)
+    await updateDoc(userRef, {
+      publicKey
+    })
+  }
 }
 
 export const userService = new UserService()

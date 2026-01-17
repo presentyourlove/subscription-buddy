@@ -19,7 +19,8 @@
     "build-storybook": "storybook build",
     "lhci:collect": "lhci collect",
     "lhci:assert": "lhci assert",
-    "lhci:full": "npm run build && lhci collect && lhci assert"
+    "lhci:full": "npm run build && lhci collect && lhci assert",
+    "test:a11y": "pa11y-ci"
   },
   "dependencies": {
     "@unhead/vue": "^2.1.2",
@@ -29,6 +30,7 @@
     "fuse.js": "^7.1.0",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
+    "uuid": "^13.0.0",
     "vue": "^3.5.24",
     "vue-i18n": "^11.2.2",
     "vue-router": "^4.6.3",
@@ -48,6 +50,7 @@
     "@storybook/addon-vitest": "^10.1.11",
     "@storybook/vue3-vite": "^10.1.11",
     "@types/node": "^25.0.7",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.53.0",
     "@typescript-eslint/parser": "^8.53.0",
     "@vitejs/plugin-vue": "^6.0.1",
@@ -66,6 +69,7 @@
     "husky": "^9.1.7",
     "jsdom": "^27.3.0",
     "lint-staged": "^16.2.7",
+    "pa11y-ci": "^4.0.1",
     "playwright": "^1.57.0",
     "postcss": "^8.5.6",
     "prettier": "^3.2.5",
