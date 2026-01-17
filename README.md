@@ -241,7 +241,7 @@ docker run -p 8080:80 subscription-buddy
 
 #### 🛡️ 安全性與維運 (Security & DevOps)
 
-1. **內容安全策略 (Content Security Policy - CSP)**
+1. **內容安全策略 (Content Security Policy - CSP)** `[DONE]`
     * **描述**: 於 `firebase.json` headers 配置嚴格的 CSP 規則。
     * **效益**: 有效防禦 XSS 攻擊與未授權的外部資源載入。
 
@@ -370,6 +370,7 @@ docker run -p 8080:80 subscription-buddy
   * `src/stores/groupStore.ts`: 啟用狀態持久化
   * `Dockerfile`: 整合 Nginx 設定與多階段優化
   * `src/main.ts`: 註冊 Persistence Plugin
+  * `firebase.json`: 配置 CSP 安全標頭
 
 ---
 
