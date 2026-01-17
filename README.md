@@ -202,11 +202,242 @@ iOS 主要透過 Safari "Add to Home Screen" 安裝。若需上架 App Store，�
     * **描述**: 當商業邏輯複雜化時，將 `core` (Model/Service) 與 `ui` (View) 分離為不同 Package。
     * **效益**: 提升編譯速度，並允許邏輯在不同專案 (如 Admin 後台) 間共用。
 
+2. **架構決策記錄 (Architecture Decision Records - ADR)** `[P2]`
+    * **描述**: 建立 `doc/adr` 目錄，記錄所有重大架構決策的背景、選項與後果 (Core Rules 9.5)。
+    * **效益**: 保存架構演進脈絡，避免團隊成員重複辯論已決定的議題。
+
+3. **設計系統文件化 (Design System Documentation)** `[P2]`
+    * **描述**: 完善 **Storybook**，建立色彩、排版與元件庫的標準使用文件 (Core Rules 4.1)。
+    * **效益**: 確保 UI/UX 一致性，降低新進開發者上手門檻。
+
+4. **架構分層強制檢測 (Strict Layer Enforcement)** `[P2]`
+    * **描述**: 引入 **Dependency Cruiser**，於 CI 階段強制檢查依賴關係 (e.g. 禁止 View 直接 import Service)。
+    * **效益**: 防止架構腐化 (Architecture Erosion)，維持專案長期可維護性。
+
+5. **DTO 強制轉換層 (Strict DTO Layer)** `[P1]`
+    * **描述**: 後端 API 禁止直接回傳 DB Model (如 Firestore Document)，必須透過 Mapper 轉換為 DTO (Backend Rules 4)。
+    * **效益**: 避免內部資料結構洩漏，並解耦資料庫與 API 契約。
+
+6. **全端共用驗證層 (Shared Validation Layer)** `[P1]`
+    * **描述**: 使用 **Zod** 或 **TypeBox** 定義共用的資料驗證邏輯，讓前端表單與後端 API 共享同一套規則 (Backend Rules 5).
+    * **效益**: 消除前後端驗證邏輯不一致的 Bug，並實現 End-to-End Type Safety。
+
+7. **複雜度監控 (Cognitive Complexity Monitoring)** `[P3]`
+    * **描述**: 設定 SonarCloud 閥值，強制單一函式 Cognitive Complexity < 15 (Core Rules 1.1)。
+    * **效益**: 降低代碼閱讀負擔，減少邏輯錯誤滋生。
+
 #### 🛡️ 安全性與維運 (Security & DevOps)
 
 1. **自動化備份與還原演練 (Automated Backup & DR)** `[V3]`
     * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
     * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
+
+2. **資料生命週期管理 (Data Lifecycle Policy)** `[P2]`
+    * **描述**: 啟用 Firestore TTL (Time-to-Live) 策略，自動清理過期日誌與暫存資料 (Core Rules 3.3)。
+    * **效益**: 節省儲存成本，並滿足 GDPR「資料最小化」原則。
+
+3. **API 速率限制 (Rate Limiting)** `[P0]`
+    * **描述**: 於 Firebase App Check 或 Cloud Functions 層實作請求頻率限制 (Core Rules 8.4)。
+    * **效益**: 防止 DDoS 攻擊與惡意刷 API 導致的費用暴漲。
+
+4. **契約測試 (Consumer-Driven Contract Testing)** `[P2]`
+    * **描述**: 導入 **Pact** 或 **Spring Cloud Contract** 概念，驗證 API 實作與 OpenAPI 文件的一致性 (API Rules 5)。
+    * **效益**: 防止前後端整合時因 Schema 變更導致的線上故障。
+
+5. **功能開關 (Feature Flags)** `[P2]`
+    * **描述**: 導入 Firebase Remote Config，實作功能灰度發布 (Canary Release)。
+    * **效益**: 降低新功能上線風險，支援 A/B Testing。
+
+6. **通用冪等性中間件 (Idempotency Middleware)** `[P1]`
+    * **描述**: 將現有的冪等性邏輯封裝為 Cloud Functions Middleware，自動攔截並處理重複請求 (API Rules 3)。
+    * **效益**: 確保在網路不穩或重試機制下，所有交易操作的原子性與安全性。
+
+7. **零信任架構 (Zero Trust - App Check)** `[P0]`
+    * **描述**: 全面啟用 **Firebase App Check**，驗證流量來源是否為合法的 App 或 Web 客戶端 (Security Rules 1).
+    * **效益**: 有效阻擋非法的 API 爬蟲與未經授權的後端存取。
+
+8. **API 文件自動化 (Automated API Documentation)** `[P2]`
+    * **描述**: 整合 **tsoa** 或 **Swagger UI**，直接從 TypeScript 程式碼生成 OpenAPI 規格書 (Core Rules 9.1)。
+    * **效益**: 確保文件與程式碼永遠同步，減少人工維護成本與錯誤。
+
+9. **Web Push 通知服務 (Web Push Notifications)** `[P3]`
+    * **描述**: 整合 **FCM (Firebase Cloud Messaging)** 實作 Service Worker 背景推播 (Mobile Rules).
+    * **效益**: 提升使用者留存率，即便應用程式關閉也能即時接收合購訊息。
+
+10. **資料庫遷移版本控制 (Database Migration Versioning)** `[P1]`
+    * **描述**: 撰寫 Node.js 腳本配合 CI/CD，對 Firestore 進行資料結構變更的版本控制 (Backend Rules 4.5)。
+    * **效益**: 確保所有環境 (Dev/Staging/Prod) 的資料結構一致，並支援自動化回滾 (Rollback)。
+
+11. **API 閘道器模式 (API Gateway Pattern)** `[P1]`
+    * **描述**: 導入 **GCP API Gateway** 或自建 BFF 層，集中處理驗權、限流與日誌 (Enterprise Rules 5)。
+    * **效益**: 解耦前端與後端微服務，並提供統一的 API 介面管理。
+
+12. **大數據倉儲整合 (BigQuery Data Warehouse)** `[P3]`
+    * **描述**: 使用 Firebase Extension 將 Firestore 資料即時同步至 **BigQuery** (Enterprise Rules 8).
+    * **效益**: 支援複雜的 SQL 商業分析 (OLAP)，彌補 NoSQL 在報表統計上的不足。
+
+13. **事件驅動架構 (Event-Driven Architecture)** `[P2]`
+    * **描述**: 引入 **Google Pub/Sub**，將非同步任務 (如發送 Email、索引建立) 解耦為事件流 (Enterprise Patterns).
+    * **效益**: 提升系統的吞吐量與延展性，避免主流程阻塞。
+
+14. **分散式鎖 (Distributed Locking)** `[P1]`
+    * **描述**: 對於高併發寫入 (如搶購合購名額)，實作基於 Redis 或 Firestore 的分散式鎖機制 (Enterprise Rules 1.4)。
+    * **效益**: 保證資料強一致性 (Strong Consistency)，防止超賣或資料競態條件 (Race Condition)。
+
+15. **容器映像檔弱點掃描 (Container Image Scanning)** `[P0]`
+    * **描述**: 於 CI Pipeline 整合 **Trivy** 或 **Snyk**，針對 Docker Base Image 進行漏洞掃描 (SecOps)。
+    * **效益**: 確保生產環境容器運作於無已知高風險漏洞的環境中。
+
+16. **雲端金鑰管理 (Cloud Secret Manager)** `[P0]`
+    * **描述**: 移除 `.env` 檔案中的機敏資訊，改接 Google Secret Manager 或 AWS Parameter Store (Core Rules 2.1)。
+    * **效益**: 杜絕金鑰誤上傳 Git 的風險，並支援金鑰輪替 (Rotation) 與審計。
+
+17. **基礎設施即代碼 (IaC - Terraform)** `[P1]`
+    * **描述**: 將 Firebase Rules, Indexes, Cloud Functions 配置全面代碼化 (Terraform/OpenTofu) (Core Rules 6.3)。
+    * **效益**: 實現環境複製的可重複性 (Reproducibility)，並將基建變更納入版控。
+
+18. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[P0]`
+    * **描述**: 設定 **GitHooks** (使用 **git-secrets** 或 **detect-secrets**)，在 Commit 階段攔截潛在的 API Key 或密碼 (SecOps).
+    * **效益**: 構建第一道防線，防止機敏資料汙染版本控制系統。
+
+19. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[P0]`
+    * **描述**: 於 CI/CD Pipeline 整合 **OWASP ZAP**，對測試環境進行自動化滲透測試 (Enterprise Security).
+    * **效益**: 提早發現 SQL Injection、XSS 等 runtime 後才顯現的安全漏洞。
+
+20. **雲端預算監控 (Cloud Budget Monitoring)** `[P2]`
+    * **描述**: 設定 Google Cloud Budget Alerts，當費用達到預算 80% 時自動觸發告警或熔斷機制 (Enterprise Ops)。
+    * **效益**: 防止因流量暴衝或程式 Bug (如無窮迴圈讀寫 DB) 造成的財務災難。
+
+21. **威脅建模 (Threat Modeling - STRIDE)** `[P0]`
+22. **威脅建模 (Threat Modeling - STRIDE)** `[P0]`
+    * **描述**: 於設計階段導入 STRIDE 模型分析潛在威脅，並產出風險評估報告 (SSDLC Rules 5.2)。
+    * **效益**: 將資安防護左移 (Shift Left)，降低架構層級的設計漏洞。
+
+23. **PII 脫敏中間件 (PII Masking Middleware)** `[P0]`
+    * **描述**: 實作全域日誌攔截器，自動針對身分證、手機、Email 等敏感個資進行遮罩 (Backend Rules 6)。
+    * **效益**: 確保日誌合規，降低數據外洩後的損害範圍。
+
+24. **軟體物料清單 (SBOM - Software Bill of Materials)** `[P1]`
+    * **描述**: 於建置流程自動產出 SPDX 或 CycloneDX 格式的 SBOM 文件 (Enterprise SecOps).
+    * **效益**: 提供完整的軟體供應鏈透明度，快速回應零日漏洞 (Zero-Day Vulnerabilities)。
+
+25. **嚴格內容安全策略 (Strict CSP - Nonce-based)** `[P0]`
+    * **描述**: 移除 `unsafe-inline`，升級為基於 Nonce 或 Hash 的高強度 CSP 政策 (Security Rules 3.1)。
+    * **效益**: 徹底防禦 XSS 攻擊，僅允許執行受信任的與簽署過的腳本。
+
+26. **智慧內容審查 (AI Content Moderation)** `[P2]`
+    * **描述**: 整合 **Google Cloud Vision/NLP API**，自動過濾聊天室中的色情圖片與毒性文字 (Safety).
+    * **效益**: 降低平台管理成本，確保社群環境的健康與合規。
+
+27. **Cookie 同意管理 (Cookie Consent Manager)** `[P0]`
+    * **描述**: 實作符合 GDPR 標準的 Cookie Banner 與同意狀態管理機制 (Privacy Rules 3.4)。
+    * **效益**: 滿足歐盟與加州法規要求，避免潛在法律風險。
+
+28. **自動化依賴更新 (Automated Dependency Updates)** `[P1]`
+    * **描述**: 整合 **Renovate** 或 **Dependabot**，自動建立 PR 更新 NPM 依賴套件 (SecOps)。
+    * **效益**: 減少技術債堆積，即時修補第三方套件的已知漏洞。
+
+29. **優雅停機機制 (Graceful Shutdown)** `[P1]`
+    * **描述**: 於後端服務實作 `SIGTERM` 信號處理與連接排水 (Connection Draining) (Cloud Native Rules 7).
+    * **效益**: 確保在自動擴縮容或版更部署時，正在進行中的交易不會被強制中斷。
+
+30. **跨區域災難復原 (Multi-Region Disaster Recovery)** `[P2]`
+    * **描述**: 設計 Active-Passive 的跨區域備援架構，確保單一機房故障時能自動切換 (Enterprise Rules 4).
+    * **效益**: 將 RTO (復原時間目標) 降至最低，保證服務的高可用性 (99.99%)。
+
+31. **開源授權合規掃描 (License Compliance Scanning)** `[P1]`
+    * **描述**: 導入 **FOSSA** 或 **License-checker**，自動偵測依賴套件的 License (如避開 GPL/AGPL) (Enterprise Legal).
+    * **效益**: 避免侵權風險，確保專案授權的合法性與商業可用性。
+
+#### 🧪 測試與品質保證 (Testing & QA)
+
+1. **全面單元測試覆蓋 (Unit Testing Coverage)** `[P1]`
+    * **描述**: 提升核心商業邏輯 (Composables, Services) 的測試覆蓋率至 > 80% (Core Rules 10.1)。
+    * **效益**: 降低回歸錯誤風險，建立穩固的持續交付流水線 (CI Pipeline)。
+
+2. **視覺回歸測試 (Visual Regression Testing)** `[P2]`
+    * **描述**: 於 CI 流程整合 **Percy** 或 **Chromatic**，自動偵測 UI 樣式與佈局的非預期變更 (Frontend Rules 2).
+    * **效益**: 確保不同瀏覽器與裝置間的 UI 一致性 (Pixel-Perfect)，防止樣式崩壞。
+
+3. **突變測試 (Mutation Testing)** `[P3]`
+    * **描述**: 使用 **StrykerJS** 修改程式碼邏輯並執行測試，驗證測試個案是否能抓出錯誤 (Testing Rules).
+    * **效益**: 找出「覆蓋率高但無效」的測試，確保測試套件的真實品質。
+
+4. **自動化無障礙守門員 (Automated Accessibility Guardrails)** `[P1]`
+    * **描述**: 將 `pa11y-ci` 整合至 Git Pre-commit Hook 或 CI Pipeline，強制阻擋不符合 WCAG 2.1 AA 的提交 (Frontend Rules 4).
+    * **效益**: 確保產品對所有使用者 (含身障人士) 的友善度，降低法律訴訟風險。
+
+5. **混沌工程演練 (Chaos Engineering)** `[P3]`
+    * **描述**: 在測試環境模擬網路延遲、服務當機等極端狀況 (e.g. 使用 **Chaos Mesh**) (Enterprise Rules 4.3).
+    * **效益**: 驗證系統的自我癒合能力 (Self-Healing) 與降級策略 (Fallback Strategies) 是否有效。
+
+#### 📊 可觀測性 (Observability)
+
+1. **集中式錯誤追蹤 (Centralized Error Tracking)** `[P0]`
+    * **描述**: 整合 Sentry 或 Firebase Crashlytics，即時捕獲前端 Runtime Errors 與 API 異常。
+    * **效益**: 提升 MTTR (平均修復時間)，主動發現使用者遭遇的體驗問題。
+
+2. **分散式追蹤 (OpenTelemetry)** `[P1]`
+    * **描述**: 導入 OpenTelemetry 標準，串聯前後端與 Firebase 服務的 Request Trace ID (Core Rules 8.2)。
+    * **效益**: 可視化跨服務的呼叫路徑，快速定位效能瓶頸與錯誤根源。
+
+3. **智慧告警整合 (Automated Alerting Integration)** `[P0]`
+    * **描述**: 設定 PrometheusAlert 或 PagerDuty，針對關鍵指標 (如 Error Rate > 1%) 發送即時通知 (Core Rules 8.4)。
+    * **效益**: 縮短事故響應時間 (MTTA)，實現 7x24 小時的主動維運監控。
+
+4. **可視化監控儀表板 (Grafana Dashboards)** `[P2]`
+    * **描述**: 搭建 Grafana 看板，將 Prometheus 指標與 OpenTelemetry 數據視覺化 (Core Rules 8.1)。
+    * **效益**: 提供維運團隊 (SRE) 一目瞭然的系統健康狀態大屏。
+
+5. **真實用戶監控 (RUM - Real User Monitoring)** `[P2]`
+    * **描述**: 收集並分析真實使用者的 Core Web Vitals (LCP, FID, CLS) 數據 (Frontend Rules 2).
+    * **效益**: 了解不同裝置與網路環境下的實際體驗，而非僅依賴實驗室數據 (Lighthouse)。
+
+#### 🚀 極致效能優化 (Advanced Performance)
+
+1. **SSR / SSG 架構遷移 (Server-Side Rendering)** `[P2]`
+    * **描述**: 評估遷移至 **Nuxt 3** 或導入 **Vite SSR**。
+    * **效益**: 顯著提升 SEO 排名與 First Contentful Paint (FCP) 指標，優化社群分享預覽 (OG Tags)。
+
+2. **PWA 冷啟動優化 (Cold Start Optimization)** `[P1]`
+    * **描述**: 針對行動裝置進行 Profile 分析，確保 TTI (Time to Interactive) < 2 秒 (Mobile Rules 4)。
+    * **效益**: 提升 App 級別的流暢度，降低使用者跳出率。
+
+3. **深度連結整合 (Deep Linking Integration)** `[P2]`
+    * **描述**: 實作 **Universal Links (iOS)** 與 **App Links (Android)**，讓分享連結直接喚起 App 特定頁面 (Mobile Rules).
+    * **效益**: 優化行銷漏斗與使用者體驗，提升外部流量轉化率。
+
+4. **生物辨識登入 (WebAuthn / Passkeys)** `[P3]`
+    * **描述**: 導入 **WebAuthn** 標準，支援 FaceID / TouchID 進行無密碼登入 (Security Rules 2.5)。
+    * **效益**: 提升登入體驗與帳號安全性，降低釣魚攻擊風險。
+
+5. **語系資源懶加載 (i18n Lazy Loading)** `[P2]`
+    * **描述**: 將多國語系檔拆分為獨立 Chunk，僅在使用者切換語言時動態載入。
+    * **效益**: 減少初始 Bundle Size，加快首屏載入速度 (FCP)。
+
+6. **效能守門員 (Lighthouse CI Guardrails)** `[P1]`
+    * **描述**: 於 CI Pipeline 強制執行 Lighthouse 檢測，若 Score < 90 則阻擋 Merge (Frontend Rules 2)。
+    * **效益**: 杜絕效能退化 (Performance Regression)，確保應用程式始終保持高效能標準。
+
+7. **圖片自動優化管道 (Automated Image Optimization)** `[P2]`
+    * **描述**: 利用 Cloud Functions 觸發器，在使用者上傳圖片時自動轉檔為 **WebP/AVIF** 並生成多種尺寸 (Frontend Rules 2.2)。
+    * **效益**: 大幅減少傳輸流量，提升 LCP (Largest Contentful Paint) 效能指標。
+
+8. **CDN 邊緣快取策略 (Edge Caching Strategy)** `[P1]`
+    * **描述**: 精細配置 Firebase Hosting 的 `Cache-Control` 標頭，將靜態資源快取於全球邊緣節點 (Performance Rules).
+    * **效益**: 最小化伺服器回源請求，實現全球毫秒級的內容傳遞。
+
+9. **打包體積預算 (Bundle Size Budget)** `[P2]`
+    * **描述**: 於 Vite 配置 `performance.maxAssetSize`，若單一 Chunk 超過 300KB 則構建失敗 (Frontend Rules 3)。
+    * **效益**: 建立硬性效能門檻 (Performance Budget)，防止隨著功能迭代導致的體積膨脹。
+
+10. **前端錯誤邊界 (Frontend Error Boundaries)** `[P1]`
+    * **描述**: 利用 Vue 3 `onErrorCaptured` hook 實作元件級錯誤隔離，避免單一組件崩潰導致白屏 (Genral Principles 3).
+    * **效益**: 顯著提升應用程式韌性 (Resilience)，提供優雅的降級 UI (Graceful Degradation)。
+
+11. **斷路器模式 (Circuit Breaker Pattern)** `[P1]`
+    * **描述**: 於前端 Service Layer 實作 **Circuit Breaker** (使用 **Opossum**)，當後端錯誤率過高時自動熔斷 (Enterprise Resilience).
+    * **效益**: 防止雪崩效應 (Cascading Failures)，並提供即時的 Fallback 回應，保護後端服務。
 
 ---
 
