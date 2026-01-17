@@ -227,8 +227,8 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 在使用者滑鼠懸停於導航連結時，預先下載下一頁的 JS Chunk。
     * **效益**: 實現「點擊即顯示」的極致換頁體驗。
 
-4. **模糊搜尋引擎 (Algolia / MeiliSearch)**
-    * **描述**: 若拼團數量增長，將搜尋索引同步至專用搜尋引擎。
+4. **模糊搜尋引擎 (Algolia / MeiliSearch)** `[DONE]`
+    * **描述**: 使用 Fuse.js 在客戶端實作模糊搜尋 (Client-side Fuzzy Search)。
     * **效益**: 支援錯字容忍 (Typos Tolerance) 與多欄位權重排序，大幅提升搜尋體驗。
 
 5. **狀態持久化 (Pinia Persistence)**
@@ -329,10 +329,12 @@ docker run -p 8080:80 subscription-buddy
 * **Skeleton Screens**: 實作資料載入時的骨架屏體驗。
 * **Image CDN**: 整合 wsrv.nl 進行圖片自動優化。
 * **Route Prefetching**: 實作按需預取的路由連結。
+* **Fuzzy Search**: 引入 Fuse.js 實作錯字容忍搜尋。
 
 **檔案變更清單：**
 
 * **新增**:
+  * `src/composables/useFuzzySearch.ts`: 模糊搜尋邏輯
   * `src/components/PrefetchLink.vue`: 路由預取元件
   * `src/utils/imageOptimizer.ts`: 圖片優化工具
   * `src/components/BaseSkeleton.vue`: 骨架屏原子元件
@@ -365,7 +367,7 @@ docker run -p 8080:80 subscription-buddy
   * `src/components/BaseInput.vue`, `BaseTextarea.vue`: 支援錯誤顯示
   * `src/views/ChatRoomView.vue`: 引入子元件重構邏輯
   * `src/components/LazyImage.vue`: 整合自動圖片優化
-  * `src/views/HomeView.vue`: 整合骨架屏與預取連結
+  * `src/views/HomeView.vue`: 整合骨架屏、預取連結與模糊搜尋
   * `src/components/Navbar.vue`: 整合預取連結
 
 ---

@@ -197,22 +197,35 @@ import BaseSkeleton from '../components/BaseSkeleton.vue'
 import LazyImage from '../components/LazyImage.vue'
 import PrefetchLink from '../components/PrefetchLink.vue'
 import UserRating from '../components/UserRating.vue'
+import { useFuzzySearch } from '../composables/useFuzzySearch'
 import { useGroupStore } from '../stores/groupStore'
 import { GROUP_STATUS } from '../utils/constants'
 import { getServiceLogo } from '../utils/serviceUtils'
 
 const groupStore = useGroupStore()
-const searchQuery = ref('')
-const debouncedQuery = ref('')
 const imageErrorMap = ref<Record<string, boolean>>({})
 
-watchDebounced(
-  searchQuery,
-  (value) => {
-    debouncedQuery.value = value
-  },
-  { debounce: 300 }
+// Fuzzy Search Setup
+const { searchTerm: searchQuery, results: searchResults } = useFuzzySearch(
+  computed(() => groupStore.groups),
+  {
+    keys: [
+      { name: 'title', weight: 1.0 }, // Higher weight for title
+      { name: 'description', weight: 0.5 },
+      { name: 'hostName', weight: 0.3 }
+    ],
+    threshold: 0.3
+  }
 )
+
+// Debounced search query update for UI responsiveness
+const debouncedQuery = ref('') // Kept for UI logic if needed, but Fuse is fast enough.
+// Actually, useFuzzySearch uses searchTerm reactive ref.
+// We can bind v-model="searchQuery" directly to the composable's searchTerm.
+// But the original code used watchDebounced to update debouncedQuery, and filtered based on that.
+// We should simplify: Bind input to a ref, update composable's searchTerm.
+// Let's directly alias proper names.
+
 
 onMounted(() => {
   groupStore.fetchGroups()
@@ -231,15 +244,9 @@ onMounted(() => {
 })
 
 const filteredGroups = computed(() => {
-  let result = groupStore.groups
-
-  // 1. Search Filter
-  if (debouncedQuery.value) {
-    const lowerQ = debouncedQuery.value.toLowerCase()
-    result = result.filter(
-      (g) => g.title.toLowerCase().includes(lowerQ) || g.description.toLowerCase().includes(lowerQ)
-    )
-  }
+  // 1. Fuzzy Search Results
+  // The composable returns all data if searchTerm is empty.
+  let result = searchResults.value
 
   // 2. Sort by Status (OPEN -> FULL -> CLOSED)
   const statusWeight = {
