@@ -265,7 +265,7 @@ docker run -p 8080:80 subscription-buddy
     * **描述**: 於 CI 流程整合 SonarCloud 或類似工具進行程式碼品質掃描。
     * **效益**: 自動偵測程式碼異味 (Code Smells)、資安漏洞與技術債。
 
-7. **自動化備份與還原演練 (Automated Backup & DR)** `[DONE]`
+7. **自動化備份與還原演練 (Automated Backup & DR)**
     * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
     * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
 
@@ -381,8 +381,6 @@ docker run -p 8080:80 subscription-buddy
   * `.github/dependabot.yml`: 自動化依賴更新設定
   * `sonar-project.properties`: SonarCloud 設定檔
   * `.github/workflows/sonar.yml`: SAST 掃描流程
-  * `functions/src/backup.ts`: 自動化備份函式
-  * `scripts/restore-firestore.js`: 資料還原腳本
 
 ---
 
