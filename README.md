@@ -282,7 +282,8 @@ npm run scan:image
     * **描述**: 整合 **FCM (Firebase Cloud Messaging)** 實作 Service Worker 背景推播 (Mobile Rules).
     * **效益**: 提升使用者留存率，即便應用程式關閉也能即時接收合購訊息。
 
-9. **資料庫遷移版本控制 (Database Migration Versioning)** `[P1]`
+9. **資料庫遷移版本控制 (Database Migration Versioning)** `[V3]`
+    * **備註**: 已規畫實作計畫 (Node.js Runner)，但延後至 V3 執行。
     * **描述**: 撰寫 Node.js 腳本配合 CI/CD，對 Firestore 進行資料結構變更的版本控制 (Backend Rules 4.5)。
     * **效益**: 確保所有環境 (Dev/Staging/Prod) 的資料結構一致，並支援自動化回滾 (Rollback)。
 
