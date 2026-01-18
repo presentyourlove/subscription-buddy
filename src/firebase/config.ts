@@ -1,4 +1,6 @@
+import { getAnalytics, isSupported } from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check'
 import { connectAuthEmulator, getAuth } from 'firebase/auth'
 import {
   connectFirestoreEmulator,
@@ -6,8 +8,6 @@ import {
   getFirestore
 } from 'firebase/firestore'
 import { getMessaging, Messaging } from 'firebase/messaging'
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check'
-import { getAnalytics, isSupported } from 'firebase/analytics'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -38,7 +38,7 @@ if (typeof window !== 'undefined') {
   const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
   if (siteKey) {
     if (import.meta.env.VITE_USE_EMULATOR === 'true') {
-      // @ts-ignore
+      // @ts-expect-error - ReCAPTCHA provider may not be available in all environments
       self.FIREBASE_APPCHECK_DEBUG_TOKEN = true
     }
 

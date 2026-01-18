@@ -176,10 +176,7 @@
         </div>
 
         <!-- Load More Button -->
-        <div
-          v-if="groupStore.hasMore && !groupStore.searchQuery"
-          class="flex justify-center mt-12"
-        >
+        <div v-if="groupStore.hasMore && !groupStore.searchQuery" class="flex justify-center mt-12">
           <button
             :disabled="groupStore.loading"
             class="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-colors flex items-center gap-2"

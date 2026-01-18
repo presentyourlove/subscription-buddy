@@ -2,7 +2,10 @@ import { z } from 'zod'
 
 // User Schema
 export const UserSchema = z.object({
-    displayName: z.string().min(1, 'Display name is required').max(50, 'Display name too long'),
+    displayName: z
+        .string()
+        .min(1, 'Display name is required')
+        .max(50, 'Display name too long'),
     photoURL: z.string().url().optional().or(z.literal('')),
     email: z.string().email().optional()
 })

@@ -5,9 +5,14 @@
 # Build outputs
 dist
 dist-ssr
+functions/lib
+storybook-static
 
 # Dependencies
 node_modules
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Generated files
+stats.html

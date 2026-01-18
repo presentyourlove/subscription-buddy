@@ -1,5 +1,4 @@
 import './firebase/config' // Ensure Firebase (and Analytics) is initialized
-import { logger } from './utils/logger'
 import 'vue-toastification/dist/index.css'
 import './style.css'
 
@@ -12,6 +11,7 @@ import Toast from 'vue-toastification'
 import App from './App.vue'
 import i18n from './i18n'
 import router from './router'
+import { logger } from './utils/logger'
 
 const app = createApp(App)
 const head = createUnhead()

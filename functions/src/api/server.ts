@@ -1,6 +1,6 @@
-import * as functions from 'firebase-functions'
-import * as express from 'express'
 import * as cors from 'cors'
+import * as express from 'express'
+
 import { logger } from '../utils/logger'
 
 const app = express()
@@ -29,14 +29,21 @@ app.get('/health', (req, res) => {
 // app.use('/v1/users', userRoutes)
 
 // 5. Global Error Handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    logger.error('API Error', err)
-    res.status(500).json({
-        error: {
-            message: 'Internal Server Error',
-            id: req.headers['x-request-id'] // Forward trace ID if available
-        }
-    })
-})
+app.use(
+    (
+        err: any,
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) => {
+        logger.error('API Error', err)
+        res.status(500).json({
+            error: {
+                message: 'Internal Server Error',
+                id: req.headers['x-request-id'] // Forward trace ID if available
+            }
+        })
+    }
+)
 
 export const apiApp = app

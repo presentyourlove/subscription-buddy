@@ -15,7 +15,7 @@ export const validate = <T>(schema: z.Schema<T>, data: any): T => {
             throw new functions.https.HttpsError(
                 'invalid-argument',
                 'Validation failed',
-                error.errors
+                error.issues
             )
         }
         throw error
@@ -27,7 +27,10 @@ export const validate = <T>(schema: z.Schema<T>, data: any): T => {
  */
 export const withValidation = <T, R>(
     schema: z.Schema<T>,
-    handler: (data: T, context: functions.https.CallableContext) => Promise<R> | R
+    handler: (
+        data: T,
+        context: functions.https.CallableContext
+    ) => Promise<R> | R
 ) => {
     return (data: any, context: functions.https.CallableContext) => {
         const validatedData = validate(schema, data)

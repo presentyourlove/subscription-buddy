@@ -28,7 +28,7 @@ export function useFormValidation<T extends Record<string, unknown>>(schema: Zod
     const result = schema.safeParse(data)
 
     if (!result.success) {
-      result.error.errors.forEach((err) => {
+      result.error.issues.forEach((err) => {
         const field = err.path[0]
         if (field && typeof field === 'string') {
           errors[field] = err.message
@@ -50,7 +50,7 @@ export function useFormValidation<T extends Record<string, unknown>>(schema: Zod
     const result = schema.safeParse(partialData)
 
     if (!result.success) {
-      const fieldError = result.error.errors.find((err) => err.path[0] === field)
+      const fieldError = result.error.issues.find((err) => err.path[0] === field)
       if (fieldError) {
         errors[field as string] = fieldError.message
         return false

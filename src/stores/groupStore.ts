@@ -125,4 +125,3 @@ export const useGroupStore = defineStore(
     }
   } as any // Cast to any to avoid type inference issues with persist plugin
 )
-
