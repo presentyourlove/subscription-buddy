@@ -396,7 +396,8 @@ npm run scan:image
     * **描述**: 導入 OpenTelemetry 標準，串聯前後端與 Firebase 服務的 Request Trace ID (Core Rules 8.2)。
     * **效益**: 可視化跨服務的呼叫路徑，快速定位效能瓶頸與錯誤根源。
 
-3. **智慧告警整合 (Automated Alerting Integration)** `[P0]`
+3. **智慧告警整合 (Automated Alerting Integration)** `[V3]`
+    * **備註**: 已規畫實作計畫 (GCP Monitoring Policies)，但延後至 V3 執行。
     * **描述**: 設定 PrometheusAlert 或 PagerDuty，針對關鍵指標 (如 Error Rate > 1%) 發送即時通知 (Core Rules 8.4)。
     * **效益**: 縮短事故響應時間 (MTTA)，實現 7x24 小時的主動維運監控。
 
