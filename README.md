@@ -348,7 +348,7 @@ npm run scan:image
     * **描述**: 實作符合 GDPR 標準的 Cookie Banner 與同意狀態管理機制 (Privacy Rules 3.4)。
     * **效益**: 滿足歐盟與加州法規要求，避免潛在法律風險。
 
-25. **自動化依賴更新 (Automated Dependency Updates)** `[P1]`
+25. **自動化依賴更新 (Automated Dependency Updates)** `[DONE]`
     * **描述**: 整合 **Renovate** 或 **Dependabot**，自動建立 PR 更新 NPM 依賴套件 (SecOps)。
     * **效益**: 減少技術債堆積，即時修補第三方套件的已知漏洞。
 
