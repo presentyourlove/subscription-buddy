@@ -287,7 +287,7 @@ npm run scan:image
     * **描述**: 撰寫 Node.js 腳本配合 CI/CD，對 Firestore 進行資料結構變更的版本控制 (Backend Rules 4.5)。
     * **效益**: 確保所有環境 (Dev/Staging/Prod) 的資料結構一致，並支援自動化回滾 (Rollback)。
 
-10. **API 閘道器模式 (API Gateway Pattern)** `[P1]`
+10. **API 閘道器模式 (API Gateway Pattern)** `[DONE]`
     * **描述**: 導入 **GCP API Gateway** 或自建 BFF 層，集中處理驗權、限流與日誌 (Enterprise Rules 5)。
     * **效益**: 解耦前端與後端微服務，並提供統一的 API 介面管理。
 

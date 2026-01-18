@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import { logger } from './utils/logger'
+import { apiApp } from './api/server'
 
 admin.initializeApp()
 
@@ -70,3 +71,5 @@ export const onGroupWrite = functions.firestore
 export const onChatWrite = functions.firestore
     .document('chats/{docId}')
     .onWrite((change, context) => createAuditLog(change, context, 'chats'))
+
+export const api = functions.https.onRequest(apiApp)
