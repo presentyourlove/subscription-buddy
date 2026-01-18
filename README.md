@@ -327,7 +327,7 @@ npm run scan:image
     * **效益**: 將資安防護左移 (Shift Left)，降低架構層級的設計漏洞。
     * **產出**: [威脅建模報告 (Threat Model Report)](docs/THREAT_MODEL.md)
 
-20. **PII 脫敏中間件 (PII Masking Middleware)** `[P0]`
+20. **PII 脫敏中間件 (PII Masking Middleware)** `[DONE]`
     * **描述**: 實作全域日誌攔截器，自動針對身分證、手機、Email 等敏感個資進行遮罩 (Backend Rules 6)。
     * **效益**: 確保日誌合規，降低數據外洩後的損害範圍。
 
@@ -335,7 +335,7 @@ npm run scan:image
     * **描述**: 於建置流程自動產出 SPDX 或 CycloneDX 格式的 SBOM 文件 (Enterprise SecOps).
     * **效益**: 提供完整的軟體供應鏈透明度，快速回應零日漏洞 (Zero-Day Vulnerabilities)。
 
-22. **嚴格內容安全策略 (Strict CSP - Nonce-based)** `[P0]`
+22. **嚴格內容安全策略 (Strict CSP - Nonce-based)** `[DONE]`
     * **描述**: 移除 `unsafe-inline`，升級為基於 Nonce 或 Hash 的高強度 CSP 政策 (Security Rules 3.1)。
     * **效益**: 徹底防禦 XSS 攻擊，僅允許執行受信任的與簽署過的腳本。
 
