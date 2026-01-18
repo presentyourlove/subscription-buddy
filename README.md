@@ -387,7 +387,8 @@ npm run scan:image
 
 #### 📊 可觀測性 (Observability)
 
-1. **集中式錯誤追蹤 (Centralized Error Tracking)** `[P0]`
+1. **集中式錯誤追蹤 (Centralized Error Tracking)** `[V3]`
+    * **備註**: 已規畫實作計畫 (GCP Error Reporting)，但延後至 V3 執行。
     * **描述**: 整合 Sentry 或 Firebase Crashlytics，即時捕獲前端 Runtime Errors 與 API 異常。
     * **效益**: 提升 MTTR (平均修復時間)，主動發現使用者遭遇的體驗問題。
 
