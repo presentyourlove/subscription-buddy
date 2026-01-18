@@ -236,7 +236,7 @@ npm run scan:image
     * **描述**: 引入 **Dependency Cruiser**，於 CI 階段強制檢查依賴關係 (e.g. 禁止 View 直接 import Service)。
     * **效益**: 防止架構腐化 (Architecture Erosion)，維持專案長期可維護性。
 
-5. **DTO 強制轉換層 (Strict DTO Layer)** `[P1]`
+5. **DTO 強制轉換層 (Strict DTO Layer)** `[DONE]`
     * **描述**: 後端 API 禁止直接回傳 DB Model (如 Firestore Document)，必須透過 Mapper 轉換為 DTO (Backend Rules 4)。
     * **效益**: 避免內部資料結構洩漏，並解耦資料庫與 API 契約。
 
