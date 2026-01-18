@@ -302,7 +302,7 @@ npm run scan:image
     * **描述**: 對於高併發寫入 (如搶購合購名額)，實作基於 Redis 或 Firestore 的分散式鎖機制 (Enterprise Rules 1.4)。
     * **效益**: 保證資料強一致性 (Strong Consistency)，防止超賣或資料競態條件 (Race Condition)。
 
-14. **雲端金鑰管理 (Cloud Secret Manager)** `[P0]`
+14. **雲端金鑰管理 (Cloud Secret Manager)** `[V3]`
     * **描述**: 移除 `.env` 檔案中的機敏資訊，改接 Google Secret Manager 或 AWS Parameter Store (Core Rules 2.1)。
     * **效益**: 杜絕金鑰誤上傳 Git 的風險，並支援金鑰輪替 (Rotation) 與審計。
 
@@ -310,7 +310,7 @@ npm run scan:image
     * **描述**: 將 Firebase Rules, Indexes, Cloud Functions 配置全面代碼化 (Terraform/OpenTofu) (Core Rules 6.3)。
     * **效益**: 實現環境複製的可重複性 (Reproducibility)，並將基建變更納入版控。
 
-16. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[P0]`
+16. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[V3]`
     * **描述**: 設定 **GitHooks** (使用 **git-secrets** 或 **detect-secrets**)，在 Commit 階段攔截潛在的 API Key 或密碼 (SecOps).
     * **效益**: 構建第一道防線，防止機敏資料汙染版本控制系統。
 
