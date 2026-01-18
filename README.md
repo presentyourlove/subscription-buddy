@@ -299,7 +299,7 @@ npm run scan:image
     * **描述**: 引入 **Google Pub/Sub**，將非同步任務 (如發送 Email、索引建立) 解耦為事件流 (Enterprise Patterns).
     * **效益**: 提升系統的吞吐量與延展性，避免主流程阻塞。
 
-13. **分散式鎖 (Distributed Locking)** `[P1]`
+13. **分散式鎖 (Distributed Locking)** `[DONE]`
     * **描述**: 對於高併發寫入 (如搶購合購名額)，實作基於 Redis 或 Firestore 的分散式鎖機制 (Enterprise Rules 1.4)。
     * **效益**: 保證資料強一致性 (Strong Consistency)，防止超賣或資料競態條件 (Race Condition)。
 
