@@ -1,4 +1,5 @@
 import './firebase/config' // Ensure Firebase (and Analytics) is initialized
+import { logger } from './utils/logger'
 import 'vue-toastification/dist/index.css'
 import './style.css'
 
@@ -41,9 +42,9 @@ app.use(Toast, {
  * Global Error Handling
  */
 app.config.errorHandler = (err, instance, info) => {
-  console.error('[Global Error]', err)
-  console.error('Instance:', instance)
-  console.error('Info:', info)
+  logger.error('[Global Error]', err)
+  logger.error('Instance:', instance)
+  logger.error('Info:', info)
 
   // Use Toast directly via options API style or ensure setup is done.
   // Since we use app.use(Toast), we can try to access it if exposed, but for safety in global handler:

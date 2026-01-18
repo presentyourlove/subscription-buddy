@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
+import { logger } from './utils/logger'
 
 admin.initializeApp()
 
@@ -48,23 +49,16 @@ const createAuditLog = async (
 
     try {
         await db.collection('audit_logs').add(auditEntry)
-        console.log(
-            JSON.stringify({
-                severity: 'INFO',
-                message: `Audit log created for ${collectionName}/${docId} (${action})`,
-                collection: collectionName,
-                docId,
-                action
-            })
-        )
+        logger.info(`Audit log created for ${collectionName}/${docId} (${action})`, {
+            severity: 'INFO',
+            collection: collectionName,
+            docId,
+            action,
+            // Log the diff for debugging, knowing it will be masked by logger
+            diff: auditEntry.diff
+        })
     } catch (error) {
-        console.error(
-            JSON.stringify({
-                severity: 'ERROR',
-                message: `Failed to create audit log for ${collectionName}/${docId}`,
-                error: error instanceof Error ? error.message : String(error)
-            })
-        )
+        logger.error(`Failed to create audit log for ${collectionName}/${docId}`, error)
     }
     return null
 }
