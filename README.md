@@ -266,7 +266,7 @@ npm run scan:image
     * **描述**: 導入 Firebase Remote Config，實作功能灰度發布 (Canary Release)。
     * **效益**: 降低新功能上線風險，支援 A/B Testing。
 
-5. **通用冪等性中間件 (Idempotency Middleware)** `[P1]`
+5. **通用冪等性中間件 (Idempotency Middleware)** `[DONE]`
     * **描述**: 將現有的冪等性邏輯封裝為 Cloud Functions Middleware，自動攔截並處理重複請求 (API Rules 3)。
     * **效益**: 確保在網路不穩或重試機制下，所有交易操作的原子性與安全性。
 
