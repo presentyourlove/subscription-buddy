@@ -258,116 +258,108 @@ npm run scan:image
     * **描述**: 啟用 Firestore TTL (Time-to-Live) 策略，自動清理過期日誌與暫存資料 (Core Rules 3.3)。
     * **效益**: 節省儲存成本，並滿足 GDPR「資料最小化」原則。
 
-3. **API 速率限制 (Rate Limiting)** `[P0]`
-    * **描述**: 於 Firebase App Check 或 Cloud Functions 層實作請求頻率限制 (Core Rules 8.4)。
-    * **效益**: 防止 DDoS 攻擊與惡意刷 API 導致的費用暴漲。
-
-4. **契約測試 (Consumer-Driven Contract Testing)** `[P2]`
+3. **契約測試 (Consumer-Driven Contract Testing)** `[P2]`
     * **描述**: 導入 **Pact** 或 **Spring Cloud Contract** 概念，驗證 API 實作與 OpenAPI 文件的一致性 (API Rules 5)。
     * **效益**: 防止前後端整合時因 Schema 變更導致的線上故障。
 
-5. **功能開關 (Feature Flags)** `[P2]`
+4. **功能開關 (Feature Flags)** `[P2]`
     * **描述**: 導入 Firebase Remote Config，實作功能灰度發布 (Canary Release)。
     * **效益**: 降低新功能上線風險，支援 A/B Testing。
 
-6. **通用冪等性中間件 (Idempotency Middleware)** `[P1]`
+5. **通用冪等性中間件 (Idempotency Middleware)** `[P1]`
     * **描述**: 將現有的冪等性邏輯封裝為 Cloud Functions Middleware，自動攔截並處理重複請求 (API Rules 3)。
     * **效益**: 確保在網路不穩或重試機制下，所有交易操作的原子性與安全性。
 
-7. **零信任架構 (Zero Trust - App Check)** `[P0]`
+6. **零信任架構 (Zero Trust - App Check)** `[V3]`
     * **描述**: 全面啟用 **Firebase App Check**，驗證流量來源是否為合法的 App 或 Web 客戶端 (Security Rules 1).
     * **效益**: 有效阻擋非法的 API 爬蟲與未經授權的後端存取。
 
-8. **API 文件自動化 (Automated API Documentation)** `[P2]`
+7. **API 文件自動化 (Automated API Documentation)** `[P2]`
     * **描述**: 整合 **tsoa** 或 **Swagger UI**，直接從 TypeScript 程式碼生成 OpenAPI 規格書 (Core Rules 9.1)。
     * **效益**: 確保文件與程式碼永遠同步，減少人工維護成本與錯誤。
 
-9. **Web Push 通知服務 (Web Push Notifications)** `[P3]`
+8. **Web Push 通知服務 (Web Push Notifications)** `[P3]`
     * **描述**: 整合 **FCM (Firebase Cloud Messaging)** 實作 Service Worker 背景推播 (Mobile Rules).
     * **效益**: 提升使用者留存率，即便應用程式關閉也能即時接收合購訊息。
 
-10. **資料庫遷移版本控制 (Database Migration Versioning)** `[P1]`
+9. **資料庫遷移版本控制 (Database Migration Versioning)** `[P1]`
     * **描述**: 撰寫 Node.js 腳本配合 CI/CD，對 Firestore 進行資料結構變更的版本控制 (Backend Rules 4.5)。
     * **效益**: 確保所有環境 (Dev/Staging/Prod) 的資料結構一致，並支援自動化回滾 (Rollback)。
 
-11. **API 閘道器模式 (API Gateway Pattern)** `[P1]`
+10. **API 閘道器模式 (API Gateway Pattern)** `[P1]`
     * **描述**: 導入 **GCP API Gateway** 或自建 BFF 層，集中處理驗權、限流與日誌 (Enterprise Rules 5)。
     * **效益**: 解耦前端與後端微服務，並提供統一的 API 介面管理。
 
-12. **大數據倉儲整合 (BigQuery Data Warehouse)** `[P3]`
+11. **大數據倉儲整合 (BigQuery Data Warehouse)** `[P3]`
     * **描述**: 使用 Firebase Extension 將 Firestore 資料即時同步至 **BigQuery** (Enterprise Rules 8).
     * **效益**: 支援複雜的 SQL 商業分析 (OLAP)，彌補 NoSQL 在報表統計上的不足。
 
-13. **事件驅動架構 (Event-Driven Architecture)** `[P2]`
+12. **事件驅動架構 (Event-Driven Architecture)** `[P2]`
     * **描述**: 引入 **Google Pub/Sub**，將非同步任務 (如發送 Email、索引建立) 解耦為事件流 (Enterprise Patterns).
     * **效益**: 提升系統的吞吐量與延展性，避免主流程阻塞。
 
-14. **分散式鎖 (Distributed Locking)** `[P1]`
+13. **分散式鎖 (Distributed Locking)** `[P1]`
     * **描述**: 對於高併發寫入 (如搶購合購名額)，實作基於 Redis 或 Firestore 的分散式鎖機制 (Enterprise Rules 1.4)。
     * **效益**: 保證資料強一致性 (Strong Consistency)，防止超賣或資料競態條件 (Race Condition)。
 
-15. **容器映像檔弱點掃描 (Container Image Scanning)** `[P0]`
-    * **描述**: 於 CI Pipeline 整合 **Trivy** 或 **Snyk**，針對 Docker Base Image 進行漏洞掃描 (SecOps)。
-    * **效益**: 確保生產環境容器運作於無已知高風險漏洞的環境中。
-
-16. **雲端金鑰管理 (Cloud Secret Manager)** `[P0]`
+14. **雲端金鑰管理 (Cloud Secret Manager)** `[P0]`
     * **描述**: 移除 `.env` 檔案中的機敏資訊，改接 Google Secret Manager 或 AWS Parameter Store (Core Rules 2.1)。
     * **效益**: 杜絕金鑰誤上傳 Git 的風險，並支援金鑰輪替 (Rotation) 與審計。
 
-17. **基礎設施即代碼 (IaC - Terraform)** `[P1]`
+15. **基礎設施即代碼 (IaC - Terraform)** `[P1]`
     * **描述**: 將 Firebase Rules, Indexes, Cloud Functions 配置全面代碼化 (Terraform/OpenTofu) (Core Rules 6.3)。
     * **效益**: 實現環境複製的可重複性 (Reproducibility)，並將基建變更納入版控。
 
-18. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[P0]`
+16. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[P0]`
     * **描述**: 設定 **GitHooks** (使用 **git-secrets** 或 **detect-secrets**)，在 Commit 階段攔截潛在的 API Key 或密碼 (SecOps).
     * **效益**: 構建第一道防線，防止機敏資料汙染版本控制系統。
 
-19. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[P0]`
+17. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[P0]`
     * **描述**: 於 CI/CD Pipeline 整合 **OWASP ZAP**，對測試環境進行自動化滲透測試 (Enterprise Security).
     * **效益**: 提早發現 SQL Injection、XSS 等 runtime 後才顯現的安全漏洞。
 
-20. **雲端預算監控 (Cloud Budget Monitoring)** `[P2]`
+18. **雲端預算監控 (Cloud Budget Monitoring)** `[P2]`
     * **描述**: 設定 Google Cloud Budget Alerts，當費用達到預算 80% 時自動觸發告警或熔斷機制 (Enterprise Ops)。
     * **效益**: 防止因流量暴衝或程式 Bug (如無窮迴圈讀寫 DB) 造成的財務災難。
 
-21. **威脅建模 (Threat Modeling - STRIDE)** `[P0]`
-22. **威脅建模 (Threat Modeling - STRIDE)** `[P0]`
+19. **威脅建模 (Threat Modeling - STRIDE)** `[P0]`
+20. **威脅建模 (Threat Modeling - STRIDE)** `[P0]`
     * **描述**: 於設計階段導入 STRIDE 模型分析潛在威脅，並產出風險評估報告 (SSDLC Rules 5.2)。
     * **效益**: 將資安防護左移 (Shift Left)，降低架構層級的設計漏洞。
 
-23. **PII 脫敏中間件 (PII Masking Middleware)** `[P0]`
+21. **PII 脫敏中間件 (PII Masking Middleware)** `[P0]`
     * **描述**: 實作全域日誌攔截器，自動針對身分證、手機、Email 等敏感個資進行遮罩 (Backend Rules 6)。
     * **效益**: 確保日誌合規，降低數據外洩後的損害範圍。
 
-24. **軟體物料清單 (SBOM - Software Bill of Materials)** `[P1]`
+22. **軟體物料清單 (SBOM - Software Bill of Materials)** `[P1]`
     * **描述**: 於建置流程自動產出 SPDX 或 CycloneDX 格式的 SBOM 文件 (Enterprise SecOps).
     * **效益**: 提供完整的軟體供應鏈透明度，快速回應零日漏洞 (Zero-Day Vulnerabilities)。
 
-25. **嚴格內容安全策略 (Strict CSP - Nonce-based)** `[P0]`
+23. **嚴格內容安全策略 (Strict CSP - Nonce-based)** `[P0]`
     * **描述**: 移除 `unsafe-inline`，升級為基於 Nonce 或 Hash 的高強度 CSP 政策 (Security Rules 3.1)。
     * **效益**: 徹底防禦 XSS 攻擊，僅允許執行受信任的與簽署過的腳本。
 
-26. **智慧內容審查 (AI Content Moderation)** `[P2]`
+24. **智慧內容審查 (AI Content Moderation)** `[P2]`
     * **描述**: 整合 **Google Cloud Vision/NLP API**，自動過濾聊天室中的色情圖片與毒性文字 (Safety).
     * **效益**: 降低平台管理成本，確保社群環境的健康與合規。
 
-27. **Cookie 同意管理 (Cookie Consent Manager)** `[P0]`
+25. **Cookie 同意管理 (Cookie Consent Manager)** `[P0]`
     * **描述**: 實作符合 GDPR 標準的 Cookie Banner 與同意狀態管理機制 (Privacy Rules 3.4)。
     * **效益**: 滿足歐盟與加州法規要求，避免潛在法律風險。
 
-28. **自動化依賴更新 (Automated Dependency Updates)** `[P1]`
+26. **自動化依賴更新 (Automated Dependency Updates)** `[P1]`
     * **描述**: 整合 **Renovate** 或 **Dependabot**，自動建立 PR 更新 NPM 依賴套件 (SecOps)。
     * **效益**: 減少技術債堆積，即時修補第三方套件的已知漏洞。
 
-29. **優雅停機機制 (Graceful Shutdown)** `[P1]`
+27. **優雅停機機制 (Graceful Shutdown)** `[P1]`
     * **描述**: 於後端服務實作 `SIGTERM` 信號處理與連接排水 (Connection Draining) (Cloud Native Rules 7).
     * **效益**: 確保在自動擴縮容或版更部署時，正在進行中的交易不會被強制中斷。
 
-30. **跨區域災難復原 (Multi-Region Disaster Recovery)** `[P2]`
+28. **跨區域災難復原 (Multi-Region Disaster Recovery)** `[P2]`
     * **描述**: 設計 Active-Passive 的跨區域備援架構，確保單一機房故障時能自動切換 (Enterprise Rules 4).
     * **效益**: 將 RTO (復原時間目標) 降至最低，保證服務的高可用性 (99.99%)。
 
-31. **開源授權合規掃描 (License Compliance Scanning)** `[P1]`
+29. **開源授權合規掃描 (License Compliance Scanning)** `[P1]`
     * **描述**: 導入 **FOSSA** 或 **License-checker**，自動偵測依賴套件的 License (如避開 GPL/AGPL) (Enterprise Legal).
     * **效益**: 避免侵權風險，確保專案授權的合法性與商業可用性。
 
@@ -462,6 +454,22 @@ npm run scan:image
     * **效益**: 防止雪崩效應 (Cascading Failures)，並提供即時的 Fallback 回應，保護後端服務。
 
 ---
+
+---
+
+## 📝 最新更新 (Latest Updates)
+
+### Security Enhancements (2026-01-18)
+
+* **API Rate Limiting**:
+  * 全面啟用 **Firebase App Check** (reCAPTCHA Enterprise)，阻擋非瀏覽器流量。
+  * 實作 **Firestore Timestamp Guard**，強制校驗伺服器時間 (`request.time`)。
+* **Container Security**:
+  * 整合 **Trivy** 容器弱點掃描工具 (`npm run scan:image`)。
+  * 優化 Dockerfile 建置流程，修復與 `vue-tsc` 的相容性問題。
+* **Type Safety & Bug Fixes**:
+  * 修復 `ChatService` 與 `GroupStore` 的 TypeScript 型別定義。
+  * 解決 Service Worker 與 PWA (`ExtendableEvent`) 的全域型別衝突。
 
 ## 👤 作者 (Author)
 
