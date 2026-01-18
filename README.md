@@ -236,15 +236,7 @@ npm run scan:image
     * **描述**: 引入 **Dependency Cruiser**，於 CI 階段強制檢查依賴關係 (e.g. 禁止 View 直接 import Service)。
     * **效益**: 防止架構腐化 (Architecture Erosion)，維持專案長期可維護性。
 
-5. **DTO 強制轉換層 (Strict DTO Layer)** `[DONE]`
-    * **描述**: 後端 API 禁止直接回傳 DB Model (如 Firestore Document)，必須透過 Mapper 轉換為 DTO (Backend Rules 4)。
-    * **效益**: 避免內部資料結構洩漏，並解耦資料庫與 API 契約。
-
-6. **全端共用驗證層 (Shared Validation Layer)** `[DONE]`
-    * **描述**: 使用 **Zod** 或 **TypeBox** 定義共用的資料驗證邏輯，讓前端表單與後端 API 共享同一套規則 (Backend Rules 5).
-    * **效益**: 消除前後端驗證邏輯不一致的 Bug，並實現 End-to-End Type Safety。
-
-7. **複雜度監控 (Cognitive Complexity Monitoring)** `[P3]`
+5. **複雜度監控 (Cognitive Complexity Monitoring)** `[P3]`
     * **描述**: 設定 SonarCloud 閥值，強制單一函式 Cognitive Complexity < 15 (Core Rules 1.1)。
     * **效益**: 降低代碼閱讀負擔，減少邏輯錯誤滋生。
 
@@ -266,101 +258,60 @@ npm run scan:image
     * **描述**: 導入 Firebase Remote Config，實作功能灰度發布 (Canary Release)。
     * **效益**: 降低新功能上線風險，支援 A/B Testing。
 
-5. **通用冪等性中間件 (Idempotency Middleware)** `[DONE]`
-    * **描述**: 將現有的冪等性邏輯封裝為 Cloud Functions Middleware，自動攔截並處理重複請求 (API Rules 3)。
-    * **效益**: 確保在網路不穩或重試機制下，所有交易操作的原子性與安全性。
-
-6. **零信任架構 (Zero Trust - App Check)** `[V3]`
+5. **零信任架構 (Zero Trust - App Check)** `[V3]`
     * **描述**: 全面啟用 **Firebase App Check**，驗證流量來源是否為合法的 App 或 Web 客戶端 (Security Rules 1).
     * **效益**: 有效阻擋非法的 API 爬蟲與未經授權的後端存取。
 
-7. **API 文件自動化 (Automated API Documentation)** `[P2]`
+6. **API 文件自動化 (Automated API Documentation)** `[P2]`
     * **描述**: 整合 **tsoa** 或 **Swagger UI**，直接從 TypeScript 程式碼生成 OpenAPI 規格書 (Core Rules 9.1)。
     * **效益**: 確保文件與程式碼永遠同步，減少人工維護成本與錯誤。
 
-8. **Web Push 通知服務 (Web Push Notifications)** `[P3]`
+7. **Web Push 通知服務 (Web Push Notifications)** `[P3]`
     * **描述**: 整合 **FCM (Firebase Cloud Messaging)** 實作 Service Worker 背景推播 (Mobile Rules).
     * **效益**: 提升使用者留存率，即便應用程式關閉也能即時接收合購訊息。
 
-9. **資料庫遷移版本控制 (Database Migration Versioning)** `[V3]`
+8. **資料庫遷移版本控制 (Database Migration Versioning)** `[V3]`
     * **備註**: 已規畫實作計畫 (Node.js Runner)，但延後至 V3 執行。
     * **描述**: 撰寫 Node.js 腳本配合 CI/CD，對 Firestore 進行資料結構變更的版本控制 (Backend Rules 4.5)。
     * **效益**: 確保所有環境 (Dev/Staging/Prod) 的資料結構一致，並支援自動化回滾 (Rollback)。
 
-10. **API 閘道器模式 (API Gateway Pattern)** `[DONE]`
-    * **描述**: 導入 **GCP API Gateway** 或自建 BFF 層，集中處理驗權、限流與日誌 (Enterprise Rules 5)。
-    * **效益**: 解耦前端與後端微服務，並提供統一的 API 介面管理。
-
-11. **大數據倉儲整合 (BigQuery Data Warehouse)** `[P3]`
+9. **大數據倉儲整合 (BigQuery Data Warehouse)** `[P3]`
     * **描述**: 使用 Firebase Extension 將 Firestore 資料即時同步至 **BigQuery** (Enterprise Rules 8).
     * **效益**: 支援複雜的 SQL 商業分析 (OLAP)，彌補 NoSQL 在報表統計上的不足。
 
-12. **事件驅動架構 (Event-Driven Architecture)** `[P2]`
+10. **事件驅動架構 (Event-Driven Architecture)** `[P2]`
     * **描述**: 引入 **Google Pub/Sub**，將非同步任務 (如發送 Email、索引建立) 解耦為事件流 (Enterprise Patterns).
     * **效益**: 提升系統的吞吐量與延展性，避免主流程阻塞。
 
-13. **分散式鎖 (Distributed Locking)** `[DONE]`
-    * **描述**: 對於高併發寫入 (如搶購合購名額)，實作基於 Redis 或 Firestore 的分散式鎖機制 (Enterprise Rules 1.4)。
-    * **效益**: 保證資料強一致性 (Strong Consistency)，防止超賣或資料競態條件 (Race Condition)。
-
-14. **雲端金鑰管理 (Cloud Secret Manager)** `[V3]`
+11. **雲端金鑰管理 (Cloud Secret Manager)** `[V3]`
     * **描述**: 移除 `.env` 檔案中的機敏資訊，改接 Google Secret Manager 或 AWS Parameter Store (Core Rules 2.1)。
     * **效益**: 杜絕金鑰誤上傳 Git 的風險，並支援金鑰輪替 (Rotation) 與審計。
 
-15. **基礎設施即代碼 (IaC - Terraform)** `[DONE]`
-    * **描述**: 將 Firebase Rules, Indexes, Cloud Functions 配置全面代碼化 (Terraform/OpenTofu) (Core Rules 6.3)。
-    * **效益**: 實現環境複製的可重複性 (Reproducibility)，並將基建變更納入版控。
-
-16. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[V3]`
+12. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[V3]`
     * **描述**: 設定 **GitHooks** (使用 **git-secrets** 或 **detect-secrets**)，在 Commit 階段攔截潛在的 API Key 或密碼 (SecOps).
     * **效益**: 構建第一道防線，防止機敏資料汙染版本控制系統。
 
-17. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[V3]`
+13. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[V3]`
     * **描述**: 於 CI/CD Pipeline 整合 **OWASP ZAP**，對測試環境進行自動化滲透測試 (Enterprise Security).
     * **效益**: 提早發現 SQL Injection、XSS 等 runtime 後才顯現的安全漏洞。
 
-18. **雲端預算監控 (Cloud Budget Monitoring)** `[P2]`
+14. **雲端預算監控 (Cloud Budget Monitoring)** `[P2]`
     * **描述**: 設定 Google Cloud Budget Alerts，當費用達到預算 80% 時自動觸發告警或熔斷機制 (Enterprise Ops)。
     * **效益**: 防止因流量暴衝或程式 Bug (如無窮迴圈讀寫 DB) 造成的財務災難。
 
-19. **威脅建模 (Threat Modeling - STRIDE)** `[DONE]`
-    * **描述**: 於設計階段導入 STRIDE 模型分析潛在威脅，並產出風險評估報告 (SSDLC Rules 5.2)。
-    * **效益**: 將資安防護左移 (Shift Left)，降低架構層級的設計漏洞。
-    * **產出**: [威脅建模報告 (Threat Model Report)](docs/THREAT_MODEL.md)
-
-20. **PII 脫敏中間件 (PII Masking Middleware)** `[DONE]`
-    * **描述**: 實作全域日誌攔截器，自動針對身分證、手機、Email 等敏感個資進行遮罩 (Backend Rules 6)。
-    * **效益**: 確保日誌合規，降低數據外洩後的損害範圍。
-
-21. **軟體物料清單 (SBOM - Software Bill of Materials)** `[DONE]`
-    * **描述**: 於建置流程自動產出 SPDX 或 CycloneDX 格式的 SBOM 文件 (Enterprise SecOps).
-    * **效益**: 提供完整的軟體供應鏈透明度，快速回應零日漏洞 (Zero-Day Vulnerabilities)。
-
-22. **嚴格內容安全策略 (Strict CSP - Nonce-based)** `[DONE]`
-    * **描述**: 移除 `unsafe-inline`，升級為基於 Nonce 或 Hash 的高強度 CSP 政策 (Security Rules 3.1)。
-    * **效益**: 徹底防禦 XSS 攻擊，僅允許執行受信任的與簽署過的腳本。
-
-23. **智慧內容審查 (AI Content Moderation)** `[P2]`
+15. **智慧內容審查 (AI Content Moderation)** `[P2]`
     * **描述**: 整合 **Google Cloud Vision/NLP API**，自動過濾聊天室中的色情圖片與毒性文字 (Safety).
     * **效益**: 降低平台管理成本，確保社群環境的健康與合規。
 
-24. **Cookie 同意管理 (Cookie Consent Manager)** `[DONE]`
-    * **描述**: 實作符合 GDPR 標準的 Cookie Banner 與同意狀態管理機制 (Privacy Rules 3.4)。
-    * **效益**: 滿足歐盟與加州法規要求，避免潛在法律風險。
-
-25. **自動化依賴更新 (Automated Dependency Updates)** `[DONE]`
-    * **描述**: 整合 **Renovate** 或 **Dependabot**，自動建立 PR 更新 NPM 依賴套件 (SecOps)。
-    * **效益**: 減少技術債堆積，即時修補第三方套件的已知漏洞。
-
-26. **優雅停機機制 (Graceful Shutdown)** `[P1]`
+16. **優雅停機機制 (Graceful Shutdown)** `[P1]`
     * **描述**: 於後端服務實作 `SIGTERM` 信號處理與連接排水 (Connection Draining) (Cloud Native Rules 7).
     * **效益**: 確保在自動擴縮容或版更部署時，正在進行中的交易不會被強制中斷。
 
-27. **跨區域災難復原 (Multi-Region Disaster Recovery)** `[P2]`
+17. **跨區域災難復原 (Multi-Region Disaster Recovery)** `[P2]`
     * **描述**: 設計 Active-Passive 的跨區域備援架構，確保單一機房故障時能自動切換 (Enterprise Rules 4).
     * **效益**: 將 RTO (復原時間目標) 降至最低，保證服務的高可用性 (99.99%)。
 
-28. **開源授權合規掃描 (License Compliance Scanning)** `[P1]`
+18. **開源授權合規掃描 (License Compliance Scanning)** `[P1]`
     * **描述**: 導入 **FOSSA** 或 **License-checker**，自動偵測依賴套件的 License (如避開 GPL/AGPL) (Enterprise Legal).
     * **效益**: 避免侵權風險，確保專案授權的合法性與商業可用性。
 
