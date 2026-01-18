@@ -343,7 +343,7 @@ npm run scan:image
     * **描述**: 整合 **Google Cloud Vision/NLP API**，自動過濾聊天室中的色情圖片與毒性文字 (Safety).
     * **效益**: 降低平台管理成本，確保社群環境的健康與合規。
 
-24. **Cookie 同意管理 (Cookie Consent Manager)** `[P0]`
+24. **Cookie 同意管理 (Cookie Consent Manager)** `[DONE]`
     * **描述**: 實作符合 GDPR 標準的 Cookie Banner 與同意狀態管理機制 (Privacy Rules 3.4)。
     * **效益**: 滿足歐盟與加州法規要求，避免潛在法律風險。
 

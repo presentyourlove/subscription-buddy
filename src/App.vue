@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 
-import CookieConsent from './components/CookieConsent.vue'
+import CookieConsent from './components/common/CookieConsent.vue'
 import Footer from './components/Footer.vue'
 import Navbar from './components/Navbar.vue'
 import ReloadPrompt from './components/ReloadPrompt.vue'
