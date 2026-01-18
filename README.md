@@ -314,7 +314,7 @@ npm run scan:image
     * **描述**: 設定 **GitHooks** (使用 **git-secrets** 或 **detect-secrets**)，在 Commit 階段攔截潛在的 API Key 或密碼 (SecOps).
     * **效益**: 構建第一道防線，防止機敏資料汙染版本控制系統。
 
-17. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[P0]`
+17. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[V3]`
     * **描述**: 於 CI/CD Pipeline 整合 **OWASP ZAP**，對測試環境進行自動化滲透測試 (Enterprise Security).
     * **效益**: 提早發現 SQL Injection、XSS 等 runtime 後才顯現的安全漏洞。
 
