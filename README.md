@@ -240,7 +240,7 @@ npm run scan:image
     * **描述**: 後端 API 禁止直接回傳 DB Model (如 Firestore Document)，必須透過 Mapper 轉換為 DTO (Backend Rules 4)。
     * **效益**: 避免內部資料結構洩漏，並解耦資料庫與 API 契約。
 
-6. **全端共用驗證層 (Shared Validation Layer)** `[P1]`
+6. **全端共用驗證層 (Shared Validation Layer)** `[DONE]`
     * **描述**: 使用 **Zod** 或 **TypeBox** 定義共用的資料驗證邏輯，讓前端表單與後端 API 共享同一套規則 (Backend Rules 5).
     * **效益**: 消除前後端驗證邏輯不一致的 Bug，並實現 End-to-End Type Safety。
 

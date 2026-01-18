@@ -35,7 +35,8 @@
     "vue": "^3.5.24",
     "vue-i18n": "^11.2.2",
     "vue-router": "^4.6.3",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue-toastification": "^2.0.0-rc.5",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.0",
