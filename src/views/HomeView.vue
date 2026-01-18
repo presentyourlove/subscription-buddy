@@ -177,7 +177,7 @@
 
         <!-- Load More Button -->
         <div
-          v-if="groupStore.hasMore && !searchQuery && !debouncedQuery"
+          v-if="groupStore.hasMore && !groupStore.searchQuery"
           class="flex justify-center mt-12"
         >
           <button

@@ -2,11 +2,16 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // 輔助函式：確保 createdAt 為伺服器時間 (防止竄改與未來時間攻擊)
+    function isValidTimestamp() {
+      return request.resource.data.createdAt == request.time;
+    }
+
     // 允許所有人讀取拼團列表 (公佈欄)
     match /groups/{groupId} {
       allow read: if true;
-      // 僅允許登入使用者建立拼團
-      allow create: if request.auth != null;
+      // 僅允許登入使用者建立拼團 (需驗證時間戳記)
+      allow create: if request.auth != null && isValidTimestamp();
       // 僅允許團長修改與刪除自己的拼團 (且已結案的拼團不可刪除)
       allow update: if request.auth != null && request.auth.uid == resource.data.hostId;
       allow delete: if request.auth != null && request.auth.uid == resource.data.hostId && resource.data.status != 'CLOSED';
@@ -23,14 +28,20 @@ service cloud.firestore {
       // 讀取/更新: 必須是參與者
       allow read, update: if request.auth != null && request.auth.uid in resource.data.participants;
       
-      // 建立: 必須是參與者 (且建立的資料中必須包含自己)
-      allow create: if request.auth != null && request.auth.uid in request.resource.data.participants;
+      // 建立: 必須是參與者 (且建立的資料中必須包含自己)，並驗證時間
+      allow create: if request.auth != null 
+                    && request.auth.uid in request.resource.data.participants
+                    && isValidTimestamp();
       
       match /messages/{messageId} {
-         // 讀寫訊息: 必須是該聊天室的參與者
-         // 使用 get() 讀取父層 chat 文件的 participants 欄位
-         allow read, write: if request.auth != null && 
-                            request.auth.uid in get(/databases/$(database)/documents/chats/$(groupId)).data.participants;
+         // 讀取訊息: 必須是該聊天室的參與者
+         allow read: if request.auth != null && 
+                     request.auth.uid in get(/databases/$(database)/documents/chats/$(groupId)).data.participants;
+         
+         // 發送訊息: 必須是參與者，且強制使用 Server Timestamp (Rate Limit 基礎)
+         allow create: if request.auth != null && 
+                       request.auth.uid in get(/databases/$(database)/documents/chats/$(groupId)).data.participants &&
+                       isValidTimestamp();
       }
     }
   }

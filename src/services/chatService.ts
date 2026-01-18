@@ -19,6 +19,7 @@ import {
 
 import { Chat, Group, Message, UserProfile } from '../types'
 import { COLLECTIONS, DEFAULTS, ERROR_CODES, GROUP_STATUS, MESSAGE_TYPES } from '../utils/constants'
+import { db } from '../firebase/config'
 import { cryptoService } from './CryptoService'
 import { userService } from './userService'
 
@@ -146,8 +147,8 @@ class ChatService {
       participantIds.forEach((uid, index) => {
         keyMap[uid] = encrypted.encryptedKeys[index]
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(payload as any).encryptedKeys = keyMap
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ; (payload as any).encryptedKeys = keyMap
     }
 
     const colRef = collection(db, COLLECTIONS.CHATS, groupId, COLLECTIONS.MESSAGES)

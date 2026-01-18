@@ -1,4 +1,8 @@
 /// <reference types="vite/client" />
+
+interface ExtendableEvent extends Event {
+  waitUntil(fn: Promise<any>): void;
+}
 /// <reference lib="webworker" />
 
 declare module '*.vue' {

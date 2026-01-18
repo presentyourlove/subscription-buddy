@@ -192,6 +192,28 @@ iOS 主要透過 Safari "Add to Home Screen" 安裝。若需上架 App Store，�
 
 ---
 
+## 🛡️ 安全防護 (Security Ops)
+
+### 容器弱點掃描 (Container Scanning)
+
+本專案集成了 [Trivy](https://aquasecurity.github.io/trivy/) 以確保交付的 Docker Image 安全無虞。
+
+**前置需求**: 請安裝 Trivy (Windows: `winget install -e --id AquaSecurity.Trivy` 或 `choco install trivy`)
+
+**執行掃描**:
+
+```bash
+npm run scan:image
+```
+
+這將自動執行：
+
+1. 建置生產環境 Docker Image (`subscription-buddy:latest`)
+2. 掃描 Image 中的 OS 套件與 Application 依賴漏洞
+3. 輸出 CVE 報告 (請優先修復 `CRITICAL` 與 `HIGH` 等級漏洞)
+
+---
+
 ## 🔮 未來規劃 (Future Roadmap)
 
 基於專案現況與未來擴展需求，我們擬定以下分階段優化藍圖：

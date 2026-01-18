@@ -5,7 +5,7 @@ import { messaging } from '../firebase/config'
 export const requestNotificationPermission = async (): Promise<string | undefined> => {
   try {
     const permission = await Notification.requestPermission()
-    if (permission === 'granted') {
+    if (permission === 'granted' && messaging) {
       const token = await getToken(messaging, {
         vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY // User needs to add this to .env
       })

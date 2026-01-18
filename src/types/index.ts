@@ -3,6 +3,7 @@ export interface UserProfile {
   email: string | null
   displayName: string | null
   photoURL: string | null
+  publicKey?: string
   ratingSum?: number
   ratingCount?: number
   createdAt?: Date | { seconds: number }
@@ -30,6 +31,11 @@ export interface Message {
   senderAvatar?: string | null
   createdAt?: Date | { seconds: number }
   type: 'text' | 'image' | 'system'
+  // E2EE Checks
+  cipherText?: string
+  iv?: string
+  encryptedKeys?: Record<string, string>
+  e2ee?: boolean
 }
 
 export interface Chat {

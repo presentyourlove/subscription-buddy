@@ -86,7 +86,7 @@ export class CryptoService {
     return {
       cipherText: this.ab2str(encryptedContent),
       encryptedKeys,
-      iv: this.ab2str(iv)
+      iv: this.ab2str(iv.buffer)
     }
   }
 

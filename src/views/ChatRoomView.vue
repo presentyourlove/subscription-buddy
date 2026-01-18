@@ -65,18 +65,10 @@
     />
 
     <!-- Input Area -->
-    <ChatInputArea
-      :loading="chatStore.loading"
-      :is-deal-closed="isDealClosed"
-      @send="handleSend"
-    />
+    <ChatInputArea :loading="chatStore.loading" :is-deal-closed="isDealClosed" @send="handleSend" />
 
     <!-- Rating Modal -->
-    <ChatRatingModal
-      v-model="showRatingModal"
-      :target="ratingTarget"
-      @submit="handleRateSubmit"
-    />
+    <ChatRatingModal v-model="showRatingModal" :target="ratingTarget" @submit="handleRateSubmit" />
   </div>
 </template>
 

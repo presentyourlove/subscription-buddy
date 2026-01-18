@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 import { EVENTS, useAnalytics } from '../composables/useAnalytics'
 import { groupService } from '../services/groupService'
@@ -6,125 +7,96 @@ import { Group } from '../types'
 
 const { logEvent } = useAnalytics()
 
-interface GroupState {
-  groups: Group[]
-  loading: boolean
-  error: string | null
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  lastDoc: any // Using specific type might require importing DocumentSnapshot which is heavy for store type
-  hasMore: boolean
-  searchQuery: string
-}
+export const useGroupStore = defineStore(
+  'group',
+  () => {
+    // State
+    const groups = ref<Group[]>([])
+    const loading = ref(false)
+    const error = ref<string | null>(null)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const lastDoc = ref<any>(null)
+    const hasMore = ref(true)
+    const searchQuery = ref('')
 
-export const useGroupStore = defineStore('group', {
-  state: (): GroupState => ({
-    groups: [],
-    loading: false,
-    lastDoc: null,
-    hasMore: true,
-    searchQuery: ''
-  }),
-  persist: {
-    paths: ['groups', 'searchQuery']
-  },
-  actions: {
-    /**
-     * Fetch initial groups (reset pagination)
-     */
-    async fetchGroups() {
-      this.loading = true
-      this.error = null
-      // Don't clear groups immediately to allow stale-while-revalidate
-      // this.groups = []
-      this.lastDoc = null
-      this.hasMore = true
+    // Actions
+    const fetchGroups = async () => {
+      loading.value = true
+      error.value = null
+      lastDoc.value = null
+      hasMore.value = true
       try {
-        const { groups, lastDoc } = await groupService.getGroups(10) // Limit 10
-        this.groups = groups
-        this.lastDoc = lastDoc
-        this.hasMore = groups.length === 10
-
-        // Log view list event only on initial fetch
+        const res = await groupService.getGroups(10)
+        groups.value = res.groups
+        lastDoc.value = res.lastDoc
+        hasMore.value = res.groups.length === 10
         logEvent(EVENTS.VIEW_GROUP_LIST)
       } catch (err) {
         if (err instanceof Error) {
-          this.error = err.message
+          error.value = err.message
         }
         console.error('Error fetching groups:', err)
       } finally {
-        this.loading = false
+        loading.value = false
       }
-    },
+    }
 
-    async fetchNextPage() {
-      if (!this.hasMore || this.loading) return
+    const fetchNextPage = async () => {
+      if (!hasMore.value || loading.value) return
 
-      this.loading = true
+      loading.value = true
       try {
-        const { groups, lastDoc } = await groupService.getGroups(10, this.lastDoc)
-        this.groups = [...this.groups, ...groups]
-        this.lastDoc = lastDoc
-        this.hasMore = groups.length === 10
+        const res = await groupService.getGroups(10, lastDoc.value)
+        groups.value = [...groups.value, ...res.groups]
+        lastDoc.value = res.lastDoc
+        hasMore.value = res.groups.length === 10
       } catch (err) {
         if (err instanceof Error) {
-          this.error = err.message
+          error.value = err.message
         }
         console.error('Error fetching next page:', err)
       } finally {
-        this.loading = false
+        loading.value = false
       }
-    },
+    }
 
-    /**
-     * Add a new group
-     */
-    async addGroup(groupData: Omit<Group, 'id' | 'createdAt' | 'status'>) {
-      this.loading = true
-      this.error = null
+    const addGroup = async (groupData: Omit<Group, 'id' | 'createdAt' | 'status'>) => {
+      loading.value = true
+      error.value = null
       try {
-        // Generate Idempotency Key
         const idempotencyKey = crypto.randomUUID()
         await groupService.createGroup(groupData, idempotencyKey)
-        // Refresh list
-        await this.fetchGroups()
-        logEvent(EVENTS.CREATE_GROUP, { title: groupData.title, category: groupData.category })
+        await fetchGroups()
+        logEvent(EVENTS.CREATE_GROUP, { title: groupData.title, category: groupData.serviceName })
       } catch (err) {
         if (err instanceof Error) {
-          this.error = err.message
+          error.value = err.message
         }
         throw err
       } finally {
-        this.loading = false
+        loading.value = false
       }
-    },
+    }
 
-    /**
-     * Delete a group
-     */
-    async deleteGroup(groupId: string) {
-      this.loading = true
+    const deleteGroup = async (groupId: string) => {
+      loading.value = true
       try {
         await groupService.deleteGroup(groupId)
-        // Remove from local state
-        this.groups = this.groups.filter((g) => g.id !== groupId)
+        groups.value = groups.value.filter((g) => g.id !== groupId)
       } catch (err) {
         if (err instanceof Error) {
-          this.error = err.message
+          error.value = err.message
         }
         throw err
       } finally {
-        this.loading = false
+        loading.value = false
       }
-    },
+    }
 
-    /**
-     * Update group status
-     */
-    async updateGroupStatus(groupId: string, status: string) {
+    const updateGroupStatus = async (groupId: string, status: string) => {
       try {
         await groupService.updateStatus(groupId, status)
-        // Update local state
-        const g = this.groups.find((g) => g.id === groupId)
+        const g = groups.value.find((g) => g.id === groupId)
         if (g) {
           g.status = status as Group['status']
         }
@@ -132,5 +104,25 @@ export const useGroupStore = defineStore('group', {
         console.error('Update status error:', err)
       }
     }
-  }
-})
+
+    return {
+      groups,
+      loading,
+      error,
+      lastDoc,
+      hasMore,
+      searchQuery,
+      fetchGroups,
+      fetchNextPage,
+      addGroup,
+      deleteGroup,
+      updateGroupStatus
+    }
+  },
+  {
+    persist: {
+      paths: ['groups', 'searchQuery']
+    }
+  } as any // Cast to any to avoid type inference issues with persist plugin
+)
+
