@@ -332,7 +332,7 @@ npm run scan:image
     * **描述**: 實作全域日誌攔截器，自動針對身分證、手機、Email 等敏感個資進行遮罩 (Backend Rules 6)。
     * **效益**: 確保日誌合規，降低數據外洩後的損害範圍。
 
-21. **軟體物料清單 (SBOM - Software Bill of Materials)** `[P1]`
+21. **軟體物料清單 (SBOM - Software Bill of Materials)** `[DONE]`
     * **描述**: 於建置流程自動產出 SPDX 或 CycloneDX 格式的 SBOM 文件 (Enterprise SecOps).
     * **效益**: 提供完整的軟體供應鏈透明度，快速回應零日漏洞 (Zero-Day Vulnerabilities)。
 

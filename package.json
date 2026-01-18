@@ -21,7 +21,8 @@
     "lhci:collect": "lhci collect",
     "lhci:assert": "lhci assert",
     "lhci:full": "npm run build && lhci collect && lhci assert",
-    "test:a11y": "pa11y-ci"
+    "test:a11y": "pa11y-ci",
+    "generate:sbom": "cyclonedx-npm --output-format JSON --output-file sbom.json"
   },
   "dependencies": {
     "@unhead/vue": "^2.1.2",
@@ -42,6 +43,7 @@
     "@chromatic-com/storybook": "^5.0.0",
     "@commitlint/cli": "^20.3.1",
     "@commitlint/config-conventional": "^20.3.1",
+    "@cyclonedx/cyclonedx-npm": "^4.1.2",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.57.0",
     "@semantic-release/changelog": "^6.0.3",
