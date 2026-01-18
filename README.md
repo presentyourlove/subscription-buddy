@@ -307,7 +307,7 @@ npm run scan:image
     * **描述**: 移除 `.env` 檔案中的機敏資訊，改接 Google Secret Manager 或 AWS Parameter Store (Core Rules 2.1)。
     * **效益**: 杜絕金鑰誤上傳 Git 的風險，並支援金鑰輪替 (Rotation) 與審計。
 
-15. **基礎設施即代碼 (IaC - Terraform)** `[P1]`
+15. **基礎設施即代碼 (IaC - Terraform)** `[DONE]`
     * **描述**: 將 Firebase Rules, Indexes, Cloud Functions 配置全面代碼化 (Terraform/OpenTofu) (Core Rules 6.3)。
     * **效益**: 實現環境複製的可重複性 (Reproducibility)，並將基建變更納入版控。
 
