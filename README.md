@@ -322,44 +322,44 @@ npm run scan:image
     * **描述**: 設定 Google Cloud Budget Alerts，當費用達到預算 80% 時自動觸發告警或熔斷機制 (Enterprise Ops)。
     * **效益**: 防止因流量暴衝或程式 Bug (如無窮迴圈讀寫 DB) 造成的財務災難。
 
-19. **威脅建模 (Threat Modeling - STRIDE)** `[P0]`
-20. **威脅建模 (Threat Modeling - STRIDE)** `[P0]`
+19. **威脅建模 (Threat Modeling - STRIDE)** `[DONE]`
     * **描述**: 於設計階段導入 STRIDE 模型分析潛在威脅，並產出風險評估報告 (SSDLC Rules 5.2)。
     * **效益**: 將資安防護左移 (Shift Left)，降低架構層級的設計漏洞。
+    * **產出**: [威脅建模報告 (Threat Model Report)](docs/THREAT_MODEL.md)
 
-21. **PII 脫敏中間件 (PII Masking Middleware)** `[P0]`
+20. **PII 脫敏中間件 (PII Masking Middleware)** `[P0]`
     * **描述**: 實作全域日誌攔截器，自動針對身分證、手機、Email 等敏感個資進行遮罩 (Backend Rules 6)。
     * **效益**: 確保日誌合規，降低數據外洩後的損害範圍。
 
-22. **軟體物料清單 (SBOM - Software Bill of Materials)** `[P1]`
+21. **軟體物料清單 (SBOM - Software Bill of Materials)** `[P1]`
     * **描述**: 於建置流程自動產出 SPDX 或 CycloneDX 格式的 SBOM 文件 (Enterprise SecOps).
     * **效益**: 提供完整的軟體供應鏈透明度，快速回應零日漏洞 (Zero-Day Vulnerabilities)。
 
-23. **嚴格內容安全策略 (Strict CSP - Nonce-based)** `[P0]`
+22. **嚴格內容安全策略 (Strict CSP - Nonce-based)** `[P0]`
     * **描述**: 移除 `unsafe-inline`，升級為基於 Nonce 或 Hash 的高強度 CSP 政策 (Security Rules 3.1)。
     * **效益**: 徹底防禦 XSS 攻擊，僅允許執行受信任的與簽署過的腳本。
 
-24. **智慧內容審查 (AI Content Moderation)** `[P2]`
+23. **智慧內容審查 (AI Content Moderation)** `[P2]`
     * **描述**: 整合 **Google Cloud Vision/NLP API**，自動過濾聊天室中的色情圖片與毒性文字 (Safety).
     * **效益**: 降低平台管理成本，確保社群環境的健康與合規。
 
-25. **Cookie 同意管理 (Cookie Consent Manager)** `[P0]`
+24. **Cookie 同意管理 (Cookie Consent Manager)** `[P0]`
     * **描述**: 實作符合 GDPR 標準的 Cookie Banner 與同意狀態管理機制 (Privacy Rules 3.4)。
     * **效益**: 滿足歐盟與加州法規要求，避免潛在法律風險。
 
-26. **自動化依賴更新 (Automated Dependency Updates)** `[P1]`
+25. **自動化依賴更新 (Automated Dependency Updates)** `[P1]`
     * **描述**: 整合 **Renovate** 或 **Dependabot**，自動建立 PR 更新 NPM 依賴套件 (SecOps)。
     * **效益**: 減少技術債堆積，即時修補第三方套件的已知漏洞。
 
-27. **優雅停機機制 (Graceful Shutdown)** `[P1]`
+26. **優雅停機機制 (Graceful Shutdown)** `[P1]`
     * **描述**: 於後端服務實作 `SIGTERM` 信號處理與連接排水 (Connection Draining) (Cloud Native Rules 7).
     * **效益**: 確保在自動擴縮容或版更部署時，正在進行中的交易不會被強制中斷。
 
-28. **跨區域災難復原 (Multi-Region Disaster Recovery)** `[P2]`
+27. **跨區域災難復原 (Multi-Region Disaster Recovery)** `[P2]`
     * **描述**: 設計 Active-Passive 的跨區域備援架構，確保單一機房故障時能自動切換 (Enterprise Rules 4).
     * **效益**: 將 RTO (復原時間目標) 降至最低，保證服務的高可用性 (99.99%)。
 
-29. **開源授權合規掃描 (License Compliance Scanning)** `[P1]`
+28. **開源授權合規掃描 (License Compliance Scanning)** `[P1]`
     * **描述**: 導入 **FOSSA** 或 **License-checker**，自動偵測依賴套件的 License (如避開 GPL/AGPL) (Enterprise Legal).
     * **效益**: 避免侵權風險，確保專案授權的合法性與商業可用性。
 
