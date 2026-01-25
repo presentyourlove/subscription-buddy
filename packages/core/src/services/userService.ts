@@ -1,7 +1,7 @@
 import { User } from 'firebase/auth'
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc, updateDoc, getFirestore } from 'firebase/firestore'
 
-import { db } from '../firebase/config'
+// import { db } from '../firebase/config'
 import { UserProfile } from '../types'
 import { COLLECTIONS, DEFAULTS } from '../utils/constants'
 
@@ -9,6 +9,10 @@ import { COLLECTIONS, DEFAULTS } from '../utils/constants'
  * Service to handle User data in Firestore
  */
 class UserService {
+  get db() {
+    return getFirestore()
+  }
+
   static COLLECTION = COLLECTIONS.USERS
 
   /**
@@ -16,7 +20,7 @@ class UserService {
    */
   async syncUser(user: User): Promise<void> {
     if (!user) return
-    const userRef = doc(db, UserService.COLLECTION, user.uid)
+    const userRef = doc(this.db, UserService.COLLECTION, user.uid)
 
     try {
       const userSnap = await getDoc(userRef)
@@ -42,7 +46,7 @@ class UserService {
    */
   async updateProfile(uid: string, displayName: string, photoURL: string): Promise<void> {
     if (!uid) return
-    const userRef = doc(db, UserService.COLLECTION, uid)
+    const userRef = doc(this.db, UserService.COLLECTION, uid)
     await updateDoc(userRef, {
       displayName,
       photoURL
@@ -54,7 +58,7 @@ class UserService {
    */
   async getUser(uid: string): Promise<UserProfile | null> {
     if (!uid) return null
-    const userRef = doc(db, UserService.COLLECTION, uid)
+    const userRef = doc(this.db, UserService.COLLECTION, uid)
     const snap = await getDoc(userRef)
     return snap.exists() ? (snap.data() as UserProfile) : null
   }
@@ -63,7 +67,7 @@ class UserService {
    * Upload user's public key for E2EE
    */
   async uploadPublicKey(uid: string, publicKey: string): Promise<void> {
-    const userRef = doc(db, UserService.COLLECTION, uid)
+    const userRef = doc(this.db, UserService.COLLECTION, uid)
     await updateDoc(userRef, {
       publicKey
     })
