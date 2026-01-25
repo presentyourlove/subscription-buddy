@@ -5,8 +5,11 @@ describe('DTO Mappers', () => {
     describe('toGroupDTO', () => {
         it('should strictly filter out extra fields', () => {
             const rawData = {
-                name: 'Netflix Premium',
+                title: 'Netflix Premium',
                 price: 390,
+                serviceName: 'Netflix',
+                hostId: 'host-123',
+                hostName: 'Host User',
                 // Sensitive fields
                 adminNote: 'Customer is demanding',
                 internalFlag: true,
@@ -20,7 +23,7 @@ describe('DTO Mappers', () => {
 
             // Assertions
             expect(dto.id).toBe(id)
-            expect(dto.name).toBe('Netflix Premium')
+            expect(dto.title).toBe('Netflix Premium')
             expect(dto.price).toBe(390)
 
             // Critical security checks: these properties SHOULD NOT exist
@@ -33,14 +36,15 @@ describe('DTO Mappers', () => {
 
         it('should handle missing optional fields gracefully', () => {
             const rawData = {
-                name: 'Spotify'
+                title: 'Spotify'
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const dto = toGroupDTO(rawData as any, 'id-1')
-            expect(dto.name).toBe('Spotify')
+            expect(dto.title).toBe('Spotify')
             expect(dto.price).toBe(0)
-            expect(dto.currentMembers).toBe(1)
-            expect(dto.tags).toEqual([])
+            expect(dto.slots).toBe(10) // Default to MAX_SLOTS
+            expect(dto.hostId).toBe('')
         })
     })
 })
+
