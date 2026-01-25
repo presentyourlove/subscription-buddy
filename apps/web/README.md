@@ -247,15 +247,15 @@ npm run scan:image
     * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
     * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
 
-2. **資料生命週期管理 (Data Lifecycle Policy)** `[P2]`
+2. **資料生命週期管理 (Data Lifecycle Policy)** `[Completed]`
     * **描述**: 啟用 Firestore TTL (Time-to-Live) 策略，自動清理過期日誌與暫存資料 (Core Rules 3.3)。
     * **效益**: 節省儲存成本，並滿足 GDPR「資料最小化」原則。
 
-3. **契約測試 (Consumer-Driven Contract Testing)** `[P2]`
+3. **契約測試 (Consumer-Driven Contract Testing)** `[Completed]`
     * **描述**: 導入 **Pact** 或 **Spring Cloud Contract** 概念，驗證 API 實作與 OpenAPI 文件的一致性 (API Rules 5)。
     * **效益**: 防止前後端整合時因 Schema 變更導致的線上故障。
 
-4. **功能開關 (Feature Flags)** `[P2]`
+4. **功能開關 (Feature Flags)** `[Completed]`
     * **描述**: 導入 Firebase Remote Config，實作功能灰度發布 (Canary Release)。
     * **效益**: 降低新功能上線風險，支援 A/B Testing。
 
@@ -440,6 +440,17 @@ npm run scan:image
   * 部署 **Content Security Policy (CSP)** 於 `index.html`。
   * 修復前端 `target="_blank"` 的 Reverse Tabnabbing 漏洞 (`rel="noopener noreferrer"`)。
   * 修復 Logger Regex，防範 **ReDoS** 攻擊。
+
+### Roadmap Features Implementation (2026-01-25)
+
+* **Data Lifecycle (GDPR)**:
+  * 實作 **Firestore TTL** (`apps/web/infra/terraform`), 設定 `expireAt` 自動清理過期日誌 (30天) 與通知 (90天)。
+  * 系統自動化遵循資料最小化原則，無需額外維護成本。
+* **Quality Assurance**:
+  * 導入 **Pact** (Contract Testing) 於 CI 流程，確保前後端 API 契約一致性。
+  * 建立 Consumer (`apps/web`) 與 Provider (`apps/functions`) 雙向驗證機制。
+* **Feature Management**:
+  * 整合 **Firebase Remote Config** (`configService.ts`)，實作功能開關與灰度發布能力。
 
 ## 👤 作者 (Author)
 
