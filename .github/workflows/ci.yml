@@ -40,9 +40,12 @@ jobs:
         run: pnpm build
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: pnpm exec playwright install --with-deps
+        working-directory: apps/web
 
       - name: Test E2E
-        run: npx playwright test
+        run: pnpm exec playwright test
+        working-directory: apps/web
         env:
           CI: true
+
