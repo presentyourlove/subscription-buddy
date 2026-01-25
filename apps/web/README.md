@@ -52,8 +52,11 @@
 
 ### 1. 安裝依賴
 
+本專案採用 **Monorepo** 架構，請確保安裝 `pnpm`：
+
 ```bash
-npm install
+npm install -g pnpm
+pnpm install
 ```
 
 ### 2. 環境設定
@@ -61,15 +64,14 @@ npm install
 複製範例設定檔並填入您的 Firebase Config：
 
 ```bash
-cp .env.example .env
+cp apps/web/.env.example apps/web/.env
 ```
 
 ### 3. 啟動開發伺服器
 
 ```bash
-npm run dev
-# 或開啟模擬器模式
-npm run dev:emulator
+pnpm dev
+# 這將同時啟動 Web App 與 Cloud Functions (模擬器)
 ```
 
 瀏覽器打開 `http://localhost:5173` 即可看見畫面。
@@ -108,18 +110,17 @@ npm run dev:emulator
 
 ## 🏗️ 專案結構 (Project Structure)
 
-```text
-src/
-├── components/     # 共用 UI 元件 (Buttons, Inputs, Modals)
-├── composables/    # Vue Composables (Reusability Logic)
-├── firebase/       # Firebase 初始化與設定
-├── locales/        # 多語系翻譯檔 (zh-TW, en-US)
-├── services/       # API 服務層 (Firestore & Crypto 封裝)
-├── stores/         # Pinia 狀態管理 (User, Group, Chat)
-├── types/          # TypeScript 型別定義
-├── utils/          # 工具函式 (Formatters, Constants, IndexedDB)
-└── views/          # 頁面路由組件 (Home, Login, Profile)
-```
+pnpm-workspace.yaml
+apps/
+├── web/            # 前端應用 (Vue 3 + Vite)
+├── functions/      # 後端函數 (Firebase Cloud Functions)
+packages/
+└── core/           # 共用核心邏輯 (Auth, Services, Types)
+    ├── src/
+    │   ├── schemas/    # Zod 驗證 Schema
+    │   ├── services/   # 商業邏輯服務層
+    │   ├── types/      # TypeScript 型別定義
+    │   └── utils/      # 共用工具函式 (Logger, Constants)
 
 ---
 
