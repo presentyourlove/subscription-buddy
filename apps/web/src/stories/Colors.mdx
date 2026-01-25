@@ -1,0 +1,52 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+
+<Meta title="Design System/Colors" />
+
+# Colors
+
+Subscription Buddy uses a vibrant palette optimized for dark mode.
+
+<ColorPalette>
+  <ColorItem
+    title="Primary"
+    subtitle="Purple to Pink Gradient"
+    colors={{
+      Purple: '#9333ea',
+      Pink: '#db2777',
+      Gradient: 'linear-gradient(to right, #9333ea, #db2777)'
+    }}
+  />
+  <ColorItem
+    title="Success"
+    subtitle="Green"
+    colors={{
+      Base: '#22c55e',
+      Soft: 'rgba(34, 197, 94, 0.2)'
+    }}
+  />
+  <ColorItem
+    title="Warning"
+    subtitle="Amber"
+    colors={{
+      Base: '#f59e0b',
+      Soft: 'rgba(245, 158, 11, 0.2)'
+    }}
+  />
+  <ColorItem
+    title="Error"
+    subtitle="Red"
+    colors={{
+      Base: '#ef4444',
+      Soft: 'rgba(239, 68, 68, 0.2)'
+    }}
+  />
+  <ColorItem
+    title="Background"
+    subtitle="Dark Theme"
+    colors={{
+      Deep: '#0f172a',
+      Surface: 'rgba(255, 255, 255, 0.05)',
+      Overlay: 'rgba(0, 0, 0, 0.5)'
+    }}
+  />
+</ColorPalette>

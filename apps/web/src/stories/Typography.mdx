@@ -1,0 +1,39 @@
+import { Meta, Typeset } from '@storybook/blocks';
+
+<Meta title="Design System/Typography" />
+
+# Typography
+
+**Font Family**: `Inter`, system-ui, sans-serif
+
+<Typeset
+  fontSizes={[
+    '12px',
+    '14px',
+    '16px',
+    '20px',
+    '24px',
+    '30px',
+    '36px',
+    '48px',
+  ]}
+  fontWeight={400}
+  sampleText="The quick brown fox jumps over the lazy dog"
+  fontFamily="Inter, sans-serif"
+/>
+
+## Headers
+
+# Heading 1 (text-4xl)
+## Heading 2 (text-3xl)
+### Heading 3 (text-2xl)
+#### Heading 4 (text-xl)
+##### Heading 5 (text-lg)
+
+## Usage
+
+Use Tailwind utility classes for typography:
+- `text-sm`: Small text (14px)
+- `text-base`: Body text (16px)
+- `font-bold`: 700 weight
+- `text-transparent bg-clip-text`: Gradient text
