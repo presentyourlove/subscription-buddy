@@ -23,6 +23,8 @@
     },
     "devDependencies": {
         "@cyclonedx/cyclonedx-npm": "^4.1.2",
+        "@types/cors": "^2.8.18",
+        "@types/express": "^5.0.0",
         "typescript": "^5.0.0"
     },
     "private": true
