@@ -79,8 +79,8 @@ importers:
         specifier: ^2.0.0-rc.5
         version: 2.0.0-rc.5(vue@3.5.27(typescript@5.9.3))
       zod:
-        specifier: ^4.3.5
-        version: 4.3.6
+        specifier: ^3.24.1
+        version: 3.25.76
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^5.0.0
@@ -232,6 +232,9 @@ importers:
       vue:
         specifier: ^3.0.0
         version: 3.5.27(typescript@5.9.3)
+      zod:
+        specifier: ^3.24.1
+        version: 3.25.76
     devDependencies:
       tsup:
         specifier: ^8.0.0
