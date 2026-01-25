@@ -19,7 +19,8 @@ service cloud.firestore {
     
     // 使用者資料
     match /users/{userId} {
-      allow read: if true;
+      // 僅允許已登入使用者讀取使用者資料 (避免公開洩漏 PII)
+      allow read: if request.auth != null;
       allow write: if request.auth != null && request.auth.uid == userId;
     }
 
