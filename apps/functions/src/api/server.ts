@@ -1,9 +1,13 @@
 import * as cors from 'cors'
 import * as express from 'express'
 
+import helmet from 'helmet'
+
 import { logger } from '../utils/logger'
 
 const app = express()
+app.disable('x-powered-by') // Hide Express server information
+app.use(helmet()) // Security Headers
 
 // 1. Basic Middleware
 // CORS: Configure allowed origins explicitly for security
