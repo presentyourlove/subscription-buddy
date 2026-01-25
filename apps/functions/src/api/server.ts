@@ -68,4 +68,14 @@ app.use(
     }
 )
 
+// 6. Graceful Shutdown (SIGTERM)
+// Note: In Firebase Cloud Functions, the platform manages the server, but this handles
+// cleanup for custom container deployments (Cloud Run).
+const shutdown = () => {
+    logger.info('SIGTERM received, shutting down gracefully')
+    // Close database connections or other resources here if manually managed
+    // process.exit(0) // Don't force exit in Functions, let it drain
+}
+process.on('SIGTERM', shutdown)
+
 export const apiApp = app

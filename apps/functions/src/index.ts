@@ -83,3 +83,6 @@ export const api = functions.https.onRequest(apiApp)
 
 // PubSub Triggers
 export { onGroupCreated } from './triggers/pubsub'
+
+// Moderation Triggers
+export { scanImage } from './triggers/moderation'

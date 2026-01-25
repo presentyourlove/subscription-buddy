@@ -161,3 +161,25 @@ resource "google_firebase_extensions_instance" "bigquery_export_logs" {
     }
   }
 }
+
+# 7. Cloud Budget Monitoring
+resource "google_billing_budget" "budget" {
+  provider        = google-beta
+  billing_account = var.billing_account_id
+  display_name    = "Monthly Budget (${var.project_id})"
+  amount {
+    specified_amount {
+      currency_code = "TWD"
+      units         = "3000" # Budget Alert Threshold (approx $100 USD)
+    }
+  }
+  threshold_rules {
+    threshold_percent = 0.5
+  }
+  threshold_rules {
+    threshold_percent = 0.9
+  }
+  threshold_rules {
+    threshold_percent = 1.0 # Alert at 100%
+  }
+}
