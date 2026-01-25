@@ -111,7 +111,7 @@ import { useRoute, useRouter } from 'vue-router'
 import BaseButton from '../components/BaseButton.vue'
 import BaseInput from '../components/BaseInput.vue'
 import { useFormValidation } from '../composables/useFormValidation'
-import { loginSchema, registerSchema } from '../schemas'
+import { loginSchema, registerSchema } from '@subscription-buddy/core'
 import { useUserStore } from '../stores/userStore'
 
 const userStore = useUserStore()
