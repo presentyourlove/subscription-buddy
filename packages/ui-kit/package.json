@@ -1,0 +1,29 @@
+{
+  "name": "@subscription-buddy/ui-kit",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "vitest"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vue": "^3.4.0",
+    "typescript": "^5.0.0",
+    "vue-tsc": "^2.0.0"
+  }
+}

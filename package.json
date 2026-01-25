@@ -12,7 +12,8 @@
     "lint": "pnpm -r lint",
     "format": "pnpm -r format",
     "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules",
-    "scan:licenses": "license-checker --production --json --out licenses.json --failOn \"GPL;AGPL;LGPL\""
+    "scan:licenses": "license-checker --production --json --out licenses.json --failOn \"GPL;AGPL;LGPL\"",
+    "depcruise": "depcruise src --config .dependency-cruiser.js"
   },
   "devDependencies": {
     "semantic-release": "^24.0.0",

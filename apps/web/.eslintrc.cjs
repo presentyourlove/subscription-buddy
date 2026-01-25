@@ -6,7 +6,8 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'plugin:storybook/recommended'
+    'plugin:storybook/recommended',
+    'plugin:sonarjs/recommended'
   ],
   plugins: ['simple-import-sort'],
   parser: 'vue-eslint-parser',
@@ -23,7 +24,8 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
+    'sonarjs/cognitive-complexity': ['error', 15]
   },
   overrides: [
     {

@@ -1,39 +1,21 @@
 # 1. Record architecture decisions
 
-* Status: accepted
-* Deciders: Presentyourlove
-* Date: 2026-01-25
+Date: 2026-01-25
 
-Technical Story: [issue #1](https://github.com/subscription-buddy/issues/1)
+## Status
 
-## Context and Problem Statement
+Accepted
 
-We need to record architectural decisions made in this project.
+## Context
 
-## Decision Drivers
+We need to record architecture decisions to help new team members understand the history of the project and to prevent revisiting old decisions without new context.
 
-* We want to keep a history of decisions.
-* We want to be able to look up why a decision was made.
-* We want to avoid debating the same topic over and over again.
+## Decision
 
-## Considered Options
+We will use Architecture Decision Records (ADRs) to track these decisions.
+We will use Markdown Format.
 
-* MADR
-* Michael Nygard's template
-* Sustainable Architectural Decisions
+## Consequences
 
-## Decision Outcome
-
-Chosen option: "Michael Nygard's template", because it is simple and sufficient for our needs.
-
-### Positive Consequences
-
-* We have a standard format for decisions.
-
-### Negative Consequences
-
-* We need to learn the format.
-
-## Links
-
-* [Michael Nygard's template](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)
+* We will have a history of decisions.
+* We need to maintain these records.
