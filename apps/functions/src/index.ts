@@ -80,3 +80,6 @@ export const onChatWrite = functions.firestore
     .onWrite((change, context) => createAuditLog(change, context, 'chats'))
 
 export const api = functions.https.onRequest(apiApp)
+
+// PubSub Triggers
+export { onGroupCreated } from './triggers/pubsub'
