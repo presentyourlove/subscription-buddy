@@ -1,1 +1,2 @@
-export * from './createGroupSchema';
+export * from './groupSchema';
+export * from './authSchema';
