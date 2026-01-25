@@ -15,20 +15,18 @@ describe('PII Masking Logger', () => {
     })
 
     describe('Phone Masking', () => {
+        const MASKED_PHONE = '0912-***-678'
         it('should mask formatted mobile number', () => {
             const input = '0912-345-678'
-            const expected = '0912-***-678'
-            expect(maskData(input)).toBe(expected)
+            expect(maskData(input)).toBe(MASKED_PHONE)
         })
         it('should mask unformatted mobile number', () => {
             const input = '0912345678'
-            const expected = '0912-***-678'
-            expect(maskData(input)).toBe(expected)
+            expect(maskData(input)).toBe(MASKED_PHONE)
         })
         it('should mask space formatted mobile number', () => {
             const input = '0912 345 678'
-            const expected = '0912-***-678'
-            expect(maskData(input)).toBe(expected)
+            expect(maskData(input)).toBe(MASKED_PHONE)
         })
     })
 

@@ -26,6 +26,9 @@ vi.mock('@subscription-buddy/core', async (importOriginal) => {
 })
 
 describe('UserStore', () => {
+  const TEST_EMAIL = 'test@test.com'
+  const TEST_PASSWORD = '123456'
+
   beforeEach(() => {
     setActivePinia(createPinia())
     vi.clearAllMocks()
@@ -39,8 +42,8 @@ describe('UserStore', () => {
 
   it('login should call authService', async () => {
     const store = useUserStore()
-    await store.login('test@test.com', '123456')
-    expect(authService.login).toHaveBeenCalledWith('test@test.com', '123456')
+    await store.login(TEST_EMAIL, TEST_PASSWORD)
+    expect(authService.login).toHaveBeenCalledWith(TEST_EMAIL, TEST_PASSWORD)
   })
 
   it('register should call authService and syncUser', async () => {
@@ -48,7 +51,7 @@ describe('UserStore', () => {
     const mockUser = { uid: '123' }
     vi.mocked(authService.register).mockResolvedValue({ user: mockUser } as any)
 
-    await store.register('test@test.com', '123456', 'Test')
+    await store.register(TEST_EMAIL, TEST_PASSWORD, 'Test')
 
     expect(authService.register).toHaveBeenCalled()
     expect(userService.syncUser).toHaveBeenCalledWith(mockUser)

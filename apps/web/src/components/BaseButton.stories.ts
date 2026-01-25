@@ -21,13 +21,15 @@ const meta: Meta<typeof BaseButton> = {
 export default meta
 type Story = StoryObj<typeof BaseButton>
 
+const TEMPLATE = '<BaseButton v-bind="args">{{ args.default }}</BaseButton>'
+
 export const Primary: Story = {
   render: (args) => ({
     components: { BaseButton },
     setup() {
       return { args }
     },
-    template: '<BaseButton v-bind="args">{{ args.default }}</BaseButton>'
+    template: TEMPLATE
   }),
   args: {
     default: 'Primary Action'
@@ -40,7 +42,7 @@ export const Loading: Story = {
     setup() {
       return { args }
     },
-    template: '<BaseButton v-bind="args">{{ args.default }}</BaseButton>'
+    template: TEMPLATE
   }),
   args: {
     loading: true,
@@ -54,7 +56,7 @@ export const Disabled: Story = {
     setup() {
       return { args }
     },
-    template: '<BaseButton v-bind="args">{{ args.default }}</BaseButton>'
+    template: TEMPLATE
   }),
   args: {
     disabled: true,

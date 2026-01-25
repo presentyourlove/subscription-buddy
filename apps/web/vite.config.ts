@@ -6,6 +6,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vitest/config'
 
 // https://vitejs.dev/config/
+const ICON_512 = 'pwa-512x512.png'
+
 export default defineConfig({
   resolve: {
     alias: {
@@ -25,7 +27,7 @@ export default defineConfig({
     }),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'pwa-192x192.webp', 'pwa-512x512.png'],
+      includeAssets: ['favicon.ico', 'pwa-192x192.webp', ICON_512],
       manifest: {
         name: 'Subscription Buddy - 合購夥伴',
         short_name: 'SubBuddy',
@@ -41,12 +43,12 @@ export default defineConfig({
             type: 'image/webp'
           },
           {
-            src: 'pwa-512x512.png',
+            src: ICON_512,
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: ICON_512,
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'

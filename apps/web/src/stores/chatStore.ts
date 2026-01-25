@@ -12,6 +12,8 @@ interface ChatState {
   currentGroupId: string | null
 }
 
+const UNKNOWN_ERROR = 'Unknown error'
+
 export const useChatStore = defineStore('chat', {
   state: (): ChatState => ({
     messages: [],
@@ -30,7 +32,7 @@ export const useChatStore = defineStore('chat', {
         await chatService.joinChat(groupId, user)
       } catch (err) {
         console.error('Join chat error:', err)
-        let errorMessage = 'Unknown error'
+        let errorMessage = UNKNOWN_ERROR
         if (err instanceof Error) {
           errorMessage = err.message
         }
@@ -132,7 +134,7 @@ export const useChatStore = defineStore('chat', {
         await chatService.sendMessage(this.currentGroupId, text, user)
       } catch (err) {
         console.error('Send message error:', err)
-        this.error = err instanceof Error ? err.message : 'Unknown error'
+        this.error = err instanceof Error ? err.message : UNKNOWN_ERROR
         throw err
       }
     },
@@ -143,7 +145,7 @@ export const useChatStore = defineStore('chat', {
         await chatService.confirmDeal(groupId, user)
       } catch (err) {
         console.error('Confirm deal error:', err)
-        this.error = err instanceof Error ? err.message : 'Unknown error'
+        this.error = err instanceof Error ? err.message : UNKNOWN_ERROR
         throw err
       }
     },
@@ -154,7 +156,7 @@ export const useChatStore = defineStore('chat', {
         await chatService.leaveChat(groupId, user)
       } catch (err) {
         console.error('Leave chat error:', err)
-        this.error = err instanceof Error ? err.message : 'Unknown error'
+        this.error = err instanceof Error ? err.message : UNKNOWN_ERROR
         throw err
       }
     },
