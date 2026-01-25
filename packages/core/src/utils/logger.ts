@@ -1,9 +1,11 @@
 // Regex for PII detection
-// Email: 保留前 3 碼 (若長度>3)，其餘遮蔽
-const EMAIL_REGEX = /([a-zA-Z0-9._-]{3})([a-zA-Z0-9._-]+)(@[a-zA-Z0-9._-]+\.[a-z]+)/gi
+// Email: Simple pattern to avoid ReDoS - match common email format
+// Note: Using limited character counts to prevent backtracking
+const EMAIL_REGEX = /([a-zA-Z0-9]{1,3})([a-zA-Z0-9._%+-]{0,20})@([a-zA-Z0-9.-]{1,30}\.[a-z]{2,6})/gi
 
 // Phone: 台灣手機格式 09xx-xxx-xxx or 09xxxxxxxx
-const PHONE_REGEX = /(09\d{2})[- ]?(\d{3})[- ]?(\d{3})/g
+// Note: Using specific digit counts to prevent backtracking
+const PHONE_REGEX = /09\d{2}[-]?\d{3}[-]?\d{3}/g
 
 // Sensitive Keys to mask completely (Case Insensitive Partial Match)
 const SENSITIVE_KEYS = ['password', 'token', 'secret', 'authorization', 'cookie', 'key', 'auth']
