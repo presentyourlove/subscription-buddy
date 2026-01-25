@@ -1,11 +1,12 @@
 // Regex for PII detection
-// Email: Simple pattern to avoid ReDoS - match common email format
-// Note: Using limited character counts to prevent backtracking
-const EMAIL_REGEX = /([a-zA-Z0-9]{1,3})([a-zA-Z0-9._%+-]{0,20})@([a-zA-Z0-9.-]{1,30}\.[a-z]{2,6})/gi
+// Email: Safe pattern with limited quantifiers and proper capture groups
+// Group 1: first 3 chars, Group 2: rest before @, Group 3: @domain
+const EMAIL_REGEX = /([a-zA-Z0-9]{1,3})([a-zA-Z0-9._%+-]{0,20})(@[a-zA-Z0-9.-]{1,30}\.[a-z]{2,6})/gi
 
 // Phone: 台灣手機格式 09xx-xxx-xxx or 09xxxxxxxx
-// Note: Using specific digit counts to prevent backtracking
-const PHONE_REGEX = /09\d{2}[-]?\d{3}[-]?\d{3}/g
+// Safe pattern with specific digit counts and proper capture groups
+// Group 1: 09xx, Group 2: xxx, Group 3: xxx
+const PHONE_REGEX = /(09\d{2})[-\s]?(\d{3})[-\s]?(\d{3})/g
 
 // Sensitive Keys to mask completely (Case Insensitive Partial Match)
 const SENSITIVE_KEYS = ['password', 'token', 'secret', 'authorization', 'cookie', 'key', 'auth']
@@ -21,7 +22,7 @@ export const maskData = (data: any): any => {
     // Mask Email: tes***@gmail.com
     let masked = data.replace(EMAIL_REGEX, '$1***$3')
 
-    // Mask Phone: 0912-***-789
+    // Mask Phone: 0912-***-678
     masked = masked.replace(PHONE_REGEX, '$1-***-$3')
 
     return masked
