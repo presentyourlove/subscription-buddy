@@ -14,10 +14,12 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
-  where
+  updateDoc,
+  where,
+  getFirestore
 } from 'firebase/firestore'
 
-import { db } from '../firebase/config'
+// import { db } from '../firebase/config'
 import { Chat, Group, Message, UserProfile } from '../types'
 import { COLLECTIONS, DEFAULTS, ERROR_CODES, GROUP_STATUS, MESSAGE_TYPES } from '../utils/constants'
 import { cryptoService } from './CryptoService'
@@ -27,13 +29,17 @@ import { userService } from './userService'
  * Service to handle Chat and Rating logic in Firestore
  */
 class ChatService {
+  get db() {
+    return getFirestore()
+  }
+
   /**
    * Join a chat group
    */
   async joinChat(groupId: string, user: User): Promise<void> {
     if (!user) throw new Error('User required')
 
-    const chatRef = doc(db, COLLECTIONS.CHATS, groupId)
+    const chatRef = doc(this.db, COLLECTIONS.CHATS, groupId)
     const chatSnap = await getDoc(chatRef)
 
     let isNewJoin = true
@@ -73,7 +79,7 @@ class ChatService {
     onError: (error: unknown) => void
   ) {
     const q = query(
-      collection(db, COLLECTIONS.CHATS, groupId, COLLECTIONS.MESSAGES),
+      collection(this.db, COLLECTIONS.CHATS, groupId, COLLECTIONS.MESSAGES),
       orderBy('createdAt', 'asc')
     )
 
@@ -100,7 +106,7 @@ class ChatService {
    * Send a text message (Encrypted)
    */
   async sendMessage(groupId: string, text: string, user: User): Promise<void> {
-    const chatRef = doc(db, COLLECTIONS.CHATS, groupId)
+    const chatRef = doc(this.db, COLLECTIONS.CHATS, groupId)
     const chatSnap = await getDoc(chatRef)
     if (!chatSnap.exists()) throw new Error('Chat not found')
 
@@ -151,7 +157,7 @@ class ChatService {
         ; (payload as any).encryptedKeys = keyMap
     }
 
-    const colRef = collection(db, COLLECTIONS.CHATS, groupId, COLLECTIONS.MESSAGES)
+    const colRef = collection(this.db, COLLECTIONS.CHATS, groupId, COLLECTIONS.MESSAGES)
     await addDoc(colRef, {
       ...payload,
       senderId: user.uid,
@@ -165,8 +171,8 @@ class ChatService {
    * Confirm the deal
    */
   async confirmDeal(groupId: string, user: User): Promise<void> {
-    await runTransaction(db, async (transaction) => {
-      const chatRef = doc(db, COLLECTIONS.CHATS, groupId)
+    await runTransaction(this.db, async (transaction) => {
+      const chatRef = doc(this.db, COLLECTIONS.CHATS, groupId)
       const chatDoc = await transaction.get(chatRef)
       if (!chatDoc.exists()) throw 'Chat not found'
 
@@ -199,7 +205,7 @@ class ChatService {
    * Leave the chat
    */
   async leaveChat(groupId: string, user: User): Promise<void> {
-    const chatRef = doc(db, COLLECTIONS.CHATS, groupId)
+    const chatRef = doc(this.db, COLLECTIONS.CHATS, groupId)
     await updateDoc(chatRef, {
       participants: arrayRemove(user.uid)
     })
@@ -214,9 +220,9 @@ class ChatService {
     score: number,
     reviewerId: string
   ): Promise<void> {
-    await runTransaction(db, async (transaction) => {
-      const chatRef = doc(db, COLLECTIONS.CHATS, groupId)
-      const userRef = doc(db, COLLECTIONS.USERS, targetUserId)
+    await runTransaction(this.db, async (transaction) => {
+      const chatRef = doc(this.db, COLLECTIONS.CHATS, groupId)
+      const userRef = doc(this.db, COLLECTIONS.USERS, targetUserId)
 
       const chatDoc = await transaction.get(chatRef)
       if (!chatDoc.exists()) throw 'Chat does not exist!'
@@ -262,14 +268,14 @@ class ChatService {
 
     // Strategy 1: Check chats where I am a participant
     const qChats = query(
-      collection(db, COLLECTIONS.CHATS),
+      collection(this.db, COLLECTIONS.CHATS),
       where('participants', 'array-contains', user.uid)
     )
     const chatSnaps = await getDocs(qChats)
 
     // Strategy 2: Check groups where I am the Host
     const qGroups = query(
-      collection(db, COLLECTIONS.GROUPS),
+      collection(this.db, COLLECTIONS.GROUPS),
       where('hostId', '==', user.uid),
       where('status', '==', GROUP_STATUS.CLOSED)
     )
@@ -280,7 +286,7 @@ class ChatService {
     groupSnaps.forEach((d) => candidateGroupIds.add(d.id))
 
     for (const groupId of candidateGroupIds) {
-      const chatRef = doc(db, COLLECTIONS.CHATS, groupId)
+      const chatRef = doc(this.db, COLLECTIONS.CHATS, groupId)
       const chatSnap = await getDoc(chatRef)
 
       if (!chatSnap.exists()) continue
@@ -306,7 +312,7 @@ class ChatService {
           isClosed = true
         } else {
           try {
-            const gSnap = await getDoc(doc(db, COLLECTIONS.GROUPS, groupId))
+            const gSnap = await getDoc(doc(this.db, COLLECTIONS.GROUPS, groupId))
             if (gSnap.exists() && (gSnap.data() as Group).status === GROUP_STATUS.CLOSED)
               isClosed = true
           } catch {
