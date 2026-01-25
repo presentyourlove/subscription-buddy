@@ -52,7 +52,7 @@ describe('UserStore', () => {
 
     expect(authService.register).toHaveBeenCalled()
     expect(userService.syncUser).toHaveBeenCalledWith(mockUser)
-    expect(store.user).toBe(mockUser)
+    expect(store.user).toStrictEqual(mockUser)
   })
 
   it('logout should call authService and clear user', async () => {

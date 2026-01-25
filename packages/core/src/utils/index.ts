@@ -4,3 +4,4 @@ export * from './indexedDB';
 export * from './logger';
 export * from './notificationService';
 export * from './serviceUtils';
+export * from './mappers';
