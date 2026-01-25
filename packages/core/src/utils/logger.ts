@@ -64,18 +64,18 @@ export const logger = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   info: (message: string, ...args: any[]) => {
     // eslint-disable-next-line no-console
-    console.log(maskData(message), ...args.map(maskData))
+    console.log(maskData(message), ...args.map(maskData)) // NOSONAR
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   warn: (message: string, ...args: any[]) => {
     // eslint-disable-next-line no-console
-    console.warn(maskData(message), ...args.map(maskData))
+    console.warn(maskData(message), ...args.map(maskData)) // NOSONAR
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: (message: string, ...args: any[]) => {
     // eslint-disable-next-line no-console
-    console.error(maskData(message), ...args.map(maskData))
+    console.error(maskData(message), ...args.map(maskData)) // NOSONAR
   }
 }
