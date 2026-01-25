@@ -1,7 +1,7 @@
 // Regex for PII detection
 // Email: Safe pattern with limited quantifiers and proper capture groups
-// Group 1: first 3 chars, Group 2: rest before @, Group 3: @domain
-const EMAIL_REGEX = /([a-zA-Z0-9]{1,3})([a-zA-Z0-9._%+-]{0,20})(@[a-zA-Z0-9.-]{1,30}\.[a-z]{2,6})/gi
+// Group 1: first 3 chars, Group 2: rest before @ (min 1 char), Group 3: @domain
+const EMAIL_REGEX = /([a-zA-Z0-9]{3})([a-zA-Z0-9._%+-]{1,20})(@[a-zA-Z0-9.-]{1,30}\.[a-z]{2,6})/gi
 
 // Phone: 台灣手機格式 09xx-xxx-xxx or 09xxxxxxxx
 // Safe pattern with specific digit counts and proper capture groups
