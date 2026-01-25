@@ -263,11 +263,11 @@ npm run scan:image
     * **描述**: 全面啟用 **Firebase App Check**，驗證流量來源是否為合法的 App 或 Web 客戶端 (Security Rules 1).
     * **效益**: 有效阻擋非法的 API 爬蟲與未經授權的後端存取。
 
-6. **API 文件自動化 (Automated API Documentation)** `[P2]`
+6. **API 文件自動化 (Automated API Documentation)** `[Completed]`
     * **描述**: 整合 **tsoa** 或 **Swagger UI**，直接從 TypeScript 程式碼生成 OpenAPI 規格書 (Core Rules 9.1)。
     * **效益**: 確保文件與程式碼永遠同步，減少人工維護成本與錯誤。
 
-7. **Web Push 通知服務 (Web Push Notifications)** `[P3]`
+7. **Web Push 通知服務 (Web Push Notifications)** `[Completed]`
     * **描述**: 整合 **FCM (Firebase Cloud Messaging)** 實作 Service Worker 背景推播 (Mobile Rules).
     * **效益**: 提升使用者留存率，即便應用程式關閉也能即時接收合購訊息。
 
@@ -276,11 +276,11 @@ npm run scan:image
     * **描述**: 撰寫 Node.js 腳本配合 CI/CD，對 Firestore 進行資料結構變更的版本控制 (Backend Rules 4.5)。
     * **效益**: 確保所有環境 (Dev/Staging/Prod) 的資料結構一致，並支援自動化回滾 (Rollback)。
 
-9. **大數據倉儲整合 (BigQuery Data Warehouse)** `[P3]`
+9. **大數據倉儲整合 (BigQuery Data Warehouse)** `[Completed]`
     * **描述**: 使用 Firebase Extension 將 Firestore 資料即時同步至 **BigQuery** (Enterprise Rules 8).
     * **效益**: 支援複雜的 SQL 商業分析 (OLAP)，彌補 NoSQL 在報表統計上的不足。
 
-10. **事件驅動架構 (Event-Driven Architecture)** `[P2]`
+10. **事件驅動架構 (Event-Driven Architecture)** `[Completed]`
     * **描述**: 引入 **Google Pub/Sub**，將非同步任務 (如發送 Email、索引建立) 解耦為事件流 (Enterprise Patterns).
     * **效益**: 提升系統的吞吐量與延展性，避免主流程阻塞。
 
@@ -451,6 +451,17 @@ npm run scan:image
   * 建立 Consumer (`apps/web`) 與 Provider (`apps/functions`) 雙向驗證機制。
 * **Feature Management**:
   * 整合 **Firebase Remote Config** (`configService.ts`)，實作功能開關與灰度發布能力。
+
+### Advanced Features Implementation (2026-01-25)
+
+* **Documentation & API**:
+  * 實作 **Automated API Docs** (`tsoa` + `Swagger UI`)，確保文件與程式碼同步。
+* **User Engagement**:
+  * 實作 **Web Push Notifications** (FCM + Service Worker)，支援離線背景推播。
+* **Data Intelligence**:
+  * 整合 **BigQuery Warehouse** (Firebase Extensions)，支援 SQL 即時分析。
+* **Architecture**:
+  * 導入 **Event-Driven Architecture** (Pub/Sub)，解耦核心邏輯與 Side Effects。
 
 ## 👤 作者 (Author)
 
