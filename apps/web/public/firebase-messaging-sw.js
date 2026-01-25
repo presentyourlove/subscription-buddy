@@ -6,13 +6,13 @@ importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-comp
 // TODO: Replace with your project's config object from the Firebase Console.
 // The service worker often treats these as static.
 firebase.initializeApp({
-  apiKey: 'YOUR_API_KEY',
-  authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-  projectId: 'YOUR_PROJECT_ID',
-  storageBucket: 'YOUR_PROJECT_ID.appspot.com',
-  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-  appId: 'YOUR_APP_ID'
-}) // NOSONAR
+  apiKey: 'AIzaSyDZtJVFdMr-bomkEFjFlHjdohggFH7aS88',
+  authDomain: 'subscription-buddy-2353b.firebaseapp.com',
+  projectId: 'subscription-buddy-2353b',
+  storageBucket: 'subscription-buddy-2353b.firebasestorage.app',
+  messagingSenderId: '699854859216',
+  appId: '1:699854859216:web:82b8b51da0731ac72d27d5'
+})
 
 // Retrieve an instance of Firebase Messaging so that it can handle background messages.
 const messaging = firebase.messaging()
