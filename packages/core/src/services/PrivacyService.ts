@@ -1,7 +1,9 @@
 import { deleteUser, User } from 'firebase/auth'
 import { collection, deleteDoc, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 
-import { db } from '../firebase/config'
+import { getFirestore } from 'firebase/firestore'
+
+const db = getFirestore()
 
 export const privacyService = {
   /**
