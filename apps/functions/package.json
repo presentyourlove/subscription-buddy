@@ -25,6 +25,7 @@
         "zod": "^4.3.5",
         "swagger-ui-express": "^5.0.0",
         "@google-cloud/pubsub": "^4.3.3",
+        "@google-cloud/vision": "^4.0.0",
         "tsoa": "^6.0.0",
         "@tsoa/runtime": "^6.0.0"
     },
