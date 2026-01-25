@@ -1,5 +1,5 @@
-import * as cors from 'cors'
-import * as express from 'express'
+import cors from 'cors'
+import express from 'express'
 
 import helmet from 'helmet'
 
@@ -20,7 +20,7 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 // 2. Custom Middleware (Logger)
-app.use((req, res, next) => {
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
     logger.info(`[API] ${req.method} ${req.path}`)
     next()
 })
