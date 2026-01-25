@@ -44,10 +44,10 @@ describe('PII Masking Logger', () => {
             }
             const expected = {
                 username: 'john',
-                password: '[MASKED]',
-                token: '[MASKED]',
+                password: '[MASKED]', // NOSONAR
+                token: '[MASKED]', // NOSONAR
                 meta: {
-                    apiKey: '[MASKED]'
+                    apiKey: '[MASKED]' // NOSONAR
                 }
             }
             expect(maskData(input)).toEqual(expected)
@@ -69,7 +69,7 @@ describe('PII Masking Logger', () => {
         })
         it('should handle arrays', () => {
             const input = ['user@example.com', { password: 'mock_password_123' }] // NOSONAR
-            const expected = ['use***@example.com', { password: '[MASKED]' }]
+            const expected = ['use***@example.com', { password: '[MASKED]' }] // NOSONAR
             expect(maskData(input)).toEqual(expected)
         })
     })
