@@ -25,16 +25,28 @@ app.use((req, res, next) => {
     next()
 })
 
-// 3. Health Check
+import * as swaggerUi from 'swagger-ui-express'
+import { RegisterRoutes } from '../generated/routes'
+
+// ... existing code ...
+
+// 3. Health Check (Legacy - kept for reference, but controller takes precedence if route matches)
+/* 
 app.get('/health', (req, res) => {
-    res.status(200).json({
-        status: 'UP',
-        timestamp: new Date().toISOString(),
-        version: '1.0.0'
-    })
+    ...
+})
+*/
+
+// 3.5 Swagger UI
+app.use('/docs', swaggerUi.serve, async (_req: express.Request, res: express.Response) => {
+    return res.send(
+        swaggerUi.generateHTML(await import('../generated/swagger.json'))
+    )
 })
 
-// 4. Routes (Future Controllers)
+// 4. Routes (TSOA)
+RegisterRoutes(app)
+// app.use('/v1/groups', groupRoutes)
 // app.use('/v1/groups', groupRoutes)
 // app.use('/v1/users', userRoutes)
 

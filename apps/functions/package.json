@@ -1,8 +1,9 @@
 {
     "name": "@subscription-buddy/functions",
     "scripts": {
-        "build": "tsc",
+        "build": "pnpm run build:tsoa && tsc",
         "build:watch": "tsc --watch",
+        "build:tsoa": "tsoa spec-and-routes",
         "serve": "npm run build && firebase emulators:start --only functions",
         "shell": "npm run build && firebase functions:shell",
         "start": "npm run shell",
