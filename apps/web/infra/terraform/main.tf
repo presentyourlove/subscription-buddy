@@ -115,3 +115,49 @@ resource "google_firestore_field" "temp_tokens_ttl" {
     state = "ACTIVE"
   }
 }
+
+# 6. BigQuery Integration (Firebase Extensions)
+# Users Collection Sync
+resource "google_firebase_extensions_instance" "bigquery_export_users" {
+  provider = google-beta
+  instance_id = "firestore-bigquery-export-users"
+  extension_ref = "firebase/firestore-bigquery-export@0.1.35"
+  config {
+    params = {
+      COLLECTION_PATH = "users"
+      DATASET_ID = "firestore_export"
+      TABLE_ID = "users"
+      LOCATION = var.region
+    }
+  }
+}
+
+# Groups Collection Sync
+resource "google_firebase_extensions_instance" "bigquery_export_groups" {
+  provider = google-beta
+  instance_id = "firestore-bigquery-export-groups"
+  extension_ref = "firebase/firestore-bigquery-export@0.1.35"
+  config {
+    params = {
+      COLLECTION_PATH = "groups"
+      DATASET_ID = "firestore_export"
+      TABLE_ID = "groups"
+      LOCATION = var.region
+    }
+  }
+}
+
+# Audit Logs Sync
+resource "google_firebase_extensions_instance" "bigquery_export_logs" {
+  provider = google-beta
+  instance_id = "firestore-bigquery-export-logs"
+  extension_ref = "firebase/firestore-bigquery-export@0.1.35"
+  config {
+    params = {
+      COLLECTION_PATH = "audit_logs"
+      DATASET_ID = "firestore_export"
+      TABLE_ID = "audit_logs"
+      LOCATION = var.region
+    }
+  }
+}
