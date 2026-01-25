@@ -11,10 +11,11 @@ import {
   query,
   setDoc,
   startAfter,
-  updateDoc
+  updateDoc,
+  getFirestore
 } from 'firebase/firestore'
 
-import { db } from '../firebase/config'
+// import { db } from '../firebase/config'
 import { Group } from '../types'
 import { COLLECTIONS, GROUP_STATUS } from '../utils/constants'
 
@@ -22,6 +23,10 @@ import { COLLECTIONS, GROUP_STATUS } from '../utils/constants'
  * Service to handle Group data in Firestore
  */
 class GroupService {
+  get db() {
+    return getFirestore()
+  }
+
   static COLLECTION = COLLECTIONS.GROUPS
 
   /**
@@ -33,14 +38,14 @@ class GroupService {
   ): Promise<{ groups: Group[]; lastDoc: DocumentSnapshot | null }> {
     try {
       let q = query(
-        collection(db, GroupService.COLLECTION),
+        collection(this.db, GroupService.COLLECTION),
         orderBy('createdAt', 'desc'),
         limit(limitCount)
       )
 
       if (lastDoc) {
         q = query(
-          collection(db, GroupService.COLLECTION),
+          collection(this.db, GroupService.COLLECTION),
           orderBy('createdAt', 'desc'),
           startAfter(lastDoc),
           limit(limitCount)
@@ -64,7 +69,7 @@ class GroupService {
    */
   async getGroupById(groupId: string): Promise<Group | null> {
     try {
-      const docRef = doc(db, GroupService.COLLECTION, groupId)
+      const docRef = doc(this.db, GroupService.COLLECTION, groupId)
       const docSnap = await getDoc(docRef)
       return docSnap.exists() ? ({ id: docSnap.id, ...docSnap.data() } as Group) : null
     } catch (err) {
@@ -89,12 +94,12 @@ class GroupService {
 
       if (idempotencyKey) {
         // Idempotency: Use key as Document ID
-        const docRef = doc(db, GroupService.COLLECTION, idempotencyKey)
+        const docRef = doc(this.db, GroupService.COLLECTION, idempotencyKey)
         await setDoc(docRef, data)
         return idempotencyKey
       } else {
         // Fallback: Auto-generate ID (Legacy behavior)
-        const docRef = await addDoc(collection(db, GroupService.COLLECTION), data)
+        const docRef = await addDoc(collection(this.db, GroupService.COLLECTION), data)
         return docRef.id
       }
     } catch (err) {
@@ -108,7 +113,7 @@ class GroupService {
    */
   async deleteGroup(groupId: string): Promise<void> {
     try {
-      await deleteDoc(doc(db, GroupService.COLLECTION, groupId))
+      await deleteDoc(doc(this.db, GroupService.COLLECTION, groupId))
     } catch (err) {
       console.error('[GroupService] Delete error:', err)
       throw err
@@ -120,7 +125,7 @@ class GroupService {
    */
   async updateStatus(groupId: string, status: string): Promise<void> {
     try {
-      const groupRef = doc(db, GroupService.COLLECTION, groupId)
+      const groupRef = doc(this.db, GroupService.COLLECTION, groupId)
       await updateDoc(groupRef, { status })
     } catch (err) {
       console.error('[GroupService] Update status error:', err)
