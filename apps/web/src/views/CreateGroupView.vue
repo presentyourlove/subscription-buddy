@@ -87,6 +87,9 @@ import BaseTextarea from '../components/BaseTextarea.vue'
 import { useFormValidation } from '../composables/useFormValidation'
 import { useNotification } from '../composables/useNotification'
 import { createGroupSchema, DEFAULTS } from '@subscription-buddy/core'
+import { useChatStore } from '../stores/chatStore'
+import { useGroupStore } from '../stores/groupStore'
+import { useUserStore } from '../stores/userStore'
 
 const router = useRouter()
 const groupStore = useGroupStore()

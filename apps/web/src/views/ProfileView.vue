@@ -238,6 +238,7 @@ import BaseInput from '../components/BaseInput.vue'
 import LazyImage from '../components/LazyImage.vue'
 import UserRating from '../components/UserRating.vue'
 import { privacyService, Group } from '@subscription-buddy/core'
+import { useUserStore } from '../stores/userStore'
 
 const router = useRouter()
 const userStore = useUserStore()
