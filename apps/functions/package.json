@@ -8,6 +8,7 @@
         "start": "npm run shell",
         "deploy": "firebase deploy --only functions",
         "logs": "firebase functions:log",
+        "test": "vitest",
         "generate:sbom": "cyclonedx-npm --output-format JSON --output-file sbom.json"
     },
     "engines": {
