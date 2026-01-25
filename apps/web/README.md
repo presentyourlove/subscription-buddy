@@ -247,74 +247,26 @@ npm run scan:image
     * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
     * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
 
-2. **資料生命週期管理 (Data Lifecycle Policy)** `[Completed]`
-    * **描述**: 啟用 Firestore TTL (Time-to-Live) 策略，自動清理過期日誌與暫存資料 (Core Rules 3.3)。
-    * **效益**: 節省儲存成本，並滿足 GDPR「資料最小化」原則。
-
-3. **契約測試 (Consumer-Driven Contract Testing)** `[Completed]`
-    * **描述**: 導入 **Pact** 或 **Spring Cloud Contract** 概念，驗證 API 實作與 OpenAPI 文件的一致性 (API Rules 5)。
-    * **效益**: 防止前後端整合時因 Schema 變更導致的線上故障。
-
-4. **功能開關 (Feature Flags)** `[Completed]`
-    * **描述**: 導入 Firebase Remote Config，實作功能灰度發布 (Canary Release)。
-    * **效益**: 降低新功能上線風險，支援 A/B Testing。
-
-5. **零信任架構 (Zero Trust - App Check)** `[V3]`
+2. **零信任架構 (Zero Trust - App Check)** `[V3]`
     * **描述**: 全面啟用 **Firebase App Check**，驗證流量來源是否為合法的 App 或 Web 客戶端 (Security Rules 1).
     * **效益**: 有效阻擋非法的 API 爬蟲與未經授權的後端存取。
 
-6. **API 文件自動化 (Automated API Documentation)** `[Completed]`
-    * **描述**: 整合 **tsoa** 或 **Swagger UI**，直接從 TypeScript 程式碼生成 OpenAPI 規格書 (Core Rules 9.1)。
-    * **效益**: 確保文件與程式碼永遠同步，減少人工維護成本與錯誤。
-
-7. **Web Push 通知服務 (Web Push Notifications)** `[Completed]`
-    * **描述**: 整合 **FCM (Firebase Cloud Messaging)** 實作 Service Worker 背景推播 (Mobile Rules).
-    * **效益**: 提升使用者留存率，即便應用程式關閉也能即時接收合購訊息。
-
-8. **資料庫遷移版本控制 (Database Migration Versioning)** `[V3]`
+3. **資料庫遷移版本控制 (Database Migration Versioning)** `[V3]`
     * **備註**: 已規畫實作計畫 (Node.js Runner)，但延後至 V3 執行。
     * **描述**: 撰寫 Node.js 腳本配合 CI/CD，對 Firestore 進行資料結構變更的版本控制 (Backend Rules 4.5)。
     * **效益**: 確保所有環境 (Dev/Staging/Prod) 的資料結構一致，並支援自動化回滾 (Rollback)。
 
-9. **大數據倉儲整合 (BigQuery Data Warehouse)** `[Completed]`
-    * **描述**: 使用 Firebase Extension 將 Firestore 資料即時同步至 **BigQuery** (Enterprise Rules 8).
-    * **效益**: 支援複雜的 SQL 商業分析 (OLAP)，彌補 NoSQL 在報表統計上的不足。
-
-10. **事件驅動架構 (Event-Driven Architecture)** `[Completed]`
-    * **描述**: 引入 **Google Pub/Sub**，將非同步任務 (如發送 Email、索引建立) 解耦為事件流 (Enterprise Patterns).
-    * **效益**: 提升系統的吞吐量與延展性，避免主流程阻塞。
-
-11. **雲端金鑰管理 (Cloud Secret Manager)** `[V3]`
+4. **雲端金鑰管理 (Cloud Secret Manager)** `[V3]`
     * **描述**: 移除 `.env` 檔案中的機敏資訊，改接 Google Secret Manager 或 AWS Parameter Store (Core Rules 2.1)。
     * **效益**: 杜絕金鑰誤上傳 Git 的風險，並支援金鑰輪替 (Rotation) 與審計。
 
-12. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[V3]`
+5. **提交前機敏資料掃描 (Pre-commit Secret Scanning)** `[V3]`
     * **描述**: 設定 **GitHooks** (使用 **git-secrets** 或 **detect-secrets**)，在 Commit 階段攔截潛在的 API Key 或密碼 (SecOps).
     * **效益**: 構建第一道防線，防止機敏資料汙染版本控制系統。
 
-13. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[V3]`
+6. **自動化動態弱點掃描 (DAST - OWASP ZAP)** `[V3]`
     * **描述**: 於 CI/CD Pipeline 整合 **OWASP ZAP**，對測試環境進行自動化滲透測試 (Enterprise Security).
     * **效益**: 提早發現 SQL Injection、XSS 等 runtime 後才顯現的安全漏洞。
-
-14. **雲端預算監控 (Cloud Budget Monitoring)** `[P2]`
-    * **描述**: 設定 Google Cloud Budget Alerts，當費用達到預算 80% 時自動觸發告警或熔斷機制 (Enterprise Ops)。
-    * **效益**: 防止因流量暴衝或程式 Bug (如無窮迴圈讀寫 DB) 造成的財務災難。
-
-15. **智慧內容審查 (AI Content Moderation)** `[P2]`
-    * **描述**: 整合 **Google Cloud Vision/NLP API**，自動過濾聊天室中的色情圖片與毒性文字 (Safety).
-    * **效益**: 降低平台管理成本，確保社群環境的健康與合規。
-
-16. **優雅停機機制 (Graceful Shutdown)** `[P1]`
-    * **描述**: 於後端服務實作 `SIGTERM` 信號處理與連接排水 (Connection Draining) (Cloud Native Rules 7).
-    * **效益**: 確保在自動擴縮容或版更部署時，正在進行中的交易不會被強制中斷。
-
-17. **跨區域災難復原 (Multi-Region Disaster Recovery)** `[P2]`
-    * **描述**: 設計 Active-Passive 的跨區域備援架構，確保單一機房故障時能自動切換 (Enterprise Rules 4).
-    * **效益**: 將 RTO (復原時間目標) 降至最低，保證服務的高可用性 (99.99%)。
-
-18. **開源授權合規掃描 (License Compliance Scanning)** `[P1]`
-    * **描述**: 導入 **FOSSA** 或 **License-checker**，自動偵測依賴套件的 License (如避開 GPL/AGPL) (Enterprise Legal).
-    * **效益**: 避免侵權風險，確保專案授權的合法性與商業可用性。
 
 #### 🧪 測試與品質保證 (Testing & QA)
 
@@ -462,6 +414,15 @@ npm run scan:image
   * 整合 **BigQuery Warehouse** (Firebase Extensions)，支援 SQL 即時分析。
 * **Architecture**:
   * 導入 **Event-Driven Architecture** (Pub/Sub)，解耦核心邏輯與 Side Effects。
+
+### Security & Ops Implementation (2026-01-25)
+
+* **Ops Excellence**:
+  * 實作 **Cloud Budget Monitoring** (Terraform) 與 **Disaster Recovery** 備份腳本。
+  * 實作 **Graceful Shutdown** 機制，確保服務平滑重啟。
+* **Compliance & Safety**:
+  * 整合 **License Compliance Scanning** (`license-checker`) 於 CI 流程。
+  * 實作 **AI Content Moderation** (Cloud Vision)，自動過濾不當圖片。
 
 ## 👤 作者 (Author)
 
