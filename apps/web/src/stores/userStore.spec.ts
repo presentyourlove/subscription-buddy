@@ -2,28 +2,28 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { authService } from '../services/authService'
-import { userService } from '../services/userService'
+import { authService, userService } from '@subscription-buddy/core'
 import { useUserStore } from './userStore'
 
-vi.mock('../services/authService', () => ({
-  authService: {
-    onAuthStateChanged: vi.fn(),
-    login: vi.fn(),
-    register: vi.fn(),
-    loginWithGoogle: vi.fn(),
-    logout: vi.fn(),
-    updateProfile: vi.fn(),
-    mapAuthError: vi.fn((code) => code)
+vi.mock('@subscription-buddy/core', async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual as any,
+    authService: {
+      onAuthStateChanged: vi.fn(),
+      login: vi.fn(),
+      register: vi.fn(),
+      loginWithGoogle: vi.fn(),
+      logout: vi.fn(),
+      updateProfile: vi.fn(),
+      mapAuthError: vi.fn((code: any) => code)
+    },
+    userService: {
+      syncUser: vi.fn(),
+      updateProfile: vi.fn()
+    }
   }
-}))
-
-vi.mock('../services/userService', () => ({
-  userService: {
-    syncUser: vi.fn(),
-    updateProfile: vi.fn()
-  }
-}))
+})
 
 describe('UserStore', () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { toGroupDTO } from '../../functions/src/utils/mappers'
+import { toGroupDTO } from '@subscription-buddy/core'
 
 describe('DTO Mappers', () => {
     describe('toGroupDTO', () => {

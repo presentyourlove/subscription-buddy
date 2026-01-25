@@ -2,10 +2,10 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { groupService } from '../services/groupService'
+import { groupService } from '@subscription-buddy/core'
 import { useGroupStore } from './groupStore'
 
-vi.mock('../services/groupService', () => ({
+vi.mock('@subscription-buddy/core', () => ({
   groupService: {
     createGroup: vi.fn(),
     getGroups: vi.fn(),

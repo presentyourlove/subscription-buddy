@@ -2,11 +2,11 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import chatService from '../services/chatService'
+import { chatService } from '@subscription-buddy/core'
 import { useChatStore } from './chatStore'
 
-vi.mock('../services/chatService', () => ({
-  default: {
+vi.mock('@subscription-buddy/core', () => ({
+  chatService: {
     joinChat: vi.fn(),
     subscribeToMessages: vi.fn(),
     sendMessage: vi.fn(),

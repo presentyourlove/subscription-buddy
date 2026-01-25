@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { maskData } from '../../src/utils/logger'
+import { maskData } from '@subscription-buddy/core'
 
 describe('PII Masking Logger', () => {
     describe('Email Masking', () => {

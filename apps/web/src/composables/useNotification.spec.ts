@@ -9,7 +9,13 @@ vi.mock('vue-toastification', () => ({
     error: vi.fn(),
     info: vi.fn(),
     warning: vi.fn()
-  }))
+  })),
+  TYPE: {
+    SUCCESS: 'success',
+    ERROR: 'error',
+    INFO: 'info',
+    WARNING: 'warning'
+  }
 }))
 
 describe('useNotification', () => {
