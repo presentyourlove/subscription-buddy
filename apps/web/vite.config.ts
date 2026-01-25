@@ -10,7 +10,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
-      '@shared': '/functions/src/shared'
+      '@subscription-buddy/core': '/../../packages/core/src'
     }
   },
   plugins: [
