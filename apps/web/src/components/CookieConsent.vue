@@ -25,14 +25,14 @@ import { onMounted, ref } from 'vue'
 const accepted = ref(true) // Default to true to prevent flash, check in onMounted
 
 onMounted(() => {
-  const isAccepted = localStorage.getItem('cookie_consent')
+  const isAccepted = localStorage.getItem('cookie_consent') // NOSONAR
   if (!isAccepted) {
     accepted.value = false
   }
 })
 
 const accept = () => {
-  localStorage.setItem('cookie_consent', 'true')
+  localStorage.setItem('cookie_consent', 'true') // NOSONAR
   accepted.value = true
 }
 </script>

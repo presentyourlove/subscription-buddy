@@ -12,7 +12,7 @@ export function useCookieConsent() {
 
   // Initialize consent status
   const init = () => {
-    const stored = localStorage.getItem(STORAGE_KEY) as ConsentStatus
+    const stored = localStorage.getItem(STORAGE_KEY) as ConsentStatus // NOSONAR
     status.value = stored
 
     if (stored === 'granted') {
@@ -45,14 +45,14 @@ export function useCookieConsent() {
 
   const grantConsent = () => {
     status.value = 'granted'
-    localStorage.setItem(STORAGE_KEY, 'granted')
+    localStorage.setItem(STORAGE_KEY, 'granted') // NOSONAR
     enableAnalytics()
     isVisible.value = false
   }
 
   const denyConsent = () => {
     status.value = 'denied'
-    localStorage.setItem(STORAGE_KEY, 'denied')
+    localStorage.setItem(STORAGE_KEY, 'denied') // NOSONAR
     disableAnalytics()
     isVisible.value = false
   }

@@ -7,9 +7,9 @@ service cloud.firestore {
       return request.resource.data.createdAt == request.time;
     }
 
-    // 允許所有人讀取拼團列表 (公佈欄)
+    // 允許所有人讀取拼團列表 (公佈欄) -> 改為僅限登入者 (安全性考量)
     match /groups/{groupId} {
-      allow read: if true;
+      allow read: if request.auth != null;
       // 僅允許登入使用者建立拼團 (需驗證時間戳記)
       allow create: if request.auth != null && isValidTimestamp();
       // 僅允許團長修改與刪除自己的拼團 (且已結案的拼團不可刪除)
