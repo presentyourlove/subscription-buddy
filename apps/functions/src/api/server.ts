@@ -6,7 +6,13 @@ import { logger } from '../utils/logger'
 const app = express()
 
 // 1. Basic Middleware
-app.use(cors({ origin: true })) // Allow all origins for now (or restrict to app domain)
+// CORS: Configure allowed origins explicitly for security
+const corsOptions = {
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['https://subscription-buddy.web.app'],
+    credentials: true,
+    optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // 2. Custom Middleware (Logger)
