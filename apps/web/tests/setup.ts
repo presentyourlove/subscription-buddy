@@ -14,8 +14,26 @@ vi.mock('firebase/analytics', () => ({
     isSupported: vi.fn().mockResolvedValue(false)
 }))
 
-// Mock Firebase Auth (optional, if needed globally)
-// vi.mock('firebase/auth', () => ({
-//   getAuth: vi.fn(() => ({ currentUser: null })),
-//   connectAuthEmulator: vi.fn()
-// }))
+// Mock Firebase Firestore
+vi.mock('firebase/firestore', () => ({
+    getFirestore: vi.fn(() => ({})),
+    doc: vi.fn(),
+    getDoc: vi.fn(),
+    getDocs: vi.fn(),
+    collection: vi.fn(),
+    query: vi.fn(),
+    where: vi.fn(),
+    deleteDoc: vi.fn(),
+    setDoc: vi.fn(),
+    updateDoc: vi.fn(),
+    addDoc: vi.fn(),
+    onSnapshot: vi.fn()
+}))
+
+// Mock Firebase Auth
+vi.mock('firebase/auth', () => ({
+    getAuth: vi.fn(() => ({ currentUser: null })),
+    connectAuthEmulator: vi.fn(),
+    onAuthStateChanged: vi.fn(),
+    deleteUser: vi.fn()
+}))
