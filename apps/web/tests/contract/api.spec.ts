@@ -3,7 +3,7 @@ import path from 'path'
 import { describe, it, expect } from 'vitest'
 import axios from 'axios' // Assuming axios or fetch is used. Using axios for simplicity in test.
 
-const { Like } = MatchersV3
+
 
 const provider = new PactV3({
     consumer: 'SubscriptionBuddyWeb',
@@ -25,7 +25,7 @@ describe('API Contract Test', () => {
             willRespondWith: {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' },
-                body: Like({
+                body: MatchersV3.like({
                     enable_new_chat_ui: false,
                     maintenance_mode: false
                 })
