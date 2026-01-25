@@ -20,6 +20,7 @@
           <a
             href="https://presentyourlove.github.io/apps_download_web/links.html"
             target="_blank"
+            rel="noopener noreferrer"
             class="text-gray-400 hover:text-white transition-colors"
           >
             關於我們
