@@ -16,7 +16,6 @@
     "depcruise": "depcruise src --config .dependency-cruiser.js"
   },
   "devDependencies": {
-    "semantic-release": "^24.0.0",
-    "turbo": "^2.0.0"
+    "semantic-release": "^24.0.0"
   }
 }
