@@ -8,10 +8,11 @@ import {
   signOut,
   updateProfile,
   User,
-  UserCredential
+  UserCredential,
+  getAuth
 } from 'firebase/auth'
 
-import { auth } from '../firebase/config'
+// import { auth } from '../firebase/config'
 import { FIREBASE_AUTH_CODES } from '../utils/constants'
 
 /**
@@ -22,14 +23,14 @@ class AuthService {
    * Monitor authentication state
    */
   onAuthStateChanged(callback: NextOrObserver<User>) {
-    return onAuthStateChanged(auth, callback)
+    return onAuthStateChanged(getAuth(), callback)
   }
 
   /**
    * Register a new user with email and password
    */
   async register(email: string, password: string, displayName: string): Promise<UserCredential> {
-    const credential = await createUserWithEmailAndPassword(auth, email, password)
+    const credential = await createUserWithEmailAndPassword(getAuth(), email, password)
     if (credential.user) {
       await updateProfile(credential.user, { displayName })
     }
@@ -40,7 +41,7 @@ class AuthService {
    * Login with email and password
    */
   async login(email: string, password: string): Promise<UserCredential> {
-    return signInWithEmailAndPassword(auth, email, password)
+    return signInWithEmailAndPassword(getAuth(), email, password)
   }
 
   /**
@@ -48,14 +49,14 @@ class AuthService {
    */
   async loginWithGoogle(): Promise<UserCredential> {
     const provider = new GoogleAuthProvider()
-    return signInWithPopup(auth, provider)
+    return signInWithPopup(getAuth(), provider)
   }
 
   /**
    * Logout current user
    */
   async logout(): Promise<void> {
-    return signOut(auth)
+    return signOut(getAuth())
   }
 
   /**
