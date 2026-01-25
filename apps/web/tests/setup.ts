@@ -27,7 +27,10 @@ vi.mock('firebase/firestore', () => ({
     setDoc: vi.fn(),
     updateDoc: vi.fn(),
     addDoc: vi.fn(),
-    onSnapshot: vi.fn()
+    onSnapshot: vi.fn(),
+    connectFirestoreEmulator: vi.fn(),
+    enableMultiTabIndexedDbPersistence: vi.fn().mockResolvedValue(undefined),
+    initializeFirestore: vi.fn(() => ({}))
 }))
 
 // Mock Firebase Auth
@@ -36,4 +39,11 @@ vi.mock('firebase/auth', () => ({
     connectAuthEmulator: vi.fn(),
     onAuthStateChanged: vi.fn(),
     deleteUser: vi.fn()
+}))
+
+// Mock Firebase App
+vi.mock('firebase/app', () => ({
+    initializeApp: vi.fn(),
+    getApp: vi.fn(),
+    getApps: vi.fn(() => [])
 }))
