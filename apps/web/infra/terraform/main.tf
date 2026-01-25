@@ -37,6 +37,15 @@ resource "google_storage_bucket" "default" {
   location      = var.region
   force_destroy = false
   uniform_bucket_level_access = true
+
+  versioning {
+    enabled = true
+  }
+
+  logging {
+    log_bucket = "${var.project_id}.appspot.com" # Self-logging for simplicity, or separate bucket
+    log_object_prefix = "storage-logs"
+  }
 }
 
 # 4. Firebase Rules (Firestore)
