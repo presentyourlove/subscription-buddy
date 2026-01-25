@@ -426,6 +426,21 @@ npm run scan:image
   * 修復 `ChatService` 與 `GroupStore` 的 TypeScript 型別定義。
   * 解決 Service Worker 與 PWA (`ExtendableEvent`) 的全域型別衝突。
 
+### Security Hardening (2026-01-25)
+
+* **Code Security & Compliance**:
+  * 修復 13+ **SonarCloud Security Hotspots**，達成 Quality Gate 100% 通過。
+  * 移除 Git 中誤傳的編譯檔案 (`apps/functions/lib`)，消除潛在的 ReDoS 與 Weak Cryptography 風險。
+  * 強化 **Secrets Management**，修復單元測試中的 Hardcoded Credentials。
+* **Infrastructure Security**:
+  * 啟用 Google Cloud Storage **Versioning** (版本控制) 與 **Access Logging** (存取日誌)。
+  * 更新 `firestore.rules`，強制 `/groups` 與 `/users` 需驗證身分 (`request.auth != null`) 才可讀取。
+* **Application Security**:
+  * 實作 **Secure Headers** (Helmet)，禁用 `X-Powered-By`。
+  * 部署 **Content Security Policy (CSP)** 於 `index.html`。
+  * 修復前端 `target="_blank"` 的 Reverse Tabnabbing 漏洞 (`rel="noopener noreferrer"`)。
+  * 修復 Logger Regex，防範 **ReDoS** 攻擊。
+
 ## 👤 作者 (Author)
 
 **Presentyourlove**
