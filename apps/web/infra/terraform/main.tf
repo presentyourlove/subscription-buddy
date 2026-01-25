@@ -68,13 +68,13 @@ resource "google_firebaserules_release" "firestore" {
 }
 
 # 5. Data Lifecycle (TTL) Policies
-# Logs: Retention 30 Days
+# Logs: Retention 30 Days (Requires app to write 'expireAt')
 resource "google_firestore_field" "logs_ttl" {
   provider   = google-beta
   project    = var.project_id
   database   = "(default)"
   collection = "logs"
-  field      = "createdAt"
+  field      = "expireAt"
   
   ttl_config {
     state = "ACTIVE"
@@ -90,20 +90,20 @@ resource "google_firestore_field" "logs_ttl" {
   }
 }
 
-# Notifications: Retention 90 Days
+# Notifications: Retention 90 Days (Requires app to write 'expireAt')
 resource "google_firestore_field" "notifications_ttl" {
   provider   = google-beta
   project    = var.project_id
   database   = "(default)"
   collection = "notifications"
-  field      = "createdAt"
+  field      = "expireAt"
   
   ttl_config {
     state = "ACTIVE"
   }
 }
 
-# Invitations/Temp Tokens: Retention based on expiresAt
+# Invitations/Temp Tokens: Retention based on expiresAt (Already correct)
 resource "google_firestore_field" "temp_tokens_ttl" {
   provider   = google-beta
   project    = var.project_id
