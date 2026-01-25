@@ -47,3 +47,9 @@ vi.mock('firebase/app', () => ({
     getApp: vi.fn(),
     getApps: vi.fn(() => [])
 }))
+
+// Mock Firebase App Check
+vi.mock('firebase/app-check', () => ({
+    initializeAppCheck: vi.fn(),
+    ReCaptchaEnterpriseProvider: vi.fn()
+}))

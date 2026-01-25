@@ -3,21 +3,24 @@ import { collection, deleteDoc, doc, getDoc, getDocs, query, where } from 'fireb
 
 import { getFirestore } from 'firebase/firestore'
 
-const db = getFirestore()
 
 export const privacyService = {
+  get db() {
+    return getFirestore()
+  },
+
   /**
    * Export all user data as a JSON Blob
    */
   async exportUserData(user: User): Promise<Blob> {
     try {
       // 1. Fetch User Profile
-      const userRef = doc(db, 'users', user.uid)
+      const userRef = doc(this.db, 'users', user.uid)
       const userSnap = await getDoc(userRef)
       const userData = userSnap.exists() ? userSnap.data() : {}
 
       // 2. Fetch Hosted Groups
-      const qHosted = query(collection(db, 'groups'), where('hostId', '==', user.uid))
+      const qHosted = query(collection(this.db, 'groups'), where('hostId', '==', user.uid))
       const hostedSnap = await getDocs(qHosted)
       const hostedGroups = hostedSnap.docs.map((d) => ({ id: d.id, ...d.data() }))
 
@@ -51,7 +54,10 @@ export const privacyService = {
       // 1. Delete Firestore User Document
       // Note: Real-world apps might need to handle orphaned groups or use Cloud Functions to recursively delete data.
       // Here we only delete the direct user profile as a V1 GDPR implementation.
-      const userRef = doc(db, 'users', user.uid)
+      // 1. Delete Firestore User Document
+      // Note: Real-world apps might need to handle orphaned groups or use Cloud Functions to recursively delete data.
+      // Here we only delete the direct user profile as a V1 GDPR implementation.
+      const userRef = doc(this.db, 'users', user.uid)
       await deleteDoc(userRef)
 
       // 2. Delete Auth Account
