@@ -95,5 +95,34 @@ export const logger = {
 
         const payload = { message, error: errPayload }
         functions.logger.error(maskData(payload))
+    },
+
+    /**
+     * Audit Log - Writes to Firestore 'logs' collection with TTL.
+     * Useful for business critical events (e.g. Payment, Ban).
+     * Retention: 30 Days.
+     */
+    audit: async (message: string, meta?: any) => {
+        const admin = await import('firebase-admin')
+        // Ensure admin is initialized (locker.ts might have done it, but safe to check or assume main entry does)
+        // Ideally, we assume admin.initializeApp() is called at entry point.
+
+        const db = admin.firestore()
+        const now = new Date()
+        const expireAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000) // +30 Days
+
+        const payload = {
+            message,
+            ...meta,
+            createdAt: admin.firestore.Timestamp.fromDate(now),
+            expireAt: admin.firestore.Timestamp.fromDate(expireAt), // For Firestore TTL
+            severity: 'AUDIT'
+        }
+
+        try {
+            await db.collection('logs').add(maskData(payload))
+        } catch (err) {
+            functions.logger.error('Failed to write audit log', err)
+        }
     }
 }
