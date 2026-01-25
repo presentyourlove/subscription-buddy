@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin'
+import * as crypto from 'crypto'
 
 import { logger } from './logger'
 
@@ -20,7 +21,7 @@ export const acquireLock = async (
     const lockRef = db.collection(LOCK_COLLECTION).doc(resourceId)
     const now = Date.now()
     const expiresAt = now + ttlMs
-    const lockId = `lock_${now}_${Math.random().toString(36).substr(2, 9)}`
+    const lockId = `lock_${now}_${crypto.randomBytes(6).toString('hex')}`
 
     try {
         await db.runTransaction(async (t) => {
