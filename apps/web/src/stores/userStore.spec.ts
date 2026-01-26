@@ -27,7 +27,7 @@ vi.mock('@subscription-buddy/core', async (importOriginal) => {
 
 describe('UserStore', () => {
   const TEST_EMAIL = 'test@test.com'
-  const TEST_EMAIL = 'test@test.com'
+
   const TEST_PASSWORD = '123456' // NOSONAR
 
   beforeEach(() => {
