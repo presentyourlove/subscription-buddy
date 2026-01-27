@@ -396,6 +396,12 @@ npm run scan:image
   * 整合 **License Compliance Scanning** (`license-checker`) 於 CI 流程。
   * 實作 **AI Content Moderation** (Cloud Vision)，自動過濾不當圖片。
 
+### Infrastructure & CI/CD (2026-01-27)
+
+* **GitHub Actions Secrets Integration**:
+  * 成功整合 **GitHub Repository Secrets** 於 CI 流程 (`ci.yml`)，解決建置時環境變數缺失問題。
+  * 確保 `VITE_` 開頭之敏感金鑰 (Firebase Config, ReCaptcha) 透過環境變數注入，不再暴露於程式碼中 (Security Best Practice)。
+
 ## 👤 作者 (Author)
 
 **Presentyourlove**

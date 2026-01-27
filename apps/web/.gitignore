@@ -7,7 +7,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Security
-# .env (Allowed for private repo per user request)
+.env
 .env.local
 .env.*.local
 ! .env.example
