@@ -1,5 +1,5 @@
 import { fetchAndActivate, getRemoteConfig, getValue } from 'firebase/remote-config'
-import { firebaseApp } from '@/services/firebase/config' // Assuming this exists or similar
+import { firebaseApp } from '@/firebase/config'
 
 // Initialize Remote Config
 const remoteConfig = getRemoteConfig(firebaseApp)

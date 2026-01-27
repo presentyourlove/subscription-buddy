@@ -12,6 +12,9 @@ import App from './App.vue'
 import i18n from './i18n'
 import router from './router'
 import { logger } from '@subscription-buddy/core'
+import { configService } from './services/configService'
+
+configService.init()
 
 const app = createApp(App)
 const head = createUnhead()

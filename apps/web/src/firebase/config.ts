@@ -78,4 +78,4 @@ isSupported().then((supported) => {
   }
 })
 
-export { analytics, auth, db, messaging }
+export { analytics, app as firebaseApp, auth, db, messaging }

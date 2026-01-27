@@ -221,26 +221,6 @@ npm run scan:image
 
 #### 🛠️ 開發體驗與架構 (DevEx & Architecture)
 
-1. **架構模組化 (Monorepo Refactoring)** `[V3]`
-    * **描述**: 當商業邏輯複雜化時，將 `core` (Model/Service) 與 `ui` (View) 分離為不同 Package。
-    * **效益**: 提升編譯速度，並允許邏輯在不同專案 (如 Admin 後台) 間共用。
-
-2. **架構決策記錄 (Architecture Decision Records - ADR)** `[P2]`
-    * **描述**: 建立 `doc/adr` 目錄，記錄所有重大架構決策的背景、選項與後果 (Core Rules 9.5)。
-    * **效益**: 保存架構演進脈絡，避免團隊成員重複辯論已決定的議題。
-
-3. **設計系統文件化 (Design System Documentation)** `[P2]`
-    * **描述**: 完善 **Storybook**，建立色彩、排版與元件庫的標準使用文件 (Core Rules 4.1)。
-    * **效益**: 確保 UI/UX 一致性，降低新進開發者上手門檻。
-
-4. **架構分層強制檢測 (Strict Layer Enforcement)** `[P2]`
-    * **描述**: 引入 **Dependency Cruiser**，於 CI 階段強制檢查依賴關係 (e.g. 禁止 View 直接 import Service)。
-    * **效益**: 防止架構腐化 (Architecture Erosion)，維持專案長期可維護性。
-
-5. **複雜度監控 (Cognitive Complexity Monitoring)** `[P3]`
-    * **描述**: 設定 SonarCloud 閥值，強制單一函式 Cognitive Complexity < 15 (Core Rules 1.1)。
-    * **效益**: 降低代碼閱讀負擔，減少邏輯錯誤滋生。
-
 #### 🛡️ 安全性與維運 (Security & DevOps)
 
 1. **自動化備份與還原演練 (Automated Backup & DR)** `[V3]`
@@ -274,19 +254,11 @@ npm run scan:image
     * **描述**: 提升核心商業邏輯 (Composables, Services) 的測試覆蓋率至 > 80% (Core Rules 10.1)。
     * **效益**: 降低回歸錯誤風險，建立穩固的持續交付流水線 (CI Pipeline)。
 
-2. **視覺回歸測試 (Visual Regression Testing)** `[P2]`
-    * **描述**: 於 CI 流程整合 **Percy** 或 **Chromatic**，自動偵測 UI 樣式與佈局的非預期變更 (Frontend Rules 2).
-    * **效益**: 確保不同瀏覽器與裝置間的 UI 一致性 (Pixel-Perfect)，防止樣式崩壞。
-
-3. **突變測試 (Mutation Testing)** `[P3]`
+2. **突變測試 (Mutation Testing)** `[P3]`
     * **描述**: 使用 **StrykerJS** 修改程式碼邏輯並執行測試，驗證測試個案是否能抓出錯誤 (Testing Rules).
     * **效益**: 找出「覆蓋率高但無效」的測試，確保測試套件的真實品質。
 
-4. **自動化無障礙守門員 (Automated Accessibility Guardrails)** `[P1]`
-    * **描述**: 將 `pa11y-ci` 整合至 Git Pre-commit Hook 或 CI Pipeline，強制阻擋不符合 WCAG 2.1 AA 的提交 (Frontend Rules 4).
-    * **效益**: 確保產品對所有使用者 (含身障人士) 的友善度，降低法律訴訟風險。
-
-5. **混沌工程演練 (Chaos Engineering)** `[P3]`
+3. **混沌工程演練 (Chaos Engineering)** `[P3]`
     * **描述**: 在測試環境模擬網路延遲、服務當機等極端狀況 (e.g. 使用 **Chaos Mesh**) (Enterprise Rules 4.3).
     * **效益**: 驗證系統的自我癒合能力 (Self-Healing) 與降級策略 (Fallback Strategies) 是否有效。
 
