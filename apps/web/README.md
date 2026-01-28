@@ -227,18 +227,6 @@ npm run scan:image
     * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
     * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
 
-<!-- 
-2. **雲端金鑰管理 (Cloud Secret Manager)** `[V3]` 
-   - Status: Implemented via GitHub Repository Secrets (See Latest Updates)
-   - Reason: Removed .env dependecy successfully without external service cost.
--->
-
-<!-- 已完成項目 (2026-01-28 移至 Latest Updates):
-     - 零信任架構 (App Check)
-     - 資料庫遷移版本控制
-     - 提交前機敏資料掃描
-     - 自動化動態弱點掃描 (DAST) -->
-
 #### 🧪 測試與品質保證 (Testing & QA)
 
 #### 📊 可觀測性 (Observability)
