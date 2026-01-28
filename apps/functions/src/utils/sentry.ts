@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/node'
 import { nodeProfilingIntegration } from '@sentry/profiling-node'
-import * as functions from 'firebase-functions'
+
 
 export const initSentry = () => {
     Sentry.init({
