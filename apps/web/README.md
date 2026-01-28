@@ -229,21 +229,6 @@ npm run scan:image
 
 #### 🧪 測試與品質保證 (Testing & QA)
 
-#### 📊 可觀測性 (Observability)
-
-1. **分散式追蹤 (OpenTelemetry)** `[P1]`
-    * **描述**: 導入 OpenTelemetry 標準，串聯前後端與 Firebase 服務的 Request Trace ID (Core Rules 8.2)。
-    * **效益**: 可視化跨服務的呼叫路徑，快速定位效能瓶頸與錯誤根源。
-
-2. **智慧告警整合 (Automated Alerting Integration)** `[V3]`
-    * **備註**: 已規畫實作計畫 (GCP Monitoring Policies)，但延後至 V3 執行。
-    * **描述**: 設定 PrometheusAlert 或 PagerDuty，針對關鍵指標 (如 Error Rate > 1%) 發送即時通知 (Core Rules 8.4)。
-    * **效益**: 縮短事故響應時間 (MTTA)，實現 7x24 小時的主動維運監控。
-
-3. **可視化監控儀表板 (Grafana Dashboards)** `[P2]`
-    * **描述**: 搭建 Grafana 看板，將 Prometheus 指標與 OpenTelemetry 數據視覺化 (Core Rules 8.1)。
-    * **效益**: 提供維運團隊 (SRE) 一目瞭然的系統健康狀態大屏。
-
 #### 🚀 極致效能優化 (Advanced Performance)
 
 1. **SSR / SSG 架構遷移 (Server-Side Rendering)** `[P2]`
