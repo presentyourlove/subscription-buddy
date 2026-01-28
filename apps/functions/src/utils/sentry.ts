@@ -15,6 +15,4 @@ export const initSentry = () => {
     })
 }
 
-export const wrapHttpFunction = (handler: (req: functions.https.Request, resp: functions.Response) => void | Promise<void>) => {
-    return Sentry.handlers.requestHandler()(handler as any)
-}
+
