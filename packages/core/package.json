@@ -27,7 +27,12 @@
         "zod": "^3.24.1"
     },
     "devDependencies": {
+        "@stryker-mutator/core": "^9.4.0",
+        "@stryker-mutator/typescript-checker": "^9.4.0",
+        "@stryker-mutator/vitest-runner": "^9.4.0",
+        "@vitest/coverage-v8": "^4.0.16",
         "tsup": "^8.0.0",
-        "typescript": "^5.0.0"
+        "typescript": "^5.0.0",
+        "vitest": "^4.0.18"
     }
 }
