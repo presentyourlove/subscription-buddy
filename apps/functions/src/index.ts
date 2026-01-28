@@ -4,6 +4,10 @@ import * as functions from 'firebase-functions'
 import { apiApp } from './api/server'
 import { logger } from './utils/logger'
 
+import { initSentry } from './utils/sentry'
+
+initSentry()
+
 admin.initializeApp()
 
 const db = admin.firestore()
