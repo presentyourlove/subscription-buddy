@@ -8,7 +8,7 @@ import { groupService } from './groupService'
 // Mock Firestore
 vi.mock('firebase/firestore', () => {
   return {
-    collection: vi.fn(),
+    collection: vi.fn(() => ({})),
     addDoc: vi.fn(),
     getDocs: vi.fn(),
     doc: vi.fn(),
@@ -74,8 +74,8 @@ describe('GroupService', () => {
       const result = await groupService.getGroups()
 
       expect(firestore.query).toHaveBeenCalled()
-      expect(result).toHaveLength(2)
-      expect(result[0].id).toBe('1')
+      expect(result.groups).toHaveLength(2)
+      expect(result.groups[0].id).toBe('1')
     })
   })
 

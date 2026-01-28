@@ -22,7 +22,8 @@ vi.mock('firebase/firestore', () => {
     arrayRemove: vi.fn(),
     arrayRemove: vi.fn(),
     runTransaction: vi.fn(),
-    getFirestore: vi.fn(() => ({}))
+    getFirestore: vi.fn(() => ({})),
+    getDocs: vi.fn()
   }
 })
 
@@ -70,6 +71,11 @@ describe('ChatService', () => {
   describe('sendMessage', () => {
     it('should add message to collection', async () => {
       const mockUser = { uid: 'u1', displayName: 'User' }
+      vi.mocked(firestore.getDoc).mockResolvedValue({
+        exists: () => true,
+        data: () => ({ participants: ['u1'] })
+      } as any)
+
       await chatService.sendMessage('g1', 'Hello', mockUser as any)
 
       expect(firestore.addDoc).toHaveBeenCalledWith(
