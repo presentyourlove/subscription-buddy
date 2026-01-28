@@ -241,17 +241,19 @@ npm run scan:image
 
 #### 🧪 測試與品質保證 (Testing & QA)
 
-1. **全面單元測試覆蓋 (Unit Testing Coverage)** `[P1]`
-    * **描述**: 提升核心商業邏輯 (Composables, Services) 的測試覆蓋率至 > 80% (Core Rules 10.1)。
-    * **效益**: 降低回歸錯誤風險，建立穩固的持續交付流水線 (CI Pipeline)。
+<!--
+1. **全面單元測試覆蓋 (Unit Testing Coverage)** `[V4]`
+   - Status: Completed (See Latest Updates)
+   - Note: >80% coverage enforced.
 
-2. **突變測試 (Mutation Testing)** `[P3]`
-    * **描述**: 使用 **StrykerJS** 修改程式碼邏輯並執行測試，驗證測試個案是否能抓出錯誤 (Testing Rules).
-    * **效益**: 找出「覆蓋率高但無效」的測試，確保測試套件的真實品質。
+2. **突變測試 (Mutation Testing)** `[V4]`
+   - Status: Completed (See Latest Updates)
+   - Note: Implemented with StrykerJS.
 
-3. **混沌工程演練 (Chaos Engineering)** `[P3]`
-    * **描述**: 在測試環境模擬網路延遲、服務當機等極端狀況 (e.g. 使用 **Chaos Mesh**) (Enterprise Rules 4.3).
-    * **效益**: 驗證系統的自我癒合能力 (Self-Healing) 與降級策略 (Fallback Strategies) 是否有效。
+3. **混沌工程演練 (Chaos Engineering)** `[V4]`
+   - Status: Completed (See Latest Updates)
+   - Note: Implemented via Chaos Interceptor.
+-->
 
 #### 📊 可觀測性 (Observability)
 
@@ -403,6 +405,15 @@ npm run scan:image
   * 全面啟用 **App Check** (ReCaptcha Enterprise)，並在前端與後端 (Firestore Rules) 實作驗證邏輯，防範未經授權的 API 濫用。
 * **DAST Workflow**:
   * 部署 **OWASP ZAP** 自動化掃描流程 (`security-scan.yml`)，每日定期檢測 Staging 環境的動態安全弱點。
+
+### Testing & QA V4 (2026-01-28)
+
+* **Unit Testing Coverage**:
+  * 在 `packages/core` 與 `apps/web` 實作嚴格的覆蓋率門檻 (>80%)，確保核心邏輯穩定性。
+* **Mutation Testing**:
+  * 導入 **StrykerJS** 進行突變測試，驗證測試案例的有效性，消除「偽陽性」測試。
+* **Chaos Engineering**:
+  * 實作 **Chaos Interceptor** (`apps/web/src/utils/chaosInterceptor.ts`)，在開發環境模擬網路延遲與錯誤注入，驗證前端韌性。
 
 ## 👤 作者 (Author)
 
