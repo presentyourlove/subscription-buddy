@@ -7,7 +7,7 @@ import { chatService } from './chatService'
 // Mock Firestore
 vi.mock('firebase/firestore', () => {
   return {
-    collection: vi.fn(),
+    collection: vi.fn(() => ({})),
     addDoc: vi.fn(),
     getDoc: vi.fn(),
     setDoc: vi.fn(),
@@ -20,10 +20,9 @@ vi.mock('firebase/firestore', () => {
     serverTimestamp: vi.fn(),
     arrayUnion: vi.fn(),
     arrayRemove: vi.fn(),
-    arrayRemove: vi.fn(),
     runTransaction: vi.fn(),
     getFirestore: vi.fn(() => ({})),
-    getDocs: vi.fn()
+    getDocs: vi.fn(() => ({ forEach: vi.fn(), docs: [] }))
   }
 })
 
