@@ -7,6 +7,11 @@ service cloud.firestore {
       return request.resource.data.createdAt == request.time;
     }
 
+    // [App Check] 驗證請求來源是否為合法 App (目前設為非強制，若要啟用請取消註解)
+    // function isValidApp() {
+    //   return request.app != null;
+    // }
+
     // 允許所有人讀取拼團列表 (公佈欄) -> 改為僅限登入者 (安全性考量)
     match /groups/{groupId} {
       allow read: if request.auth != null;

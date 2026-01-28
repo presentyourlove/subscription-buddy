@@ -1,1 +1,2 @@
+npx secretlint --maskSecrets --secretlintrc .secretlintrc.json "**/*"
 npx lint-staged
