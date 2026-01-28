@@ -257,27 +257,30 @@ npm run scan:image
 
 #### 📊 可觀測性 (Observability)
 
-1. **集中式錯誤追蹤 (Centralized Error Tracking)** `[V3]`
-    * **備註**: 已規畫實作計畫 (GCP Error Reporting)，但延後至 V3 執行。
-    * **描述**: 整合 Sentry 或 Firebase Crashlytics，即時捕獲前端 Runtime Errors 與 API 異常。
-    * **效益**: 提升 MTTR (平均修復時間)，主動發現使用者遭遇的體驗問題。
+<!--
+1. **集中式錯誤追蹤 (Centralized Error Tracking)** `[V5]`
+   - Status: Completed (See Latest Updates)
+   - Note: Implemented with Sentry Vue SDK.
+-->
 
-2. **分散式追蹤 (OpenTelemetry)** `[P1]`
+1. **分散式追蹤 (OpenTelemetry)** `[P1]`
     * **描述**: 導入 OpenTelemetry 標準，串聯前後端與 Firebase 服務的 Request Trace ID (Core Rules 8.2)。
     * **效益**: 可視化跨服務的呼叫路徑，快速定位效能瓶頸與錯誤根源。
 
-3. **智慧告警整合 (Automated Alerting Integration)** `[V3]`
+2. **智慧告警整合 (Automated Alerting Integration)** `[V3]`
     * **備註**: 已規畫實作計畫 (GCP Monitoring Policies)，但延後至 V3 執行。
     * **描述**: 設定 PrometheusAlert 或 PagerDuty，針對關鍵指標 (如 Error Rate > 1%) 發送即時通知 (Core Rules 8.4)。
     * **效益**: 縮短事故響應時間 (MTTA)，實現 7x24 小時的主動維運監控。
 
-4. **可視化監控儀表板 (Grafana Dashboards)** `[P2]`
+3. **可視化監控儀表板 (Grafana Dashboards)** `[P2]`
     * **描述**: 搭建 Grafana 看板，將 Prometheus 指標與 OpenTelemetry 數據視覺化 (Core Rules 8.1)。
     * **效益**: 提供維運團隊 (SRE) 一目瞭然的系統健康狀態大屏。
 
-5. **真實用戶監控 (RUM - Real User Monitoring)** `[P2]`
-    * **描述**: 收集並分析真實使用者的 Core Web Vitals (LCP, FID, CLS) 數據 (Frontend Rules 2).
-    * **效益**: 了解不同裝置與網路環境下的實際體驗，而非僅依賴實驗室數據 (Lighthouse)。
+<!--
+5. **真實用戶監控 (RUM - Real User Monitoring)** `[V5]`
+   - Status: Completed (See Latest Updates)
+   - Note: Implemented with Sentry Performance.
+-->
 
 #### 🚀 極致效能優化 (Advanced Performance)
 
@@ -414,6 +417,12 @@ npm run scan:image
   * 導入 **StrykerJS** 進行突變測試，驗證測試案例的有效性，消除「偽陽性」測試。
 * **Chaos Engineering**:
   * 實作 **Chaos Interceptor** (`apps/web/src/utils/chaosInterceptor.ts`)，在開發環境模擬網路延遲與錯誤注入，驗證前端韌性。
+
+### Observability V5 (2026-01-28)
+
+* **Frontend Monitoring (Sentry)**:
+  * 整合 **Sentry Vue SDK** (`src/plugins/sentry.ts`)，實作即時錯誤追蹤與 Session Replay。
+  * **RUM Enabled**: 自動收集 Core Web Vitals (LCP, FID, CLS) 與 API 效能數據，提升使用者體驗洞察。
 
 ## 👤 作者 (Author)
 
