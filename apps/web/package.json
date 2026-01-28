@@ -25,6 +25,7 @@
     "generate:sbom": "cyclonedx-npm --output-format JSON --output-file sbom.json"
   },
   "dependencies": {
+    "@sentry/vue": "^10.37.0",
     "@unhead/vue": "^2.1.2",
     "@vueuse/core": "^14.1.0",
     "caniuse-lite": "^1.0.30001764",
@@ -48,7 +49,6 @@
     "@lhci/cli": "^0.15.1",
     "@pact-foundation/pact": "^13.0.0",
     "@playwright/test": "^1.57.0",
-    "axios": "^1.6.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@storybook/addon-a11y": "^10.1.11",
@@ -65,6 +65,7 @@
     "@vitest/coverage-v8": "^4.0.16",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.23",
+    "axios": "^1.6.0",
     "cross-env": "^10.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",

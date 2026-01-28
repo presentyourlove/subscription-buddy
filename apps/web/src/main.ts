@@ -16,7 +16,10 @@ import { configService } from './services/configService'
 
 configService.init()
 
-const app = createApp(App)
+import { initSentry } from './plugins/sentry'
+
+initSentry(app)
+
 const head = createUnhead()
 
 const pinia = createPinia()
