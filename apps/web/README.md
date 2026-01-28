@@ -400,7 +400,18 @@ npm run scan:image
 
 * **GitHub Actions Secrets Integration**:
   * 成功整合 **GitHub Repository Secrets** 於 CI 流程 (`ci.yml`)，解決建置時環境變數缺失問題。
-  * 確保 `VITE_` 開頭之敏感金鑰 (Firebase Config, ReCaptcha) 透過環境變數注入，不再暴露於程式碼中 (Security Best Practice)。
+* 確保 `VITE_` 開頭之敏感金鑰 (Firebase Config, ReCaptcha) 透過環境變數注入，不再暴露於程式碼中 (Security Best Practice)。
+
+### Security V3 (2026-01-28)
+
+* **Pre-commit Secret Scanning**:
+  * 整合 **Secretlint** 於 Git Hook，自動攔截包含機敏資訊 (API Keys, Private Keys) 的提交。
+* **Database Migration Framework**:
+  * 實作資料庫遷移腳本 (`scripts/migrate.ts`) 與版本控制系統，確保資料庫結構變更的一致性與可追溯性。
+* **Zero Trust - App Check**:
+  * 全面啟用 **App Check** (ReCaptcha Enterprise)，並在前端與後端 (Firestore Rules) 實作驗證邏輯，防範未經授權的 API 濫用。
+* **DAST Workflow**:
+  * 部署 **OWASP ZAP** 自動化掃描流程 (`security-scan.yml`)，每日定期檢測 Staging 環境的動態安全弱點。
 
 ## 👤 作者 (Author)
 
