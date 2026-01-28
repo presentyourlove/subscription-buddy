@@ -55,3 +55,10 @@ app.config.errorHandler = (err, instance, info) => {
 }
 
 app.mount('#app')
+
+// Initialize Chaos Engineering in Dev Mode if enabled
+if (import.meta.env.DEV && import.meta.env.VITE_CHAOS_MODE === 'true') {
+  import('./utils/chaosInterceptor').then(({ initChaos }) => {
+    initChaos()
+  })
+}

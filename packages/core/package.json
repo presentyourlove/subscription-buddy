@@ -14,7 +14,10 @@
     },
     "scripts": {
         "build": "tsup src/index.ts --format cjs,esm --dts",
-        "dev": "tsup src/index.ts --format cjs,esm --dts --watch"
+        "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+        "test": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "mutation": "stryker run"
     },
     "peerDependencies": {
         "firebase": "^10.0.0 || ^11.0.0",
