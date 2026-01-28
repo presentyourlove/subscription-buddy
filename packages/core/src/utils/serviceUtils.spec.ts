@@ -20,8 +20,8 @@ describe('serviceUtils', () => {
       expect(getServiceLogo('Disney+')).toMatch(/Disney/i)
     })
 
-    it('returns null for unknown service', () => {
-      expect(getServiceLogo('Unknown Service')).toBeNull()
+    it('returns undefined for unknown service', () => {
+      expect(getServiceLogo('Unknown Service')).toBeUndefined()
     })
   })
 })

@@ -2,7 +2,7 @@ import * as firestore from 'firebase/firestore'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import chatService from './chatService'
+import { chatService } from './chatService'
 
 // Mock Firestore
 vi.mock('firebase/firestore', () => {
@@ -20,7 +20,9 @@ vi.mock('firebase/firestore', () => {
     serverTimestamp: vi.fn(),
     arrayUnion: vi.fn(),
     arrayRemove: vi.fn(),
-    runTransaction: vi.fn()
+    arrayRemove: vi.fn(),
+    runTransaction: vi.fn(),
+    getFirestore: vi.fn(() => ({}))
   }
 })
 
