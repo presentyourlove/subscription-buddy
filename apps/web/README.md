@@ -227,9 +227,11 @@ npm run scan:image
     * **描述**: 設定 Cloud Scheduler 定期備份 Firestore 至 Cloud Storage，並撰寫還原腳本。
     * **效益**: 符合企業級備援策略 (Backup Strategy)，確保災難發生時的 RTO/RPO 達標。
 
-2. **雲端金鑰管理 (Cloud Secret Manager)** `[V3]`
-    * **描述**: 移除 `.env` 檔案中的機敏資訊，改接 Google Secret Manager 或 AWS Parameter Store (Core Rules 2.1)。
-    * **效益**: 杜絕金鑰誤上傳 Git 的風險，並支援金鑰輪替 (Rotation) 與審計。
+<!-- 
+2. **雲端金鑰管理 (Cloud Secret Manager)** `[V3]` 
+   - Status: Implemented via GitHub Repository Secrets (See Latest Updates)
+   - Reason: Removed .env dependecy successfully without external service cost.
+-->
 
 <!-- 已完成項目 (2026-01-28 移至 Latest Updates):
      - 零信任架構 (App Check)
