@@ -241,27 +241,7 @@ npm run scan:image
 
 #### 🧪 測試與品質保證 (Testing & QA)
 
-<!--
-1. **全面單元測試覆蓋 (Unit Testing Coverage)** `[V4]`
-   - Status: Completed (See Latest Updates)
-   - Note: >80% coverage enforced.
-
-2. **突變測試 (Mutation Testing)** `[V4]`
-   - Status: Completed (See Latest Updates)
-   - Note: Implemented with StrykerJS.
-
-3. **混沌工程演練 (Chaos Engineering)** `[V4]`
-   - Status: Completed (See Latest Updates)
-   - Note: Implemented via Chaos Interceptor.
--->
-
 #### 📊 可觀測性 (Observability)
-
-<!--
-1. **集中式錯誤追蹤 (Centralized Error Tracking)** `[V5]`
-   - Status: Completed (See Latest Updates)
-   - Note: Implemented with Sentry Vue SDK.
--->
 
 1. **分散式追蹤 (OpenTelemetry)** `[P1]`
     * **描述**: 導入 OpenTelemetry 標準，串聯前後端與 Firebase 服務的 Request Trace ID (Core Rules 8.2)。
@@ -275,12 +255,6 @@ npm run scan:image
 3. **可視化監控儀表板 (Grafana Dashboards)** `[P2]`
     * **描述**: 搭建 Grafana 看板，將 Prometheus 指標與 OpenTelemetry 數據視覺化 (Core Rules 8.1)。
     * **效益**: 提供維運團隊 (SRE) 一目瞭然的系統健康狀態大屏。
-
-<!--
-5. **真實用戶監控 (RUM - Real User Monitoring)** `[V5]`
-   - Status: Completed (See Latest Updates)
-   - Note: Implemented with Sentry Performance.
--->
 
 #### 🚀 極致效能優化 (Advanced Performance)
 
