@@ -54,7 +54,7 @@
             "displayName": "Display Name",
             "displayNamePlaceholder": "e.g. Alice",
             "email": "Email",
-            "emailPlaceholder": "example@mail.com",
+            "emailPlaceholder": "example{'@'}mail.com",
             "password": "Password",
             "passwordPlaceholder": "At least 6 characters",
             "submitLogin": "Login",

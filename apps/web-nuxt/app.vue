@@ -12,7 +12,7 @@
       ></div>
     </div>
     <CommonCookieConsent />
-    <ReloadPrompt />
+    <!-- <ReloadPrompt /> -->
     <Footer />
   </div>
 </template>
