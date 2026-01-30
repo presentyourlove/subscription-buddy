@@ -155,9 +155,11 @@ export const useUserStore = defineStore('user', {
       if (!this.user) return { hosted: [], joined: [] }
 
       try {
-        const { db } = await import('../firebase/config')
+        const { useFirestore } = await import('vuefire')
         const { collection, query, where, getDocs, doc, getDoc } =
           await import('firebase/firestore')
+
+        const db = useFirestore()
 
         // 1. Hosted Groups
         const qHosted = query(collection(db, 'groups'), where('hostId', '==', this.user.uid))
