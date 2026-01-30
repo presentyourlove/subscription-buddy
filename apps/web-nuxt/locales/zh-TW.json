@@ -1,0 +1,234 @@
+{
+  "app": {
+    "title": "Sub-Buddy"
+  },
+  "nav": {
+    "bulletin": "公佈欄",
+    "createGroup": "發起拼團",
+    "profile": "個人檔案",
+    "login": "登入 / 註冊",
+    "logout": "登出"
+  },
+  "home": {
+    "heroTitle": "找個好夥伴，分擔訂閱費",
+    "heroSubtitle": "Netflix, Spotify, YouTube Premium... 各種家庭方案都能在這裡找到合購夥伴。\n安全、透明、省錢。",
+    "searchPlaceholder": "搜尋服務名稱 (e.g. Netflix)...",
+    "emptyState": "目前沒有相關的拼團，來發起一個吧！",
+    "createLink": "發起新拼團",
+    "card": {
+      "pricePerMonth": "每人價格",
+      "month": "/月",
+      "slots": "缺額",
+      "people": "人",
+      "anonymous": "匿名團長",
+      "details": "查看詳情",
+      "status": {
+        "OPEN": "募集中",
+        "CLOSED": "已結案",
+        "FULL": "已額滿"
+      }
+    }
+  },
+  "create": {
+    "title": "發起新拼團",
+    "form": {
+      "serviceName": "服務名稱",
+      "servicePlaceholder": "e.g. Netflix Premium (4人團)",
+      "description": "說明",
+      "descPlaceholder": "簡述方案內容、付款方式...",
+      "price": "每人價格 (月)",
+      "slots": "徵求人數",
+      "submit": "發佈拼團",
+      "processing": "處理中...",
+      "success": "發佈成功！",
+      "loginRequired": "請先登入！",
+      "pendingReview": "您有尚未完成的評價 (GroupID: {groupId})。請先完成評價才能建立新拼團！\n是否前往評價？"
+    }
+  },
+  "login": {
+    "tabs": {
+      "login": "登入",
+      "register": "註冊"
+    },
+    "form": {
+      "displayName": "暱稱",
+      "displayNamePlaceholder": "e.g. 小明",
+      "email": "Email",
+      "emailPlaceholder": "example@mail.com",
+      "password": "密碼",
+      "passwordPlaceholder": "至少 6 個字元",
+      "submitLogin": "登入",
+      "submitRegister": "註冊",
+      "or": "或",
+      "googleLogin": "使用 Google 帳號登入",
+      "termsPrefix": "即代表您同意",
+      "termsLink": "服務條款",
+      "privacyLink": "隱私權政策",
+      "agree": "與"
+    }
+  },
+  "auth": {
+    "error": {
+      "emailInUse": "此 Email 已被註冊",
+      "invalidEmail": "Email 格式不正確",
+      "weakPassword": "密碼強度不足 (至少 6 字元)",
+      "userNotFound": "找不到此使用者",
+      "wrongPassword": "密碼錯誤",
+      "popupClosed": "登入視窗已關閉",
+      "unknown": "發生未預期的錯誤"
+    }
+  },
+  "group": {
+    "status": {
+      "OPEN": "募集中",
+      "CLOSED": "已結案",
+      "FULL": "已額滿"
+    },
+    "detail": {
+      "back": "回到公佈欄",
+      "host": "團長",
+      "postedAt": "發佈於",
+      "pricePerMonth": "每人費用",
+      "slotsLeft": "目前缺額",
+      "paymentMethod": "付款方式",
+      "paymentMethodValue": "私訊討論",
+      "description": "詳細說明",
+      "enterChat": "進入聊天室",
+      "hostRole": "團長",
+      "closedRole": "已結案",
+      "hostHint": "您是團長，可隨時進入聊天室查看申請。",
+      "applyJoin": "申請加入 (開啟聊天室)",
+      "full": "本團已額滿",
+      "manualClose": "手動結案",
+      "deleteGroup": "刪除拼團",
+      "confirmClose": "確定要手動結案嗎？這將標記拼團為已完成。",
+      "confirmDelete": "確定要刪除這個拼團嗎？此動作無法復原。",
+      "loading": "載入中或找不到該拼團..."
+    },
+    "error": {
+      "deleteFailed": "刪除失敗",
+      "closeFailed": "結案失敗"
+    }
+  },
+  "profile": {
+    "defaultName": "未命名使用者",
+    "reputation": "信譽評分",
+    "edit": {
+      "title": "編輯個人資料",
+      "displayName": "顯示名稱",
+      "photoURL": "頭像網址 (URL)",
+      "save": "儲存變更",
+      "cancel": "取消"
+    },
+    "tabs": {
+      "hosted": "我主辦的",
+      "joined": "我參與的"
+    },
+    "info": {
+      "chatRetention": "聊天室內容只會儲存一年，系統將於雙方確認結案後自動計算，期滿自動刪除。"
+    },
+    "emptyHistory": "尚無紀錄",
+    "error": {
+      "updateFailed": "更新失敗",
+      "fetchFailed": "讀取歷史紀錄失敗"
+    }
+  },
+  "terms": {
+    "title": "服務條款 (Terms of Service)",
+    "introTitle": "1. 服務簡介",
+    "introContent": "「拼團小幫手」(以下簡稱本服務) 提供一個資訊媒合平台，協助使用者尋找合購串流服務的夥伴。本服務僅提供資訊交流與群組管理工具，不涉及任何金流處理。",
+    "disclaimerTitle": "2. 免責聲明",
+    "riskPayment": "金流風險",
+    "riskPaymentContent": "：本服務不處理任何金流交易。所有付款行為皆發生於使用者之間私下約定 (如轉帳、街口等)。若發生詐欺或金錢糾紛，本服務不負任何賠償責任。",
+    "riskAccount": "帳號共用風險",
+    "riskAccountContent": "：共用串流帳號可能違反部分串流平台的使用條款。使用者需自行承擔帳號被封鎖或終止服務的風險。",
+    "riskAccuracy": "資料正確性",
+    "riskAccuracyContent": "：拼團資訊由使用者自行發布，本服務不保證其內容之真實性與準確性。",
+    "rulesTitle": "3. 使用者規範",
+    "rulesIntro": "您同意在使用本服務時遵守以下規範：",
+    "rule1": "不得發布虛假、詐欺、騷擾或違法的內容。",
+    "rule2": "不得惡意棄單或在收取費用後未提供相應服務。",
+    "rule3": "如經檢舉發現有惡意行為，我們保留隨時停權或刪除帳號的權利。",
+    "changesTitle": "4. 條款變更",
+    "changesContent": "我們保留隨時修改本服務條款的權利。重大變更將於網站上公告。繼續使用本服務即代表您同意受修訂後的條款約束。"
+  },
+  "privacy": {
+    "title": "隱私權政策 (Privacy Policy)",
+    "collectTitle": "1. 我們收集的資料",
+    "collectIntro": "當您使用「拼團小幫手」(以下簡稱本服務) 時，我們會透過 Firebase Authentication 收集以下基本資訊：",
+    "collectEmail": "您的 Email 地址",
+    "collectName": "您的顯示名稱 (Display Name)",
+    "collectPhoto": "您的頭像網址 (Photo URL)",
+    "collectUid": "Firebase 賦予的唯一識別碼 (UID)",
+    "usageTitle": "2. 資料使用用途",
+    "usageIntro": "我們收集的資料僅用於以下目的：",
+    "usageIdentity": "識別您的使用者身份，以進行拼團管理與聊天功能。",
+    "usageDisplay": "在拼團列表與聊天室中顯示您的頭像與暱稱，以便其他成員識別。",
+    "usageReputation": "紀錄您的信譽評分與過往拼團紀錄。",
+    "shareTitle": "3. 資料分享與揭露",
+    "shareIntro": "除以下情況外，我們不會將您的個人資料分享給第三方：",
+    "shareMember": "拼團成員",
+    "shareMemberContent": "：當您加入拼團後，同團成員可以看到您的暱稱與頭像，作為溝通用途。",
+    "securityTitle": "4. 資料安全",
+    "securityContent": "本服務使用 Google Firebase 提供的雲端基礎設施，您的資料皆儲存於 Google 的加密伺服器中。我們無法直接存取您的 Google 登入密碼。",
+    "contactTitle": "5. 聯絡我們",
+    "contactContent": "若您對本隱私權政策有任何疑問，或希望刪除您的帳號資料，請透過 {link} 聯繫開發者。"
+  },
+  "chat": {
+    "safetyCredit": "⚠️ 請勿在此聊天室傳送信用卡號、密碼等敏感資訊。",
+    "safetyRights": "⚠️ 請確認權益後再同意結案，結案前請勿刪除對話。",
+    "backToDetail": "← 返回拼團詳情",
+    "title": "專案聊天室",
+    "closedLabel": "✅ 雙方已確認結案",
+    "confirmDeal": "確認結案",
+    "confirmed": "已確認",
+    "systemClosed": "此交易已由雙方確認結案，請記得給予對方評價！",
+    "inputPlaceholder": "輸入訊息...",
+    "inputClosed": "此交易已結案，無法再傳送訊息",
+    "ratePartner": "⭐ 評價您的夥伴",
+    "ratingTitle": "評價夥伴",
+    "rated": "✅ 已完成評價",
+    "noTarget": "沒有可評價的對象 (僅能評價有發言過的成員)",
+    "ratingPlaceholder": "請填寫評語 (必填)...",
+    "submitRating": "送出 {score} 星評價",
+    "errorJoin": "加入聊天室失敗 (可能是權限問題): {error}",
+    "errorSend": "發送失敗: {error}",
+    "errorConfirm": "確認失敗: {error}",
+    "errorRate": "評分失敗: {error}",
+    "successRate": "已成功給予 {name} {score} 星評價！",
+    "confirmDealPrompt": "確認結案？這表示您已完成交易 (已付款/已收款)。",
+    "loginRequired": "請先登入以檢視聊天室。"
+  },
+  "common": {
+    "errorTitle": "發生錯誤：",
+    "refreshHint": "請嘗試重新整理頁面。",
+    "loadingData": "載入資料中...",
+    "anonymous": "匿名"
+  },
+  "admin": {
+    "portal": "管理員後台",
+    "dashboard": "儀表板",
+    "groups": "拼團管理",
+    "backToSite": "回到前台",
+    "exit": "離開",
+    "overview": "概覽",
+    "totalUsers": "總使用者數",
+    "activeGroups": "活躍拼團",
+    "pendingReports": "待處理檢舉",
+    "systemAlerts": "系統通知",
+    "systemNormal": "系統運作正常，無重大錯誤。",
+    "stats": {
+      "fromLastMonth": "較上月",
+      "newToday": "今日新增",
+      "needsAttention": "需處理"
+    },
+    "table": {
+      "name": "拼團名稱",
+      "service": "服務",
+      "plan": "費用",
+      "status": "狀態",
+      "actions": "操作",
+      "terminate": "強制結案"
+    }
+  }
+}
