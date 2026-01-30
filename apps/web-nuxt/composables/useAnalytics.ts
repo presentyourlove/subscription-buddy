@@ -1,6 +1,5 @@
-import { logEvent as firebaseLogEvent } from 'firebase/analytics'
-
-import { analytics } from '../firebase/config'
+import { logEvent as firebaseLogEvent, getAnalytics } from 'firebase/analytics'
+import { useFirebaseApp } from 'vuefire'
 
 export const EVENTS = {
   SIGN_UP: 'sign_up',
@@ -12,6 +11,8 @@ export const EVENTS = {
 }
 
 export function useAnalytics() {
+  const firebaseApp = useFirebaseApp()
+  const analytics = getAnalytics(firebaseApp)
   const logEvent = (eventName: string, params?: Record<string, any>) => {
     if (import.meta.env.DEV) {
       console.log(`[Analytics] Log Event: ${eventName}`, params || '')

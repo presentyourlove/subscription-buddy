@@ -1,12 +1,19 @@
 import { getToken, onMessage } from 'firebase/messaging'
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
-import { messaging, db, auth } from '../firebase/config'
+import { useFirestore, useCurrentUser } from 'vuefire'
+
+// TODO: messaging 需要在 nuxt-vuefire 中額外設定
+// 暫時註解掉相關功能，待完成 Firebase Messaging 設定後再啟用
 
 export const notificationService = {
     /**
      * Request notification permission and save token to Firestore
      */
     async requestPermission(): Promise<string | null> {
+        // TODO: 實作 Firebase Messaging
+        console.warn('Firebase Messaging not configured yet')
+        return null
+        /* COMMENTED OUT - needs Firebase Messaging setup
         if (!messaging) return null
 
         try {
@@ -25,16 +32,18 @@ export const notificationService = {
             console.error('Unable to get permission or token', error)
         }
         return null
+        */
     },
 
     /**
      * Save FCM token to user's subcollection
      */
     async saveToken(token: string) {
-        const user = auth.currentUser
-        if (!user) return
+        const db = useFirestore()
+        const user = useCurrentUser()
+        if (!user.value) return
 
-        const tokenRef = doc(db, 'users', user.uid, 'fcmTokens', token)
+        const tokenRef = doc(db, 'users', user.value.uid, 'fcmTokens', token)
         await setDoc(tokenRef, {
             token,
             deviceType: this.getDeviceType(),
@@ -46,11 +55,16 @@ export const notificationService = {
      * Listen for foreground messages
      */
     onForegroundMessage(callback: (payload: any) => void) {
+        // TODO: 實作 Firebase Messaging
+        console.warn('Firebase Messaging not configured yet')
+        return
+        /* COMMENTED OUT - needs Firebase Messaging setup
         if (!messaging) return
         onMessage(messaging, (payload) => {
             console.log('Message received. ', payload)
             callback(payload)
         })
+        */
     },
 
     getDeviceType(): string {

@@ -1,7 +1,6 @@
 import { doc, DocumentData, onSnapshot, Unsubscribe } from 'firebase/firestore'
 import { isRef, onUnmounted, Ref, ref, watch } from 'vue'
-
-import { db } from '../firebase/config'
+import { useFirestore } from 'vuefire'
 
 /**
  * Composable for real-time Firestore document listening
@@ -13,6 +12,7 @@ export function useFirestoreDoc<T = DocumentData>(
   collectionName: string,
   docId: Ref<string> | string
 ) {
+  const db = useFirestore()
   const data = ref<T | null>(null) as Ref<T | null>
   const loading = ref(true)
   const error = ref<Error | null>(null)

@@ -11,8 +11,7 @@
 <script setup lang="ts">
 import { doc, getDoc } from 'firebase/firestore'
 import { computed, onMounted, ref } from 'vue'
-
-import { db } from '../firebase/config'
+import { useFirestore } from 'vuefire'
 
 const props = defineProps({
   uid: {
@@ -26,6 +25,7 @@ const props = defineProps({
   }
 })
 
+const db = useFirestore()
 const loading = ref(true)
 const ratingSum = ref(0)
 const ratingCount = ref(0)

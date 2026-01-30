@@ -1,12 +1,13 @@
-import { setAnalyticsCollectionEnabled } from 'firebase/analytics'
+import { setAnalyticsCollectionEnabled, getAnalytics } from 'firebase/analytics'
 import { onMounted, ref } from 'vue'
-
-import { analytics } from '../firebase/config'
+import { useFirebaseApp } from 'vuefire'
 
 const STORAGE_KEY = 'cookie_consent_status'
 type ConsentStatus = 'granted' | 'denied' | null
 
 export function useCookieConsent() {
+  const firebaseApp = useFirebaseApp()
+  const analytics = getAnalytics(firebaseApp)
   const status = ref<ConsentStatus>(null)
   const isVisible = ref(false)
 
