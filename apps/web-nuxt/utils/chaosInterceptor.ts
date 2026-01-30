@@ -4,6 +4,27 @@
  * Used for verifying system resilience and error boundaries.
  */
 
+/**
+ * Generate a cryptographically secure random number in range [min, max]
+ * Uses Web Crypto API to avoid weak cryptography warnings
+ */
+function getSecureRandom(min: number, max: number): number {
+    const range = max - min + 1;
+    const randomBuffer = new Uint32Array(1);
+    crypto.getRandomValues(randomBuffer);
+    return Math.floor((randomBuffer[0] / (0xFFFFFFFF + 1)) * range) + min;
+}
+
+/**
+ * Generate a cryptographically secure random probability [0, 1)
+ * Uses Web Crypto API to avoid weak cryptography warnings
+ */
+function getSecureRandomProbability(): number {
+    const randomBuffer = new Uint32Array(1);
+    crypto.getRandomValues(randomBuffer);
+    return randomBuffer[0] / (0xFFFFFFFF + 1);
+}
+
 export const initChaos = () => {
     const originalFetch = window.fetch;
     const CHAOS_PROBABILITY = 0.1; // 10% failure rate
@@ -15,11 +36,11 @@ export const initChaos = () => {
 
     window.fetch = async (...args) => {
         // 1. Inject Latency
-        const latency = Math.floor(Math.random() * (MAX_LATENCY - MIN_LATENCY + 1)) + MIN_LATENCY;
+        const latency = getSecureRandom(MIN_LATENCY, MAX_LATENCY);
         await new Promise(resolve => setTimeout(resolve, latency));
 
         // 2. Inject Failure
-        if (Math.random() < CHAOS_PROBABILITY) {
+        if (getSecureRandomProbability() < CHAOS_PROBABILITY) {
             console.error('💥 Chaos: Injected Network Error');
             throw new TypeError('Failed to fetch (Chaos Injected)');
         }

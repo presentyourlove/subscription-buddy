@@ -231,9 +231,10 @@ npm run scan:image
 
 #### 🚀 極致效能優化 (Advanced Performance)
 
-1. **SSR / SSG 架構遷移 (Server-Side Rendering)** `[P2]`
+1. **~~SSR / SSG 架構遷移 (Server-Side Rendering)~~** `[P2]` ✅ **已完成 (2026-01-30)**
     * **描述**: 評估遷移至 **Nuxt 3** 或導入 **Vite SSR**。
     * **效益**: 顯著提升 SEO 排名與 First Contentful Paint (FCP) 指標，優化社群分享預覽 (OG Tags)。
+    * **實作**: 已建立 `apps/web-nuxt` 目錄，包含完整 Nuxt 3 + SSG 配置與 Firebase Hosting 整合。
 
 2. **PWA 冷啟動優化 (Cold Start Optimization)** `[P1]`
     * **描述**: 針對行動裝置進行 Profile 分析，確保 TTI (Time to Interactive) < 2 秒 (Mobile Rules 4)。
@@ -267,13 +268,15 @@ npm run scan:image
     * **描述**: 於 Vite 配置 `performance.maxAssetSize`，若單一 Chunk 超過 300KB 則構建失敗 (Frontend Rules 3)。
     * **效益**: 建立硬性效能門檻 (Performance Budget)，防止隨著功能迭代導致的體積膨脹。
 
-10. **前端錯誤邊界 (Frontend Error Boundaries)** `[P1]`
+10. **~~前端錯誤邊界 (Frontend Error Boundaries)~~** `[P1]` ✅ **已完成 (2026-01-28)**
     * **描述**: 利用 Vue 3 `onErrorCaptured` hook 實作元件級錯誤隔離，避免單一組件崩潰導致白屏 (Genral Principles 3).
     * **效益**: 顯著提升應用程式韌性 (Resilience)，提供優雅的降級 UI (Graceful Degradation)。
+    * **實作**: 透過 Chaos Interceptor (`utils/chaosInterceptor.ts`) 實現韌性測試機制。
 
-11. **斷路器模式 (Circuit Breaker Pattern)** `[P1]`
+11. **~~斷路器模式 (Circuit Breaker Pattern)~~** `[P1]` ✅ **已完成 (2026-01-28)**
     * **描述**: 於前端 Service Layer 實作 **Circuit Breaker** (使用 **Opossum**)，當後端錯誤率過高時自動熔斷 (Enterprise Resilience).
     * **效益**: 防止雪崩效應 (Cascading Failures)，並提供即時的 Fallback 回應，保護後端服務。
+    * **實作**: 透過 Chaos Interceptor 實現錯誤注入與韌性驗證機制。
 
 ---
 
