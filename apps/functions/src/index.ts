@@ -90,3 +90,16 @@ export { onGroupCreated } from './triggers/pubsub'
 
 // Moderation Triggers
 export { scanImage } from './triggers/moderation'
+
+// Optimization Triggers
+export { optimizeImage } from './imageOptimization'
+
+// WebAuthn API
+export {
+    webAuthnRegisterOptions,
+    webAuthnRegisterVerify,
+    webAuthnAuthOptions,
+    webAuthnAuthVerify
+} from './webauthn'
+
+

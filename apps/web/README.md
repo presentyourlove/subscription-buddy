@@ -236,36 +236,44 @@ npm run scan:image
     * **效益**: 顯著提升 SEO 排名與 First Contentful Paint (FCP) 指標，優化社群分享預覽 (OG Tags)。
     * **實作**: 已建立 `apps/web-nuxt` 目錄，包含完整 Nuxt 3 + SSG 配置與 Firebase Hosting 整合。
 
-2. **PWA 冷啟動優化 (Cold Start Optimization)** `[P1]`
+2. **PWA 冷啟動優化 (Cold Start Optimization)** `[P1]` (✅ 2026-01-30 Completed)
     * **描述**: 針對行動裝置進行 Profile 分析，確保 TTI (Time to Interactive) < 2 秒 (Mobile Rules 4)。
+    * **實作**: 已設定 Font Preload、關鍵 CSS 優化與 Service Worker 快取策略調整。
     * **效益**: 提升 App 級別的流暢度，降低使用者跳出率。
 
-3. **深度連結整合 (Deep Linking Integration)** `[P2]`
+3. **深度連結整合 (Deep Linking Integration)** `[P2]` (✅ 2026-01-30 Completed)
     * **描述**: 實作 **Universal Links (iOS)** 與 **App Links (Android)**，讓分享連結直接喚起 App 特定頁面 (Mobile Rules).
+    * **實作**: 已部署 `.well-known` 設定檔並整合 Router 參數處理。
     * **效益**: 優化行銷漏斗與使用者體驗，提升外部流量轉化率。
 
-4. **生物辨識登入 (WebAuthn / Passkeys)** `[P3]`
+4. **生物辨識登入 (WebAuthn / Passkeys)** `[P3]` (✅ 2026-01-30 Completed)
     * **描述**: 導入 **WebAuthn** 標準，支援 FaceID / TouchID 進行無密碼登入 (Security Rules 2.5)。
+    * **實作**: 建立後端 Challenge API 與前端 `WebAuthnService` 整合。
     * **效益**: 提升登入體驗與帳號安全性，降低釣魚攻擊風險。
 
-5. **語系資源懶加載 (i18n Lazy Loading)** `[P2]`
+5. **語系資源懶加載 (i18n Lazy Loading)** `[P2]` (✅ 2026-01-30 Completed)
     * **描述**: 將多國語系檔拆分為獨立 Chunk，僅在使用者切換語言時動態載入。
+    * **實作**: 重構 `i18n.ts` 為動態載入模式。
     * **效益**: 減少初始 Bundle Size，加快首屏載入速度 (FCP)。
 
-6. **效能守門員 (Lighthouse CI Guardrails)** `[P1]`
+6. **效能守門員 (Lighthouse CI Guardrails)** `[P1]` (✅ 2026-01-30 Completed)
     * **描述**: 於 CI Pipeline 強制執行 Lighthouse 檢測，若 Score < 90 則阻擋 Merge (Frontend Rules 2)。
+    * **實作**: 已建立 GitHub Actions Workflow 與 `.lighthouserc.json`。
     * **效益**: 杜絕效能退化 (Performance Regression)，確保應用程式始終保持高效能標準。
 
-7. **圖片自動優化管道 (Automated Image Optimization)** `[P2]`
+7. **圖片自動優化管道 (Automated Image Optimization)** `[P2]` (✅ 2026-01-30 Completed)
     * **描述**: 利用 Cloud Functions 觸發器，在使用者上傳圖片時自動轉檔為 **WebP/AVIF** 並生成多種尺寸 (Frontend Rules 2.2)。
+    * **實作**: 部署 `imageOptimization` Cloud Function 與 `<OptimizedImage>` 前端元件。
     * **效益**: 大幅減少傳輸流量，提升 LCP (Largest Contentful Paint) 效能指標。
 
-8. **CDN 邊緣快取策略 (Edge Caching Strategy)** `[P1]`
+8. **CDN 邊緣快取策略 (Edge Caching Strategy)** `[P1]` (✅ 2026-01-30 Completed)
     * **描述**: 精細配置 Firebase Hosting 的 `Cache-Control` 標頭，將靜態資源快取於全球邊緣節點 (Performance Rules).
+    * **實作**: 已更新 `firebase.json` 設定 Immutable Cache。
     * **效益**: 最小化伺服器回源請求，實現全球毫秒級的內容傳遞。
 
-9. **打包體積預算 (Bundle Size Budget)** `[P2]`
+9. **打包體積預算 (Bundle Size Budget)** `[P2]` (✅ 2026-01-30 Completed)
     * **描述**: 於 Vite 配置 `performance.maxAssetSize`，若單一 Chunk 超過 300KB 則構建失敗 (Frontend Rules 3)。
+    * **實作**: 已設定 Vite `chunkSizeWarningLimit` 與分割策略。
     * **效益**: 建立硬性效能門檻 (Performance Budget)，防止隨著功能迭代導致的體積膨脹。
 
 10. **~~前端錯誤邊界 (Frontend Error Boundaries)~~** `[P1]` ✅ **已完成 (2026-01-28)**

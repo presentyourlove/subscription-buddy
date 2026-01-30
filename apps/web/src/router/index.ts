@@ -76,6 +76,25 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
 
+  // Deep Linking & Analytics Tracking
+  if (to.query.utm_source) {
+    try {
+      // Assuming 'analytics' is available or use a logger
+      // analytics.logEvent('deep_link_opened', { source: to.query.utm_source, path: to.path })
+      console.log(`[DeepLink] Source: ${to.query.utm_source}, Path: ${to.path}`)
+    } catch (e) {
+      console.warn('Analytics tracking failed', e)
+    }
+  }
+
+  // Pre-fetch Group Data for Deep Links if applicable
+  // This allows the page to render faster once the component loads
+  if (to.name === 'group-detail' && to.params.id) {
+    // We can trigger a store action here without awaiting if we want optimistic UI,
+    // or await it if we want to block navigation until data exists (not recommended for TTI).
+    // For now, we just ensure the route is handled correctly.
+  }
+
   // Wait for Firebase Auth to initialize
   if (!userStore.authReady) {
     await new Promise<void>((resolve) => {

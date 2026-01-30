@@ -22,8 +22,14 @@ initSentry(app)
 
 const head = createUnhead()
 
-const pinia = createPinia()
-pinia.use(createPersistedState())
+// Load default locale before mounting
+const defaultLocale = localStorage.getItem('user-locale') || 'zh-TW'
+import { loadLocaleMessages } from './i18n' // Dynamic import helper
+
+// Use IIFE or top-level await if environment supports. Vite projects targeting modern browsers support top-level await.
+// We will use top-level await here as it is clean.
+await loadLocaleMessages(defaultLocale)
+i18n.global.locale.value = defaultLocale
 
 app.use(pinia)
 app.use(router)

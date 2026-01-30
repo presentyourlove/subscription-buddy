@@ -9,6 +9,34 @@ import { defineConfig } from 'vitest/config'
 const ICON_512 = 'pwa-512x512.png'
 
 export default defineConfig({
+  base: './', // Support deployment to sub-paths
+  build: {
+    chunkSizeWarningLimit: 300, // KB
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('firebase')) {
+              return 'vendor-firebase'
+            }
+            if (id.includes('vue')) {
+              return 'vendor-vue'
+            }
+            return 'vendor'
+          }
+        },
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.')
+          const ext = info[info.length - 1]
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
+            return `assets/images/[name]-[hash][extname]`
+          }
+          return `assets/[name]-[hash][extname]`
+        }
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': '/src',
@@ -57,6 +85,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff,woff2}'],
+        maximumFileSizeToCacheInBytes: 3000000, // 3MB limit for precaching
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -69,6 +98,18 @@ export default defineConfig({
               },
               cacheableResponse: {
                 statuses: [0, 200]
+              }
+            }
+          },
+          {
+            urlPattern: /^https:\/\/firestore\.googleapis\.com\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'firestore-api',
+              networkTimeoutSeconds: 3,
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 5 * 60 // 5 minutes
               }
             }
           },
@@ -89,7 +130,6 @@ export default defineConfig({
       }
     })
   ],
-  base: './', // Support deployment to sub-paths
   test: {
     environment: 'jsdom',
     exclude: ['**/node_modules/**', 'tests/e2e/**'],
