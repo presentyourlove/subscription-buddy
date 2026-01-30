@@ -21,18 +21,18 @@
         "@google-cloud/vision": "^4.0.0",
         "@sentry/node": "^10.37.0",
         "@sentry/profiling-node": "^10.37.0",
+        "@simplewebauthn/server": "^13.2.2",
         "@tsoa/runtime": "^6.0.0",
         "cors": "^2.8.5",
         "express": "^5.2.1",
         "firebase-admin": "^12.0.0",
         "firebase-functions": "^4.6.0",
+        "fs-extra": "^11.3.3",
         "helmet": "^8.0.0",
+        "sharp": "^0.34.5",
         "swagger-ui-express": "^5.0.0",
         "tsoa": "^6.0.0",
-        "zod": "^3.24.1",
-        "fs-extra": "^11.2.0",
-        "sharp": "^0.33.2",
-        "@simplewebauthn/server": "^9.0.3"
+        "zod": "^3.24.1"
     },
     "devDependencies": {
         "@cyclonedx/cyclonedx-npm": "^4.1.2",
@@ -41,9 +41,7 @@
         "@types/express": "^5.0.0",
         "@types/swagger-ui-express": "^4.1.6",
         "typescript": "^5.0.0",
-        "vitest": "^1.6.0",
-        "@types/fs-extra": "^11.0.4",
-        "@types/sharp": "^0.32.0"
+        "vitest": "^1.6.0"
     },
     "private": true
 }
