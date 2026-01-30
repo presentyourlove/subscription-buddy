@@ -11,10 +11,12 @@ jobs:
     name: OWASP ZAP Baseline Scan
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        # Pinned to specific commit SHA for security
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.12.0
+        # Pinned to specific commit SHA for security
+        uses: zaproxy/action-baseline@27eb7c90d94ae301f65bfb1c0c6badf29b5257fc # v0.12.0
         with:
           target: 'https://sub-buddy-2025.web.app'
           fail_action: false # Don't fail the build on warnings, only on errors if configured
